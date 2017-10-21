@@ -1,0 +1,21 @@
+{
+  "name": "react-fullstack-test-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "nodemon",
+    "client": "node start-client.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "express": "^4.16.2",
+    "moment": "^2.19.1",
+    "mongoose": "^4.12.3",
+    "mongoose-auto-increment": "^5.0.1"
+  }
+}
