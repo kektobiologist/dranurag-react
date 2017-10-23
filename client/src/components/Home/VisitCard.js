@@ -1,38 +1,36 @@
 import React from "react";
 import { Button, ButtonToolbar } from "react-bootstrap";
+import HelpText from "../util/HelpText";
+
+import { Link } from "react-router-dom";
+
 var VisitCard = ({ visit }) => {
-  console.log(visit);
   // return <div>{visit.patient ? visit.patient._id : "null"}</div>;
+  const { patient } = visit;
   return (
     <div className="d-flex w-100 justify-content-between">
       <div>
-        <h5 className="mb-1">{visit.patient.name}</h5>
-        <p className="mb-1">ID: {visit.patient._id}</p>
-        <small>{visit.helpText}</small>
+        <h5 className="mb-1">{patient.name}</h5>
+        <p className="mb-1">{"ID: " + patient._id}</p>
+        <HelpText patient={patient} />
       </div>
       <div>
-        <ButtonToolbar>
-          <Button
-            bsStyle="default"
-            href={"prescription.app://" + visit.patient._id}
+        <div className="pb-2">
+          <a
+            className="btn btn-outline-primary col"
+            href="prescription.app://<%=e.patient._id%>"
           >
             Upload Prescription
-          </Button>
-
-          <Button bsStyle="default" href={"/patient/" + visit.patient._id}>
-            Add Visit
-          </Button>
-          <button
-            type="button"
-            className="btn btn-default"
-            aria-label="Left Align"
+          </a>
+        </div>
+        <div className="pt-2">
+          <Link
+            to={"/patient/" + patient._id}
+            className="btn btn-outline-primary col"
           >
-            <span
-              className="glyphicon glyphicon-align-left"
-              aria-hidden="true"
-            />
-          </button>
-        </ButtonToolbar>
+            View Profile
+          </Link>
+        </div>
       </div>
     </div>
   );

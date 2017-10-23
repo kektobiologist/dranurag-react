@@ -23,8 +23,8 @@ class Home extends Component {
   render() {
     const { visits } = this.state;
     return (
-      <Row>
-        <Col>Home Page!</Col>
+      <div>
+        <h3 className="py-2">Today's Visits:</h3>
         <ListGroup>
           {visits ? (
             visits.map((visit, idx) => (
@@ -36,7 +36,7 @@ class Home extends Component {
             <div> Loading...</div>
           )}
         </ListGroup>
-      </Row>
+      </div>
     );
   }
 }

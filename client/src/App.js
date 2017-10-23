@@ -3,10 +3,9 @@ import Navbar from "./components/Navbar";
 
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
-import { Row, Col } from "react-bootstrap";
-
 import AddPatient from "./containers/AddPatient";
 import Home from "./containers/Home";
+import Patient from "./containers/Patient";
 
 class App extends Component {
   render() {
@@ -16,15 +15,15 @@ class App extends Component {
       { url: "/patientSearch", display: "Patient Search" },
       { url: "/VisitSearch", display: "Visit Search" }
     ];
+    // return <div />;
     return (
       <Router>
-        <div>
+        <div className="container">
           <Navbar routes={routes} />
-          <div className="container">
-            {routes.map(({ url, component, exact }, idx) => (
-              <Route key={idx} path={url} component={component} exact={exact} />
-            ))}
-          </div>
+          {routes.map(({ url, component, exact }, idx) => (
+            <Route key={idx} path={url} component={component} exact={exact} />
+          ))}
+          <Route path="/patient/:id" component={Patient} />
         </div>
       </Router>
     );

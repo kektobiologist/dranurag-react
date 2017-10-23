@@ -1,46 +1,67 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import {
+  Collapse,
+  Navbar as BSNavbar,
+  NavbarToggler,
+  NavbarBrand,
   Nav,
   NavItem,
-  Navbar as BSNavBar,
-  MenuItem,
-  NavDropdown
-} from "react-bootstrap";
-import { Link } from "react-router-dom";
+  NavLink
+} from "reactstrap";
 import { LinkContainer } from "react-router-bootstrap";
-class Navbar extends Component {
+
+export default class Example extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.toggle = this.toggle.bind(this);
+    this.state = {
+      isOpen: false
+    };
+  }
+
+  onNavItemClicked = () => {
+    this.setState({ isOpen: false });
+  };
+
+  toggle() {
+    this.setState({
+      isOpen: !this.state.isOpen
+    });
+  }
   render() {
     const { routes } = this.props;
     return (
-      <BSNavBar collapseOnSelect fixedTop>
-        <BSNavBar.Header>
-          <BSNavBar.Brand>
-            <LinkContainer to="/">
-              <a> dranurag.in</a>
-            </LinkContainer>
-          </BSNavBar.Brand>
-          <BSNavBar.Toggle />
-        </BSNavBar.Header>
-        <BSNavBar.Collapse>
-          <Nav>
-            {routes.map(({ url, display, exact }, idx) => (
-              <LinkContainer to={url} key={idx + 1} exact={exact}>
-                <NavItem eventKey={idx + 1}>{display}</NavItem>
-              </LinkContainer>
-            ))}
-          </Nav>
-          <Nav pullRight>
-            <NavItem eventKey={1} href="#">
-              Link Right
-            </NavItem>
-            <NavItem eventKey={2} href="#">
-              Link Right
-            </NavItem>
-          </Nav>
-        </BSNavBar.Collapse>
-      </BSNavBar>
+      <div>
+        <BSNavbar className="fixed-top navbar-light bg-light" expand="md">
+          <NavbarBrand href="/">dranurag.in</NavbarBrand>
+          <NavbarToggler onClick={this.toggle} />
+          <Collapse isOpen={this.state.isOpen} navbar>
+            <Nav navbar>
+              {routes.map((r, idx) => (
+                <NavItem key={idx}>
+                  <LinkContainer to={r.url} exact={r.exact}>
+                    <NavLink onClick={this.onNavItemClicked}>
+                      {r.display}
+                    </NavLink>
+                  </LinkContainer>
+                </NavItem>
+              ))}
+            </Nav>
+            <Nav className="ml-auto" navbar>
+              <NavItem>
+                <NavLink href="/components/">Components</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href="https://github.com/reactstrap/reactstrap">
+                  Github
+                </NavLink>
+              </NavItem>
+            </Nav>
+          </Collapse>
+        </BSNavbar>
+      </div>
     );
   }
 }
-
-export default Navbar;

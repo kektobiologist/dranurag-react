@@ -12,10 +12,17 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bootstrap": "^3.3.7",
+    "bootstrap": "^4.0.0-beta",
     "express": "^4.16.2",
+    "express-session": "^1.15.6",
     "moment": "^2.19.1",
     "mongoose": "^4.12.3",
-    "mongoose-auto-increment": "^5.0.1"
+    "mongoose-auto-increment": "^5.0.1",
+    "passport": "^0.4.0",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "react-popper": "^0.7.3",
+    "react-transition-group": "^2.2.1",
+    "reactstrap": "^5.0.0-alpha.3"
   }
 }
