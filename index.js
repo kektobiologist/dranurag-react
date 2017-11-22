@@ -9,6 +9,7 @@ autoIncrement.initialize(connection);
 
 var Visit = require("./server/models/visit");
 var Patient = require("./server/models/patient");
+var PicturePrescription = require("./server/models/picturePrescription");
 
 const app = express();
 
@@ -38,8 +39,8 @@ app.get("/api/visits", (req, res) => {
       });
     })
     .then(docs => {
-      setTimeout(() => res.json(docs), 2000);
-      // res.json(docs);
+      // setTimeout(() => res.json(docs), 2000);
+      res.json(docs);
     });
 });
 
@@ -50,6 +51,16 @@ app.get("/api/patient/:id", (req, res) => {
     .then(doc => {
       // setTimeout(() => res.json(doc), 1000);
       res.json(doc);
+    });
+});
+
+app.get("/api/patientPrescriptions/:id", (req, res) => {
+  const { id } = req.params;
+  PicturePrescription.find({ patient: parseInt(id) })
+    .sort({ timestamp: -1 })
+    .exec()
+    .then(docs => {
+      res.json(docs);
     });
 });
 

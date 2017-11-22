@@ -28,9 +28,7 @@ class Home extends Component {
         <ListGroup>
           {visits ? (
             visits.map((visit, idx) => (
-              <ListGroupItem key={idx}>
-                <VisitCard visit={visit} />
-              </ListGroupItem>
+              <VisitCard key={visit._id} visit={visit} />
             ))
           ) : (
             <div> Loading...</div>

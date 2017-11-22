@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Row, Col, Grid } from "reactstrap";
 import PatientInfoCard from "../components/Patient/PatientInfoCard";
+import PatientPrescriptionsCard from "../components/Patient/PatientPrescriptionsCard";
 
 export default class PatientWithLoad extends Component {
   constructor(props) {
@@ -8,7 +9,8 @@ export default class PatientWithLoad extends Component {
     const { match } = props;
     // console.log(match);
     this.state = {
-      data: null,
+      patient: null,
+      prescriptions: null,
       id: match.params.id
     };
   }
@@ -17,13 +19,32 @@ export default class PatientWithLoad extends Component {
     const { id } = this.state;
     fetch("/api/patient/" + id)
       .then(res => res.json())
-      .then(data => this.setState({ data: data }));
+      .then(patient => this.setState({ patient: patient }));
+    fetch("/api/patientPrescriptions/" + id)
+      .then(res => res.json())
+      .then(prescriptions => this.setState({ prescriptions: prescriptions }));
   }
 
   render() {
-    const { data, id } = this.state;
+    const { patient, prescriptions, id } = this.state;
     return (
-      <div>{data ? <PatientInfoCard patient={data} /> : "Loading..."}</div>
+      <div>
+        <div>
+          {patient ? (
+            <PatientInfoCard patient={patient} />
+          ) : (
+            "Loading patient..."
+          )}
+        </div>
+        <hr />
+        <div>
+          {prescriptions ? (
+            <PatientPrescriptionsCard prescriptions={prescriptions} />
+          ) : (
+            "Loading prescriptions..."
+          )}
+        </div>
+      </div>
     );
   }
 }

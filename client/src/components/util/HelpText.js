@@ -8,12 +8,12 @@ export default ({ patient }) => {
     age = moment(new Date()).diff(patient.inferredBirthdate, "years");
 
   return (
-    <small>
+    <div>
       {patient.sex === "Male" ? "M" : "F"}
       {age ? " / " + age + " yrs" : ""}
       {patient.phone1 ? " / " : ""}
       {patient.phone1 ? <i className="fa fa-phone px-1" /> : ""}
       {patient.phone1 ? patient.phone1 : ""}
-    </small>
+    </div>
   );
 };

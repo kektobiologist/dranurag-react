@@ -1,39 +1,66 @@
-import React from "react";
+import React, { Component } from "react";
 import { Button, ButtonToolbar } from "react-bootstrap";
-import HelpText from "../util/HelpText";
-
+import PatientInfoBlock from "../util/PatientInfoBlock";
+import { ListGroupItem } from "reactstrap";
 import { Link } from "react-router-dom";
+import moment from "moment";
 
-var VisitCard = ({ visit }) => {
-  // return <div>{visit.patient ? visit.patient._id : "null"}</div>;
-  const { patient } = visit;
-  return (
-    <div className="d-flex w-100 justify-content-between">
-      <div>
-        <h5 className="mb-1">{patient.name}</h5>
-        <p className="mb-1">{"ID: " + patient._id}</p>
-        <HelpText patient={patient} />
-      </div>
-      <div>
-        <div className="pb-2">
-          <a
-            className="btn btn-outline-primary col"
-            href="prescription.app://<%=e.patient._id%>"
-          >
-            Upload Prescription
-          </a>
-        </div>
-        <div className="pt-2">
-          <Link
-            to={"/patient/" + patient._id}
-            className="btn btn-outline-primary col"
-          >
-            View Profile
-          </Link>
-        </div>
-      </div>
-    </div>
-  );
-};
+class VisitCard extends Component {
+  state = {
+    isMouseInside: false
+  };
+  mouseEnter = () => {
+    this.setState({ isMouseInside: true });
+  };
+  mouseLeave = () => {
+    this.setState({ isMouseInside: false });
+  };
+  render() {
+    const { visit, onDelete } = this.props;
+    const { patient } = visit;
+    return (
+      <div
+        className="d-flex w-100 justify-content-between"
+        onMouseEnter={this.mouseEnter}
+        onMouseLeave={this.mouseLeave}
+      >
+        <PatientInfoBlock patient={patient} />
 
-export default VisitCard;
+        <div className="d-flex flex-column justify-content-between">
+          <div>
+            {this.state.isMouseInside ? (
+              <button
+                type="button"
+                className="close"
+                aria-label="Close"
+                onClick={onDelete}
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            ) : (
+              ""
+            )}
+          </div>
+          <div>
+            <small className="text-muted">{moment(visit.date).fromNow()}</small>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+// wrap it in component
+
+class VisitCardComponent extends Component {
+  render() {
+    const { visit } = this.props;
+    return (
+      <ListGroupItem key={visit._id}>
+        <VisitCard {...this.props} />
+      </ListGroupItem>
+    );
+  }
+}
+
+export default VisitCardComponent;

@@ -4,3 +4,9 @@ body {
   padding-top: 70px; /* for navbar */
   font-family: sans-serif;
 }
+
+.ais-SearchBox__root {
+  margin: auto;
+  max-width: 400px;
+  display: block;
+}
