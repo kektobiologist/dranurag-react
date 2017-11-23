@@ -16,51 +16,40 @@ import { formName } from "../../config/config";
 
 var renderSelectedDrugs = ({ fields, selectedDrugs }) => {
   return (
-    <ListGroup className="mt-2 col">
-      <ListGroupItem>
-        <button
-          className="btn"
-          onClick={e => {
-            e.preventDefault();
-            return fields.push({
-              name: "dummy",
-              drugMeta: {
-                composition: ["somehthing"],
-                frequencies: [{ val: "od", count: "2" }],
-                dosages: [],
-                durations: [],
-                specialComments: []
-              }
-            });
-          }}
-        >
-          Add Drug
-        </button>
-      </ListGroupItem>
-      {fields.map((name, idx, fields) => {
+    <div>
+      {fields.map((drug, idx) => {
         return (
           <ListGroupItem key={idx}>
             <SelectedDrugCard
-              drug={name}
+              drug={drug}
               drugMeta={selectedDrugs[idx].drugMeta}
+              onRemove={() => {
+                fields.remove(idx);
+              }}
             />
           </ListGroupItem>
         );
       })}
-    </ListGroup>
+    </div>
   );
 };
 
 renderSelectedDrugs = formValues("selectedDrugs")(renderSelectedDrugs);
 
 var DrugsForm = ({ handleSubmit, ...props }) => (
-  <form onSubmit={handleSubmit}>
-    <FieldArray
-      name="selectedDrugs"
-      component={renderSelectedDrugs}
-      props={props}
-    />
-    <button type="submit">Submit</button>
+  <form>
+    <ListGroup className="mt-2 col">
+      <FieldArray
+        name="selectedDrugs"
+        component={renderSelectedDrugs}
+        props={props}
+      />
+      <ListGroupItem>
+        <button type="button" className="btn" onClick={handleSubmit}>
+          Submit
+        </button>
+      </ListGroupItem>
+    </ListGroup>
   </form>
 );
 

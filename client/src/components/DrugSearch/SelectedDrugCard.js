@@ -11,7 +11,14 @@ import ACField from "./ACField";
 
 class SelectedDrugCard extends React.Component {
   state = {
-    ac_values: {}
+    ac_values: {},
+    isMouseInside: false
+  };
+  mouseEnter = () => {
+    this.setState({ isMouseInside: true });
+  };
+  mouseLeave = () => {
+    this.setState({ isMouseInside: false });
   };
   constructor(props) {
     super(props);
@@ -47,15 +54,27 @@ class SelectedDrugCard extends React.Component {
   };
 
   render() {
-    const { ac_values, duration } = this.state;
+    const { ac_values, duration, isMouseInside } = this.state;
     var defaultDurationType = duration ? duration.type : "days";
-    const { drug, drugMeta } = this.props;
+    const { drug, drugMeta, onRemove } = this.props;
     return (
-      <div>
+      <div onMouseEnter={this.mouseEnter} onMouseLeave={this.mouseLeave}>
         <Field
           name={`${drug}.name`}
           component={({ input }) => <h5 className="mb-1">{input.value}</h5>}
         />
+        {isMouseInside ? (
+          <button
+            type="button"
+            className="close"
+            aria-label="Close"
+            onClick={onRemove}
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        ) : (
+          ""
+        )}
         <div>
           {drugMeta.composition ? (
             <small className="text-muted">
