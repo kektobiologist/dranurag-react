@@ -8,8 +8,10 @@ import { SearchInputBox, SearchBox } from "../components/DrugSearch/SearchBox";
 import SelectedDrugsBox from "../components/DrugSearch/SelectedDrugsBox";
 
 import { createStore, combineReducers } from "redux";
-import { reducer as formReducer } from "redux-form";
+import { connect } from "react-redux";
+import { reducer as formReducer, arrayPush } from "redux-form";
 import { Provider } from "react-redux";
+import { formName } from "../config/config";
 
 const rootReducer = combineReducers({
   // ...your other reducers here
@@ -21,24 +23,22 @@ const rootReducer = combineReducers({
 const store = createStore(rootReducer);
 
 class DrugSearch extends Component {
-  state = {
-    selectedDrugs: [],
-    counter: 1
-  };
-
+  // dispatching add drug action directly using the store; should probably connect
+  // DrugSearch with store using connect()?
   onDrugClicked = hit => {
-    const { selectedDrugs, counter } = this.state;
-    this.setState({
-      selectedDrugs: [...selectedDrugs, { ...hit, idx: counter }],
-      counter: counter + 1
-    });
+    store.dispatch(
+      arrayPush(formName, "selectedDrugs", {
+        name: hit.name,
+        id: hit.id,
+        drugMeta: { ...hit }
+      })
+    );
   };
 
   onSubmit = values => {
     console.log(values);
   };
   render() {
-    const { selectedDrugs } = this.state;
     return (
       <Provider store={store}>
         <InstantSearch
@@ -54,10 +54,7 @@ class DrugSearch extends Component {
                 <SearchBox onDrugClicked={this.onDrugClicked} />
               </div>
               <div className="col">
-                <SelectedDrugsBox
-                  selectedDrugs={selectedDrugs}
-                  onSubmit={this.onSubmit}
-                />
+                <SelectedDrugsBox onSubmit={this.onSubmit} />
               </div>
             </div>
           </div>

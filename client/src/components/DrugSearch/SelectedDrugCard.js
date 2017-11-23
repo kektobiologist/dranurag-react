@@ -1,7 +1,7 @@
 import React from "react";
 import Autocomplete from "react-autocomplete";
 
-import { Field } from "redux-form";
+import { Field, formValues } from "redux-form";
 
 // hardcode the possible values of fields
 import { fieldValues } from "./DrugData";
@@ -15,14 +15,14 @@ class SelectedDrugCard extends React.Component {
   };
   constructor(props) {
     super(props);
-    const { drug } = props;
+    const { drug, drugMeta } = props;
     var ac_values = {};
     var keys = ["frequencies", "dosages", "durations", "specialComments"];
     keys.forEach(str => {
       ac_values[str] = _.sortBy(
         fieldValues[str].map(val => {
           var temp;
-          if ((temp = _.find(drug[str], { val: val })))
+          if ((temp = _.find(drugMeta[str], { val: val })))
             return { val: val, count: temp.count };
           else return { val: val, count: 0 };
         }),
@@ -49,28 +49,32 @@ class SelectedDrugCard extends React.Component {
   render() {
     const { ac_values, duration } = this.state;
     var defaultDurationType = duration ? duration.type : "days";
-    const { drug } = this.props;
-    // console.log(duration);
+    const { drug, drugMeta } = this.props;
     return (
       <div>
-        <h5 className="mb-1">{drug.name}</h5>
+        <Field
+          name={`${drug}.name`}
+          component={({ input }) => <h5 className="mb-1">{input.value}</h5>}
+        />
         <div>
-          {drug.composition ? (
-            <small className="text-muted">{drug.composition.join(", ")}</small>
+          {drugMeta.composition ? (
+            <small className="text-muted">
+              {drugMeta.composition.join(", ")}
+            </small>
           ) : (
             <div />
           )}
         </div>
         {[
-          ["frequencies", "Frequency"],
-          ["dosages", "Dosage"],
-          ["specialComments", "Instructions"]
-        ].map(str => (
-          <div key={str[0]}>
+          ["frequencies", "Frequency", "frequency"],
+          ["dosages", "Dosage", "dosage"],
+          ["specialComments", "Instructions", "specialComments"]
+        ].map(([key, label, name]) => (
+          <div key={key}>
             <Field
-              list={ac_values[str[0]]}
-              label={str[1]}
-              name={`${drug}.${str[0]}`}
+              list={ac_values[key]}
+              label={label}
+              name={`${drug}.${name}`}
               component={ACField}
             />
           </div>
@@ -84,10 +88,12 @@ class SelectedDrugCard extends React.Component {
               <div className="col-8">
                 <div className="row">
                   <div className="col">
-                    <input
+                    <Field
+                      name={`${drug}.durationNumber`}
                       type="text"
+                      component="input"
                       className="form-control"
-                      defaultValue={duration ? duration["number"] : ""}
+                      /*value={duration ? duration["number"] : ""}*/
                     />
                   </div>
                   <div className="col">
