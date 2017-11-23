@@ -11,26 +11,38 @@ import {
   formValueSelector
 } from "redux-form";
 
+import FlipMove from "react-flip-move";
+
 import SelectedDrugCard from "./SelectedDrugCard";
 import { formName } from "../../config/config";
 
+class FlipMoveItem extends Component {
+  // because flipmove only works on stateful items
+  render() {
+    return (
+      <ListGroupItem>
+        <SelectedDrugCard {...this.props} />
+      </ListGroupItem>
+    );
+  }
+}
+
 var renderSelectedDrugs = ({ fields, selectedDrugs }) => {
   return (
-    <div>
+    <FlipMove>
       {fields.map((drug, idx) => {
         return (
-          <ListGroupItem key={idx}>
-            <SelectedDrugCard
-              drug={drug}
-              drugMeta={selectedDrugs[idx].drugMeta}
-              onRemove={() => {
-                fields.remove(idx);
-              }}
-            />
-          </ListGroupItem>
+          <FlipMoveItem
+            key={selectedDrugs[idx].drugMeta.flipMoveKey}
+            drug={drug}
+            drugMeta={selectedDrugs[idx].drugMeta}
+            onRemove={() => {
+              fields.remove(idx);
+            }}
+          />
         );
       })}
-    </div>
+    </FlipMove>
   );
 };
 

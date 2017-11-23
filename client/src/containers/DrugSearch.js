@@ -9,9 +9,10 @@ import SelectedDrugsBox from "../components/DrugSearch/SelectedDrugsBox";
 
 import { createStore, combineReducers } from "redux";
 import { connect } from "react-redux";
-import { reducer as formReducer, arrayPush } from "redux-form";
+import { reducer as formReducer, arrayInsert } from "redux-form";
 import { Provider } from "react-redux";
 import { formName } from "../config/config";
+import getDrugItem from "../components/util/DrugACFormatter";
 
 const rootReducer = combineReducers({
   // ...your other reducers here
@@ -26,13 +27,7 @@ class DrugSearch extends Component {
   // dispatching add drug action directly using the store; should probably connect
   // DrugSearch with store using connect()?
   onDrugClicked = hit => {
-    store.dispatch(
-      arrayPush(formName, "selectedDrugs", {
-        name: hit.name,
-        id: hit.id,
-        drugMeta: { ...hit }
-      })
-    );
+    store.dispatch(arrayInsert(formName, "selectedDrugs", 0, getDrugItem(hit)));
   };
 
   onSubmit = values => {

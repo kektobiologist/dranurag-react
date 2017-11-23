@@ -6,7 +6,8 @@ class ACField extends React.Component {
   constructor(props) {
     super(props);
     const { input: { onChange } } = this.props;
-    onChange(props.list[0].count ? props.list[0].val : "");
+    // console.log(props.list);
+    // onChange(props.list[0].count ? props.list[0].val : "");
   }
 
   renderItems = items => {
