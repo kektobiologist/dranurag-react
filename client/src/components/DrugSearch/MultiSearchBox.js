@@ -28,6 +28,10 @@ class MultiSearchBox extends Component {
     helper.on("result", content => this.setState({ algoliaResults: content }));
   }
 
+  componentDidMount() {
+    this.handleSearch("");
+  }
+
   handleChange = e => {
     this.setState({ value: e.target.value });
     this.handleSearch(e.target.value);

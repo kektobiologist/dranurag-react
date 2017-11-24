@@ -31,30 +31,25 @@ export default ({ drug }) => {
 // this one is for MultiSearchBox
 export var DrugCard = ({ drug }) => (
   <div>
-    <h5 className="mb-1">
-      {drug._highlightResult ? (
-        <div
-          dangerouslySetInnerHTML={{
-            __html: drug._highlightResult.name.value
-          }}
-        />
-      ) : (
-        <p>{drug.name}</p>
-      )}
-    </h5>
-    <div>
-      {drug.composition ? (
-        <small className="text-muted">{drug.composition.join(", ")}</small>
-      ) : (
-        <div />
-      )}
-    </div>
-    <div>
-      {drug.used_for ? (
-        <small className="text-muted">{drug.used_for.join(", ")}</small>
-      ) : (
-        <div />
-      )}
+    <div className="row justify-content-between">
+      <h5 className="col-auto">
+        {drug._highlightResult ? (
+          <div
+            dangerouslySetInnerHTML={{
+              __html: drug._highlightResult.name.value
+            }}
+          />
+        ) : (
+          `${drug.name}`
+        )}
+      </h5>
+      <div className="col text-right">
+        {drug.composition ? (
+          <small className="text-muted">{drug.composition.join(", ")}</small>
+        ) : (
+          <div />
+        )}
+      </div>
     </div>
   </div>
 );
