@@ -10,6 +10,14 @@ import PatientSearch from "./containers/PatientSearch";
 import DrugSearch from "./containers/DrugSearch";
 import Footer from "./components/util/Footer";
 
+import { createStore, combineReducers } from "redux";
+import { reducer as reduxFormReducer } from "redux-form";
+import { Provider } from "react-redux";
+
+const reducer = combineReducers({
+  form: reduxFormReducer // mounted under "form"
+});
+const store = createStore(reducer);
 // import "./sticky-footer.css";
 class App extends Component {
   render() {
@@ -31,16 +39,25 @@ class App extends Component {
     // return <div />;
     return (
       <div>
-        <Router>
-          <div className="container">
-            <Navbar routes={routes} />
-            {routes.map(({ url, component, exact }, idx) => (
-              <Route key={idx} path={url} component={component} exact={exact} />
-            ))}
-            <Route path="/patient/:id" component={Patient} />
+        <Provider store={store}>
+          <div>
+            <Router>
+              <div className="container">
+                <Navbar routes={routes} />
+                {routes.map(({ url, component, exact }, idx) => (
+                  <Route
+                    key={idx}
+                    path={url}
+                    component={component}
+                    exact={exact}
+                  />
+                ))}
+                <Route path="/patient/:id" component={Patient} />
+              </div>
+            </Router>
+            <Footer />
           </div>
-        </Router>
-        <Footer />
+        </Provider>
       </div>
     );
   }

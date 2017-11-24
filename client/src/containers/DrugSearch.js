@@ -15,40 +15,30 @@ import { Provider } from "react-redux";
 import { formName } from "../config/config";
 import getDrugItem from "../components/util/DrugACFormatter";
 
-const rootReducer = combineReducers({
-  // ...your other reducers here
-  // you have to pass formReducer under 'form' key,
-  // for custom keys look up the docs for 'getFormState'
-  form: formReducer
-});
-
-const store = createStore(rootReducer);
-
 class DrugSearch extends Component {
-  // dispatching add drug action directly using the store; should probably connect
-  // DrugSearch with store using connect()?
-  onDrugClicked = hit => {
-    store.dispatch(arrayInsert(formName, "selectedDrugs", 0, getDrugItem(hit)));
-  };
-
   onSubmit = values => {
     console.log(values);
   };
   render() {
     return (
-      <Provider store={store}>
-        <div className="row">
-          <div className="col">
-            {/*<SearchBox onDrugClicked={this.onDrugClicked} />*/}
-            <MultiSearchBox onDrugClicked={this.onDrugClicked} />
-          </div>
-          <div className="col">
-            <SelectedDrugsBox onSubmit={this.onSubmit} />
-          </div>
+      <div className="row">
+        <div className="col">
+          {/*<SearchBox onDrugClicked={this.props.onDrugClicked} />*/}
+          <MultiSearchBox onDrugClicked={this.props.onDrugClicked} />
         </div>
-      </Provider>
+        <div className="col">
+          <SelectedDrugsBox onSubmit={this.onSubmit} />
+        </div>
+      </div>
     );
   }
 }
+
+// connecting to the global store
+DrugSearch = connect(null, dispatch => ({
+  onDrugClicked: hit => {
+    dispatch(arrayInsert(formName, "selectedDrugs", 0, getDrugItem(hit)));
+  }
+}))(DrugSearch);
 
 export default DrugSearch;
