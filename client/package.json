@@ -3,7 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "algoliasearch": "^3.24.6",
+    "algoliasearch-helper": "^2.23.0",
     "bootstrap": "^4.0.0-beta",
+    "http-proxy-middleware": "^0.17.4",
     "jquery": "^3.2.1",
     "material-ui": "^0.19.4",
     "moment": "^2.19.1",
@@ -21,6 +24,7 @@
     "react-router-bootstrap": "^0.24.4",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.14",
+    "react-search-bar": "^2.2.0",
     "react-sidebar": "^2.3.2",
     "reactstrap": "^5.0.0-alpha.3",
     "redux-form": "^7.1.2",

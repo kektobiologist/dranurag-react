@@ -27,9 +27,19 @@ export var SearchInputBox = () => (
 
 export function SearchBox({ onDrugClicked }) {
   return (
-    <ListGroup className="mt-2">
-      <CustomHits onDrugClicked={onDrugClicked} />
-    </ListGroup>
+    <InstantSearch
+      appId="1T0DWJW3ZN"
+      apiKey="5ce22be0f0b05dd152bec330daa03a9b"
+      indexName="drugs"
+    >
+      <Configure hitsPerPage={15} />
+      <div>
+        <SearchInputBox />
+        <ListGroup className="mt-2">
+          <CustomHits onDrugClicked={onDrugClicked} />
+        </ListGroup>
+      </div>
+    </InstantSearch>
   );
 }
 

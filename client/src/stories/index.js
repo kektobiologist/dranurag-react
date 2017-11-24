@@ -18,6 +18,7 @@ import FlipMoveDemo from "../components/experiments/FlipMoveDemo";
 import VisitCard from "../components/Home/VisitCard";
 import { BrowserRouter } from "react-router-dom";
 import TodoList from "../components/experiments/TodoList";
+import Search from "../components/experiments/AlgoliaSearchHelper";
 
 storiesOf("Welcome", module).add("to Storybook", () => (
   <Welcome showApp={linkTo("Button")} />
@@ -57,4 +58,8 @@ storiesOf("VisitCard", module).add("default", () => {
 
 storiesOf("Demos/TodoList", module).add("default", () => {
   return <TodoList />;
+});
+
+storiesOf("Demos/AlgoliaSearchHelper", module).add("default", () => {
+  return <Search />;
 });

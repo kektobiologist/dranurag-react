@@ -10,3 +10,14 @@ body {
   max-width: 400px;
   display: block;
 }
+
+/*custom css*/
+
+em {
+  background-color: #d5f4e6;
+  font-style: normal;
+}
+
+a .fa {
+  color: #777;
+}

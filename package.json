@@ -23,6 +23,8 @@
     "react-dom": "^16.0.0",
     "react-popper": "^0.7.3",
     "react-transition-group": "^2.2.1",
-    "reactstrap": "^5.0.0-alpha.3"
+    "reactstrap": "^5.0.0-alpha.3",
+    "request": "^2.83.0",
+    "request-promise-native": "^1.0.5"
   }
 }

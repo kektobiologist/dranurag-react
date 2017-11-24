@@ -19,27 +19,34 @@ import { formName } from "../../config/config";
 class FlipMoveItem extends Component {
   // because flipmove only works on stateful items
   render() {
-    return (
-      <ListGroupItem>
-        <SelectedDrugCard {...this.props} />
-      </ListGroupItem>
-    );
+    return <ListGroupItem>{this.props.children}</ListGroupItem>;
   }
 }
 
-var renderSelectedDrugs = ({ fields, selectedDrugs }) => {
+var renderSelectedDrugs = ({ fields, selectedDrugs, handleSubmit }) => {
   return (
     <FlipMove>
+      <FlipMoveItem key="submitbutton">
+        <a
+          role="button"
+          className="btn btn-primary"
+          href="#"
+          onClick={handleSubmit}
+        >
+          Submit
+        </a>
+      </FlipMoveItem>
       {fields.map((drug, idx) => {
         return (
-          <FlipMoveItem
-            key={selectedDrugs[idx].drugMeta.flipMoveKey}
-            drug={drug}
-            drugMeta={selectedDrugs[idx].drugMeta}
-            onRemove={() => {
-              fields.remove(idx);
-            }}
-          />
+          <FlipMoveItem key={selectedDrugs[idx].drugMeta.flipMoveKey}>
+            <SelectedDrugCard
+              drug={drug}
+              drugMeta={selectedDrugs[idx].drugMeta}
+              onRemove={() => {
+                fields.remove(idx);
+              }}
+            />
+          </FlipMoveItem>
         );
       })}
     </FlipMove>
@@ -48,19 +55,14 @@ var renderSelectedDrugs = ({ fields, selectedDrugs }) => {
 
 renderSelectedDrugs = formValues("selectedDrugs")(renderSelectedDrugs);
 
-var DrugsForm = ({ handleSubmit, ...props }) => (
+var DrugsForm = ({ handleSubmit }) => (
   <form>
-    <ListGroup className="mt-2 col">
+    <ListGroup className="col">
       <FieldArray
         name="selectedDrugs"
         component={renderSelectedDrugs}
-        props={props}
+        handleSubmit={handleSubmit}
       />
-      <ListGroupItem>
-        <button type="button" className="btn" onClick={handleSubmit}>
-          Submit
-        </button>
-      </ListGroupItem>
     </ListGroup>
   </form>
 );

@@ -5,6 +5,7 @@ import { InstantSearch, Configure } from "react-instantsearch/dom";
 
 import { ListGroup, ListGroupItem } from "reactstrap";
 import { SearchInputBox, SearchBox } from "../components/DrugSearch/SearchBox";
+import MultiSearchBox from "../components/DrugSearch/MultiSearchBox";
 import SelectedDrugsBox from "../components/DrugSearch/SelectedDrugsBox";
 
 import { createStore, combineReducers } from "redux";
@@ -36,24 +37,15 @@ class DrugSearch extends Component {
   render() {
     return (
       <Provider store={store}>
-        <InstantSearch
-          appId="1T0DWJW3ZN"
-          apiKey="5ce22be0f0b05dd152bec330daa03a9b"
-          indexName="drugs"
-        >
-          <Configure hitsPerPage={15} />
-          <div>
-            <SearchInputBox />
-            <div className="row">
-              <div className="col">
-                <SearchBox onDrugClicked={this.onDrugClicked} />
-              </div>
-              <div className="col">
-                <SelectedDrugsBox onSubmit={this.onSubmit} />
-              </div>
-            </div>
+        <div className="row">
+          <div className="col">
+            {/*<SearchBox onDrugClicked={this.onDrugClicked} />*/}
+            <MultiSearchBox onDrugClicked={this.onDrugClicked} />
           </div>
-        </InstantSearch>
+          <div className="col">
+            <SelectedDrugsBox onSubmit={this.onSubmit} />
+          </div>
+        </div>
       </Provider>
     );
   }
