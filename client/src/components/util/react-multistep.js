@@ -109,27 +109,32 @@ export default class MultiStep extends Component {
   render() {
     return (
       <div className="container" onKeyDown={this.handleKeyDown}>
-        <div className="mx-auto" style={{ textAlign: "center" }}>
-          <ol className="progtrckr align-center">{this.renderSteps()}</ol>
+        <div
+          className="d-flex justify-content-around align-items-center"
+          style={{ textAlign: "center" }}
+        >
+          <div>
+            <button
+              className=" btn btn-outline-secondary"
+              disabled={this.state.showPreviousBtn ? false : true}
+              onClick={this.previous}
+            >
+              Previous
+            </button>
+          </div>
+          <ol className="progtrckr align-center px-2">{this.renderSteps()}</ol>
+          <div>
+            <button
+              className="btn btn-outline-secondary"
+              onClick={this.next}
+              disabled={this.state.showNextBtn ? false : true}
+            >
+              Next
+            </button>
+          </div>
         </div>
+        <div style={this.props.showNavigation ? {} : this.hidden} />
         {this.props.steps[this.state.compState].component}
-        <div style={this.props.showNavigation ? {} : this.hidden}>
-          <button
-            style={this.state.showPreviousBtn ? {} : this.hidden}
-            className="multistep__btn--prev"
-            onClick={this.previous}
-          >
-            Previous
-          </button>
-
-          <button
-            style={this.state.showNextBtn ? {} : this.hidden}
-            className="multistep__btn--next"
-            onClick={this.next}
-          >
-            Next
-          </button>
-        </div>
       </div>
     );
   }
