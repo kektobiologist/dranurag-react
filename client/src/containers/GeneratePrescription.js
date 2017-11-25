@@ -3,14 +3,16 @@ import { Row, Col, Grid } from "reactstrap";
 import PatientInfoCard from "../components/Patient/PatientInfoCard";
 import PatientPrescriptionsCard from "../components/Patient/PatientPrescriptionsCard";
 import { Link } from "react-router-dom";
-export default class PatientWithLoad extends Component {
+import MultiStep from "../components/util/react-multistep";
+import DrugSearchPanel from "../components/GeneratePrescription/DrugSearchPanel";
+
+export default class GeneratePrescription extends Component {
   constructor(props) {
     super(props);
     const { match } = props;
     // console.log(match);
     this.state = {
       patient: null,
-      prescriptions: null,
       id: match.params.id
     };
   }
@@ -20,24 +22,29 @@ export default class PatientWithLoad extends Component {
     fetch("/api/patient/" + id)
       .then(res => res.json())
       .then(patient => this.setState({ patient: patient }));
-    fetch("/api/patientPrescriptions/" + id)
-      .then(res => res.json())
-      .then(prescriptions => this.setState({ prescriptions: prescriptions }));
+    return;
   }
 
   render() {
-    const { patient, prescriptions, id } = this.state;
+    const { patient, id } = this.state;
+    const steps = [
+      {
+        name: "Enter Drugs",
+        component: <DrugSearchPanel onDrugClicked={() => {}} />
+      },
+      { name: "Preview", component: <div>Done!</div> }
+    ];
     return (
       <div>
-        <div>
+        <div className="container">
           {patient ? (
             <PatientInfoCard patient={patient}>
               <Link
-                to={"/generatePrescription/" + patient._id}
+                to={"/patient/" + patient._id}
                 className="btn btn-outline-primary"
                 role="button"
               >
-                Generate Prescription
+                Back to Profile
               </Link>
             </PatientInfoCard>
           ) : (
@@ -45,13 +52,7 @@ export default class PatientWithLoad extends Component {
           )}
         </div>
         <hr />
-        <div>
-          {prescriptions ? (
-            <PatientPrescriptionsCard prescriptions={prescriptions} />
-          ) : (
-            "Loading prescriptions..."
-          )}
-        </div>
+        <MultiStep showNavigation={true} steps={steps} />
       </div>
     );
   }

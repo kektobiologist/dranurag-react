@@ -26,9 +26,11 @@
     "react-scripts": "1.0.14",
     "react-search-bar": "^2.2.0",
     "react-sidebar": "^2.3.2",
+    "react-slick": "^0.15.4",
     "reactstrap": "^5.0.0-alpha.3",
     "redux-form": "^7.1.2",
-    "redux-logger": "^3.0.6"
+    "redux-logger": "^3.0.6",
+    "slick-carousel": "^1.8.1"
   },
   "scripts": {
     "start": "react-scripts start",

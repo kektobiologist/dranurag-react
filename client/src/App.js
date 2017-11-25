@@ -9,6 +9,7 @@ import Patient from "./containers/Patient";
 import PatientSearch from "./containers/PatientSearch";
 import DrugSearch from "./containers/DrugSearch";
 import Footer from "./components/util/Footer";
+import GeneratePrescription from "./containers/GeneratePrescription";
 
 import { createStore, combineReducers } from "redux";
 import { reducer as reduxFormReducer } from "redux-form";
@@ -53,6 +54,10 @@ class App extends Component {
                   />
                 ))}
                 <Route path="/patient/:id" component={Patient} />
+                <Route
+                  path="/generatePrescription/:id"
+                  component={GeneratePrescription}
+                />
               </div>
             </Router>
             <Footer />

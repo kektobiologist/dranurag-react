@@ -2,6 +2,8 @@ import React from "react";
 import HelpText from "./HelpText";
 import { Link } from "react-router-dom";
 
+// generic block for minimal patient info (name, helptext)
+// used in visit card
 export default ({ patient }) => (
   <div>
     <h5 className="mb-1">

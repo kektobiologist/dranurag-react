@@ -12,16 +12,25 @@ var AttrRow = ({ keyName, val, units }) => {
   );
 };
 
-export default ({ patient }) => {
+// card containing detailed patient info (height weight etc.)
+// used in Patient and GeneratePrescription pages
+export default ({ patient, children }) => {
   const { height, weight, allergies, phone2 } = patient;
   var heightM = height / 100; // m
   var bmi = height ? (weight / (heightM * heightM)).toFixed(2) : "-";
   return (
     <Row>
-      <Col xs="12" lg="6">
-        <h1 className="display-3">{patient.name}</h1>
-        <HelpText patient={patient} />
-        <div>ID: {patient._id}</div>
+      <Col
+        xs="12"
+        lg="6"
+        className="d-flex flex-column justify-content-between"
+      >
+        <div>
+          <h1 className="display-3">{patient.name}</h1>
+          <HelpText patient={patient} />
+          <div>ID: {patient._id}</div>
+        </div>
+        <div>{children}</div>
       </Col>
 
       <Col xs="12" lg="6" className="py-2">

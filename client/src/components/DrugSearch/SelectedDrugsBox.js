@@ -68,7 +68,9 @@ var DrugsForm = ({ handleSubmit }) => (
 );
 
 DrugsForm = reduxForm({
-  form: formName
+  form: formName,
+  destroyOnUnmount: false, // <------ preserve form data
+  forceUnregisterOnUnmount: true // <------ unregister fields on unmoun
 })(DrugsForm);
 
 export default DrugsForm;

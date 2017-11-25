@@ -1,6 +1,8 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.css";
 // import "../font-awesome.min.css";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
@@ -19,7 +21,7 @@ import VisitCard from "../components/Home/VisitCard";
 import { BrowserRouter } from "react-router-dom";
 import TodoList from "../components/experiments/TodoList";
 import Search from "../components/experiments/AlgoliaSearchHelper";
-
+import SimpleSlider from "../components/experiments/ReactSlick";
 storiesOf("Welcome", module).add("to Storybook", () => (
   <Welcome showApp={linkTo("Button")} />
 ));
@@ -62,4 +64,8 @@ storiesOf("Demos/TodoList", module).add("default", () => {
 
 storiesOf("Demos/AlgoliaSearchHelper", module).add("default", () => {
   return <Search />;
+});
+
+storiesOf("Demos/ReactSlick", module).add("default", () => {
+  return <SimpleSlider />;
 });
