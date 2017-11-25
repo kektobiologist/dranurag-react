@@ -26,16 +26,6 @@ class FlipMoveItem extends Component {
 var renderSelectedDrugs = ({ fields, selectedDrugs, handleSubmit }) => {
   return (
     <FlipMove>
-      <FlipMoveItem key="submitbutton">
-        <a
-          role="button"
-          className="btn btn-primary"
-          href="#"
-          onClick={handleSubmit}
-        >
-          Submit
-        </a>
-      </FlipMoveItem>
       {fields.map((drug, idx) => {
         return (
           <FlipMoveItem key={selectedDrugs[idx].drugMeta.flipMoveKey}>

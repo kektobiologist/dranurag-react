@@ -42,6 +42,21 @@ export default drugMeta => {
   keys.forEach(([str, key]) => {
     if (drug.drugMeta[str][0].count) drug[key] = drug.drugMeta[str][0].val;
   });
+  // set dosage if not already set
+  var regMap = [
+    [/tablet/i, "1 tab"],
+    [/capsule/i, "1 capsule"],
+    [/rotacap/i, "1 rotacap"]
+  ];
+  if (!drug["dosage"]) {
+    regMap.forEach(([reg, value]) => {
+      if (reg.exec(drug.name)) drug["dosage"] = value;
+    });
+    // var tabRegex = /tablet/i;
+    // var capsuleRegex = /capsule/i;
+    // if (tabRegex.exec(drug.name)) drug["dosage"] = "1 tab";
+    // else if (capsuleRegex.exec(drug.name)) drug["dosage"] = "1 capsule";
+  }
   delete drug.duration;
   var duration = durationConverter(drug.drugMeta.durations[0].val);
   if (drug.drugMeta.durations[0].count && duration) {

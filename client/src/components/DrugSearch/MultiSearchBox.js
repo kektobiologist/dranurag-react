@@ -102,7 +102,7 @@ class MultiSearchBox extends Component {
 var ResultsList = ({ algoliaResults, medplusmartResults, onDrugClicked }) => {
   return (
     <div>
-      <ListGroup>
+      <ListGroup className="pb-2">
         {algoliaResults.hits.map((hit, idx) => (
           <ListGroupItem key={idx} onClick={() => onDrugClicked(hit)}>
             <DrugCard drug={hit} />

@@ -5,6 +5,7 @@ import PatientPrescriptionsCard from "../components/Patient/PatientPrescriptions
 import { Link } from "react-router-dom";
 import MultiStep from "../components/util/react-multistep";
 import DrugSearchPanel from "../components/GeneratePrescription/DrugSearchPanel";
+import PreviewPanel from "../components/GeneratePrescription/PreviewPanel";
 
 export default class GeneratePrescription extends Component {
   constructor(props) {
@@ -32,7 +33,7 @@ export default class GeneratePrescription extends Component {
         name: "Enter Drugs",
         component: <DrugSearchPanel onDrugClicked={() => {}} />
       },
-      { name: "Preview", component: <div>Done!</div> }
+      { name: "Preview", component: <PreviewPanel /> }
     ];
     return (
       <div>

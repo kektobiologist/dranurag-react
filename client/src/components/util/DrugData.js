@@ -21,7 +21,8 @@ export const fieldValues = {
         "1 drop",
         "2 puffs",
         "1 puff",
-        "1 rotacap"
+        "1 rotacap",
+        "1 capsule"
     ],
     durations: [
         "10 days",
