@@ -3,9 +3,7 @@ var mongoose = require("mongoose");
 var autoIncrement = require("mongoose-auto-increment");
 
 var DurationSchema = mongoose.Schema(
-  {
-    duration: { number: String, type: String }
-  },
+  { number: String, type: String },
   { typeKey: "$type" }
 );
 

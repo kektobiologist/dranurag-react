@@ -9,33 +9,16 @@ var fs = require("fs");
 var ejs = require("ejs");
 var dateformat = require("dateformat");
 var stringjs = require("string");
+const puppeteer = require("puppeteer");
 
 module.exports = app => {
-  // for res.pdfFromHTML
-  app.use(require("express-pdf"));
   // prescription template
   const prescriptionTemplate = ejs.compile(
     fs.readFileSync("server/public/prescription.ejs", "utf8")
   );
   // options for express-pdf
   const pdfOptions = {
-    filename: "prescription.pdf",
-    // htmlContent: htmlString, // fill in htmlContent manually!
-    options: {
-      paperSize: {
-        format: "A4"
-      },
-
-      base: process.env.BASE_URL || "http://localhost:3001",
-      // HTTP Headers that are used for requests
-      httpHeaders: {
-        // e.g.
-        Authorization: "Bearer ACEFAD8C-4B4D-4042-AB30-6C735F5BAC8B"
-        // reuquired to load ttf fonts?
-        // "User-Agent":
-        // "Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_3_3 like Mac OS X; en-us) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8J2 Safari/6533.18.5"
-      }
-    }
+    path: "prescription.pdf"
   };
 
   app.get("/api/visits", (req, res) => {
@@ -144,18 +127,18 @@ module.exports = app => {
     });
   };
 
-  app.post("/api/previewPrescriptionPdf", (req, res) => {
-    console.log("got prescripti reequst");
-    const prescription = req.body;
-    const { patient } = prescription;
-    // preview the prescription provided
-    Patient.findOne({ _id: patient })
-      .then(doc => renderHTML({ ...prescription, date: new Date() }, doc))
-      .then(htmlString => {
-        return res.pdfFromHTML({ ...pdfOptions, htmlContent: htmlString });
-      })
-      .catch(err => console.log(err));
-  });
+  // app.post("/api/previewPrescriptionPdf", (req, res) => {
+  //   console.log("got prescripti reequst");
+  //   const prescription = req.body;
+  //   const { patient } = prescription;
+  //   // preview the prescription provided
+  //   Patient.findOne({ _id: patient })
+  //     .then(doc => renderHTML({ ...prescription, date: new Date() }, doc))
+  //     .then(htmlString => {
+  //       return res.pdfFromHTML({ ...pdfOptions, htmlContent: htmlString });
+  //     })
+  //     .catch(err => console.log(err));
+  // });
 
   app.post("/api/submitPrescription", (req, res) => {
     // patient id is already fill in
@@ -169,20 +152,20 @@ module.exports = app => {
       });
   });
 
-  app.get("/api/prescriptionPdf/:id", (req, res) => {
-    const { id } = req.params;
-    Prescription.findOne({ _id: id })
-      .populate("patient")
-      .exec()
-      .then(prescription => renderHTML(prescription, prescription.patient))
-      .then(htmlString =>
-        res.pdfFromHTML({ ...pdfOptions, htmlContent: htmlString })
-      )
-      .catch(err => {
-        console.log(err);
-        res.send("NOTOK");
-      });
-  });
+  // app.get("/api/prescriptionPdf/:id", (req, res) => {
+  //   const { id } = req.params;
+  //   Prescription.findOne({ _id: id })
+  //     .populate("patient")
+  //     .exec()
+  //     .then(prescription => renderHTML(prescription, prescription.patient))
+  //     .then(htmlString =>
+  //       res.pdfFromHTML({ ...pdfOptions, htmlContent: htmlString })
+  //     )
+  //     .catch(err => {
+  //       console.log(err);
+  //       res.send("NOTOK");
+  //     });
+  // });
 
   // prescription as html
   app.get("/api/prescription/:id", (req, res) => {
