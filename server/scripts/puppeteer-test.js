@@ -3,7 +3,7 @@ const puppeteer = require("puppeteer");
 (async () => {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
-  await page.goto("http://localhost:3001/api/prescription/1047", {
+  await page.goto("http://localhost:3001/api/prescription/1048", {
     waitUntil: "networkidle2"
   });
   await page.emulateMedia("screen");
@@ -12,7 +12,7 @@ const puppeteer = require("puppeteer");
     path: "prescription.pdf",
     format: "A4",
     // TODO: WHY SCALE 2? only works with this
-    scale: 2,
+    // scale: 2,
     margin: {
       top: "0px",
       bottom: "0px",
