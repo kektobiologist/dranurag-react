@@ -19,7 +19,7 @@ const HindiCheckBox = ({ input: { value, onChange } }) => (
     <label className="form-check-label">
       <input
         type="checkbox"
-        value={value}
+        checked={value}
         onChange={onChange}
         className="form-check-input"
       />
