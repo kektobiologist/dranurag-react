@@ -104,7 +104,7 @@ class PreviewPanel extends React.Component {
 
   onSubmitClicked = () => {
     var prescription = this.getPrescription();
-    const { history, patientId } = this.props;
+    const { history, patientId, reset } = this.props;
     fetch(`/api/submitPrescription`, {
       method: "POST",
       headers: {
@@ -120,6 +120,7 @@ class PreviewPanel extends React.Component {
       })
       .then(res => {
         history.push(`/patient/${patientId}`);
+        reset();
         window.open(`/api/prescriptionPdf/${res._id}`);
       })
       .catch(err => console.log(err));

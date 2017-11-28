@@ -6,13 +6,25 @@ import MultiStep from "../components/util/react-multistep";
 import DrugSearchPanel from "../components/GeneratePrescription/DrugSearchPanel";
 import PreviewPanel from "../components/GeneratePrescription/PreviewPanel";
 
-export default class GeneratePrescription extends Component {
+import { formName } from "../config/config";
+import {
+  Field,
+  FieldArray,
+  reduxForm,
+  formValues,
+  formValueSelector,
+  change
+} from "redux-form";
+import { connect } from "react-redux";
+
+class GeneratePrescription extends Component {
   constructor(props) {
     super(props);
     const { match } = props;
     // console.log(match);
     this.state = {
       patient: null,
+      latestPrescription: null,
       id: match.params.id
     };
   }
@@ -22,15 +34,23 @@ export default class GeneratePrescription extends Component {
     fetch("/api/patient/" + id)
       .then(res => res.json())
       .then(patient => this.setState({ patient: patient }));
+    fetch("/api/getLatestPrescriptionJSON/" + id)
+      .then(res => res.json())
+      // check if empty response
+      .then(
+        latestPrescription =>
+          latestPrescription._id ? this.setState({ latestPrescription }) : ""
+      );
     return;
   }
 
   render() {
-    const { patient, id } = this.state;
+    const { patient, id, latestPrescription } = this.state;
+    const { reinitializeForm } = this.props;
     const steps = [
       {
         name: "Enter Drugs",
-        component: <DrugSearchPanel onDrugClicked={() => {}} />
+        component: <DrugSearchPanel />
       },
       { name: "Preview", component: <PreviewPanel patientId={id} /> }
     ];
@@ -52,8 +72,36 @@ export default class GeneratePrescription extends Component {
           )}
         </div>
         <hr />
+        <div className="container">
+          <button
+            className="btn btn-outline-primary"
+            role="button"
+            onClick={() => reinitializeForm(latestPrescription)}
+            disabled={latestPrescription ? false : true}
+          >
+            Copy Previous Prescription
+          </button>
+        </div>
         <MultiStep showNavigation={true} steps={steps} />
       </div>
     );
   }
 }
+
+// connecting to the global store
+GeneratePrescription = connect(null, dispatch => ({
+  reinitializeForm: prescription => {
+    if (prescription) {
+      dispatch(change(formName, "selectedDrugs", prescription.selectedDrugs));
+      dispatch(
+        change(
+          formName,
+          "hindiCheckbox",
+          prescription.language == "hindi" ? true : false
+        )
+      );
+    }
+  }
+}))(GeneratePrescription);
+
+export default GeneratePrescription;

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Row, Col, Grid } from "reactstrap";
 import PatientInfoCard from "../components/Patient/PatientInfoCard";
 import ScannedPatientPrescriptionsCard from "../components/Patient/ScannedPatientPrescriptionsCard";
+import GeneratedPatientPrescriptionsCard from "../components/Patient/GeneratedPatientPrescriptionsCard";
 import { Link } from "react-router-dom";
 export default class PatientWithLoad extends Component {
   constructor(props) {
@@ -10,7 +11,8 @@ export default class PatientWithLoad extends Component {
     // console.log(match);
     this.state = {
       patient: null,
-      prescriptions: null,
+      scannedPrescriptions: null,
+      generatedPrescriptions: null,
       id: match.params.id
     };
   }
@@ -20,13 +22,23 @@ export default class PatientWithLoad extends Component {
     fetch("/api/patient/" + id)
       .then(res => res.json())
       .then(patient => this.setState({ patient: patient }));
-    fetch("/api/patientPrescriptions/" + id)
+    fetch(`/api/patientScannedPrescriptions/${id}`)
       .then(res => res.json())
-      .then(prescriptions => this.setState({ prescriptions: prescriptions }));
+      .then(scannedPrescriptions => this.setState({ scannedPrescriptions }));
+    fetch(`/api/patientGeneratedPrescriptionsInfo/${id}`)
+      .then(res => res.json())
+      .then(generatedPrescriptions =>
+        this.setState({ generatedPrescriptions })
+      );
   }
 
   render() {
-    const { patient, prescriptions, id } = this.state;
+    const {
+      patient,
+      scannedPrescriptions,
+      generatedPrescriptions,
+      id
+    } = this.state;
     return (
       <div>
         <div>
@@ -46,10 +58,21 @@ export default class PatientWithLoad extends Component {
         </div>
         <hr />
         <div>
-          {prescriptions ? (
-            <ScannedPatientPrescriptionsCard prescriptions={prescriptions} />
+          {scannedPrescriptions ? (
+            <ScannedPatientPrescriptionsCard
+              prescriptions={scannedPrescriptions}
+            />
           ) : (
-            "Loading prescriptions..."
+            "Loading scanned prescriptions..."
+          )}
+        </div>
+        <div>
+          {generatedPrescriptions ? (
+            <GeneratedPatientPrescriptionsCard
+              prescriptionInfos={generatedPrescriptions}
+            />
+          ) : (
+            "Loading gererated prescriptions..."
           )}
         </div>
       </div>

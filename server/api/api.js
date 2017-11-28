@@ -100,7 +100,7 @@ module.exports = app => {
       });
   });
 
-  app.get("/api/patientPrescriptions/:id", (req, res) => {
+  app.get("/api/patientScannedPrescriptions/:id", (req, res) => {
     const { id } = req.params;
     PicturePrescription.find({ patient: parseInt(id) })
       .sort({ timestamp: -1 })
@@ -132,7 +132,7 @@ module.exports = app => {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.goto(`data:text/html,${htmlString}`, {
-      waitUntil: "networkidle2"
+      waitUntil: "networkidle0"
     });
 
     await page.emulateMedia("screen");
@@ -206,6 +206,34 @@ module.exports = app => {
       .catch(err => {
         console.log(err);
         res.send("NOTOK");
+      });
+  });
+
+  // prescriptions info only: url, timestamp, title
+  app.get("/api/patientGeneratedPrescriptionsInfo/:patientId", (req, res) => {
+    const { patientId } = req.params;
+    Prescription.find({ patient: patientId })
+      .sort({ date: -1 })
+      .exec()
+      .then(docs =>
+        docs.map(doc => ({
+          timestamp: doc.date,
+          url: `/api/prescriptionPdf/${doc._id}`,
+          title: moment(doc.date).format("MMMM Do, YYYY")
+        }))
+      )
+      .then(docs => res.json(docs));
+  });
+
+  app.get("/api/getLatestPrescriptionJSON/:patientId", (req, res) => {
+    const { patientId } = req.params;
+    Prescription.find({ patient: patientId })
+      .sort({ date: -1 })
+      .limit(1)
+      .exec()
+      .then(docs => {
+        if (docs.length) res.json(docs[0]);
+        else res.json({});
       });
   });
 };

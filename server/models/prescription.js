@@ -14,7 +14,9 @@ var DrugSchema = mongoose.Schema({
   frequency: String,
   dosage: String,
   specialComments: String,
-  duration: DurationSchema
+  duration: DurationSchema,
+  // drugMeta is required when copying over previous prescription
+  drugMeta: {}
 });
 
 var PrescriptionSchema = mongoose.Schema({
