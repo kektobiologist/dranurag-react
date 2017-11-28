@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Row, Col, Grid } from "reactstrap";
 import PatientInfoCard from "../components/Patient/PatientInfoCard";
-import PatientPrescriptionsCard from "../components/Patient/PatientPrescriptionsCard";
+import ScannedPatientPrescriptionsCard from "../components/Patient/ScannedPatientPrescriptionsCard";
 import { Link } from "react-router-dom";
 export default class PatientWithLoad extends Component {
   constructor(props) {
@@ -47,7 +47,7 @@ export default class PatientWithLoad extends Component {
         <hr />
         <div>
           {prescriptions ? (
-            <PatientPrescriptionsCard prescriptions={prescriptions} />
+            <ScannedPatientPrescriptionsCard prescriptions={prescriptions} />
           ) : (
             "Loading prescriptions..."
           )}

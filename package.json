@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "start": "supervisor -e ejs,js,node index.js",
     "server": "nodemon",
     "client": "node start-client.js"
   },

@@ -127,18 +127,40 @@ module.exports = app => {
     });
   };
 
-  // app.post("/api/previewPrescriptionPdf", (req, res) => {
-  //   console.log("got prescripti reequst");
-  //   const prescription = req.body;
-  //   const { patient } = prescription;
-  //   // preview the prescription provided
-  //   Patient.findOne({ _id: patient })
-  //     .then(doc => renderHTML({ ...prescription, date: new Date() }, doc))
-  //     .then(htmlString => {
-  //       return res.pdfFromHTML({ ...pdfOptions, htmlContent: htmlString });
-  //     })
-  //     .catch(err => console.log(err));
-  // });
+  var getPdfBufferPuppeteer = async htmlString => {
+    // TODO: use a global instance instead of making one every time?
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    await page.goto(`data:text/html,${htmlString}`, {
+      waitUntil: "networkidle2"
+    });
+
+    await page.emulateMedia("screen");
+    var pdfPromise = await page.pdf({
+      format: "A4",
+      margin: {
+        top: "0px",
+        bottom: "0px",
+        left: "0px",
+        right: "0px"
+      },
+      pageRanges: "1"
+    });
+
+    await browser.close();
+    return pdfPromise;
+  };
+
+  app.post("/api/previewPrescriptionPdf", (req, res) => {
+    const prescription = req.body;
+    const { patient } = prescription;
+    // preview the prescription provided
+    Patient.findOne({ _id: patient })
+      .then(doc => renderHTML({ ...prescription, date: new Date() }, doc))
+      .then(htmlString => getPdfBufferPuppeteer(htmlString))
+      .then(buffer => res.send(buffer))
+      .catch(err => console.log(err));
+  });
 
   app.post("/api/submitPrescription", (req, res) => {
     // patient id is already fill in
@@ -152,20 +174,26 @@ module.exports = app => {
       });
   });
 
-  // app.get("/api/prescriptionPdf/:id", (req, res) => {
-  //   const { id } = req.params;
-  //   Prescription.findOne({ _id: id })
-  //     .populate("patient")
-  //     .exec()
-  //     .then(prescription => renderHTML(prescription, prescription.patient))
-  //     .then(htmlString =>
-  //       res.pdfFromHTML({ ...pdfOptions, htmlContent: htmlString })
-  //     )
-  //     .catch(err => {
-  //       console.log(err);
-  //       res.send("NOTOK");
-  //     });
-  // });
+  app.get("/api/prescriptionPdf/:id", (req, res) => {
+    const { id } = req.params;
+    Prescription.findOne({ _id: id })
+      .populate("patient")
+      .exec()
+      .then(prescription => renderHTML(prescription, prescription.patient))
+      .then(htmlString => getPdfBufferPuppeteer(htmlString))
+      .then(buffer => {
+        res.setHeader(
+          "Content-disposition",
+          'inline; filename="prescription.pdf"'
+        );
+        res.setHeader("Content-type", "application/pdf");
+        res.send(buffer);
+      })
+      .catch(err => {
+        console.log(err);
+        res.send("NOTOK");
+      });
+  });
 
   // prescription as html
   app.get("/api/prescription/:id", (req, res) => {
@@ -180,29 +208,4 @@ module.exports = app => {
         res.send("NOTOK");
       });
   });
-  // app.get("/api/prescriptionPdf/:id", (req, res) => {
-  //   const { id } = req.params;
-  //   Prescription.findOne({ _id: id })
-  //     .then(doc => renderHTML(doc))
-  //     .then(htmlString => {
-  //       res.pdfFromHTML();
-  //     })
-  //     .catch(err => res.json(err));
-  // });
-
-  // app.post("/api/submitPrescription/:patientId", (req, res) => {
-  //   const { patientId } = req.params;
-  //   const prescription = req.body;
-  //   // just save prescription; don't return pdf yet!
-  //   new Prescription({ ...prescription, date: new Date() })
-  //     .save()
-  //     .then(doc => {
-  //       // just return document
-  //       res.json(doc);
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //       res.json("NOTOK");
-  //     });
-  // });
 };

@@ -11,6 +11,8 @@ import {
   formValues,
   formValueSelector
 } from "redux-form";
+import { withRouter } from "react-router-dom";
+
 import { getReadableDrug } from "../util/DrugACFormatter";
 import PDFWidget from "./PDFWidget";
 
@@ -102,6 +104,7 @@ class PreviewPanel extends React.Component {
 
   onSubmitClicked = () => {
     var prescription = this.getPrescription();
+    const { history, patientId } = this.props;
     fetch(`/api/submitPrescription`, {
       method: "POST",
       headers: {
@@ -115,9 +118,10 @@ class PreviewPanel extends React.Component {
         if (res == "NOTOK") throw { message: "Could not submit form" };
         else return res;
       })
-      .then(res =>
-        window.open(`http://localhost:3001/api/prescriptionPdf/${res._id}`)
-      )
+      .then(res => {
+        history.push(`/patient/${patientId}`);
+        window.open(`/api/prescriptionPdf/${res._id}`);
+      })
       .catch(err => console.log(err));
   };
 
@@ -169,6 +173,8 @@ class PreviewPanel extends React.Component {
     );
   }
 }
+
+PreviewPanel = withRouter(PreviewPanel);
 
 const selector = formValueSelector(formName);
 

@@ -7,12 +7,10 @@ const puppeteer = require("puppeteer");
     waitUntil: "networkidle2"
   });
   await page.emulateMedia("screen");
-  await page.screenshot({ path: "example.png", fullPage: true });
-  await page.pdf({
+  // await page.screenshot({ path: "example.png", fullPage: true });
+  var pdfPromise = await page.pdf({
     path: "prescription.pdf",
     format: "A4",
-    // TODO: WHY SCALE 2? only works with this
-    // scale: 2,
     margin: {
       top: "0px",
       bottom: "0px",

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Row, Col, Grid } from "reactstrap";
 import PatientInfoCard from "../components/Patient/PatientInfoCard";
-import PatientPrescriptionsCard from "../components/Patient/PatientPrescriptionsCard";
 import { Link } from "react-router-dom";
 import MultiStep from "../components/util/react-multistep";
 import DrugSearchPanel from "../components/GeneratePrescription/DrugSearchPanel";

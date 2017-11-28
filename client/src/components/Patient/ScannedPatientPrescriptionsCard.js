@@ -2,7 +2,7 @@ import React from "react";
 
 import { ListGroup, ListGroupItem } from "reactstrap";
 
-var PrescriptionCard = ({ idx, prescription }) => {
+var ScannedPrescriptionCard = ({ idx, prescription }) => {
   const { url, timestamp, title } = prescription;
   return (
     <div>
@@ -15,12 +15,15 @@ var PrescriptionCard = ({ idx, prescription }) => {
 export default ({ prescriptions }) => {
   return (
     <div>
-      <h2 className="py-2">Prescriptions</h2>
+      <h2 className="py-2">Scanned Prescriptions</h2>
       <ListGroup>
         {prescriptions.map((prescription, idx) => {
           return (
             <ListGroupItem key={idx}>
-              <PrescriptionCard idx={idx + 1} prescription={prescription} />
+              <ScannedPrescriptionCard
+                idx={idx + 1}
+                prescription={prescription}
+              />
             </ListGroupItem>
           );
         })}

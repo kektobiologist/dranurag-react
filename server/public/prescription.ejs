@@ -189,9 +189,9 @@ font-family: 'Hind', sans-serif;
                 <ul class="pl-3 pt-3">
                   <%translatedDrugs.forEach(elm => {%>
                   <%const {name, composition, frequency, duration, specialComments, dosage} = elm%>
-                  <li><span><%=name%></span> <small class='text-muted'>(<%= composition%>)</small>
+                  <li><span><%=name%></span> <small class='text-muted'>(<%= composition.slice(0, 3).join(', ')%>)</small>
                     <%if (frequency || duration || specialComments) {%>
-                    <ul><li><%= [dosage, frequency,specialComments, `X ${duration.number} ${duration.type}` ].filter(elm => elm).join(', ')%></li></ul>
+                    <ul><li><%= [dosage, frequency,specialComments ].filter(elm => elm).join(', ') + ` X ${duration.number} ${duration.type}`%></li></ul>
                     <%}%>
                   </li>
 
