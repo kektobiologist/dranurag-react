@@ -236,4 +236,37 @@ module.exports = app => {
         else res.json({});
       });
   });
+
+  // function toTitleCase(str) {
+  //   return str.replace(/\w\S*/g, function(txt) {
+  //     return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+  //   });
+  // }
+
+  // function bmi(weightKg, heightCm) {
+  //   if (!weightKg || !heightCm) return null;
+  //   weightKg = parseInt(weightKg);
+  //   heightCm = parseInt(heightCm);
+  //   ret = parseFloat(weightKg / (heightCm / 100 * (heightCm / 100))).toFixed(2);
+  //   console.log("bmi is " + ret);
+  //   return ret;
+  // }
+  // app.post('/api/addPatient', (req, res) => {
+  //   req.body.name = toTitleCase(req.body.name);
+  //   req.body.bmi = bmi(req.body.weight, req.body.height);
+  //   req.body.timestamp = Date.now();
+  //   if (req.body.age)
+  //     req.body.inferredBirthdate = moment().subtract(req.body.age, "years");
+  //   new Patient(req.body)
+  //     .save()
+  //     .then(patient => {
+  //       return Visit.addVisit(req, Patient, Visit, patient.id);
+  //     })
+  //     .then(() => {
+  //       res.redirect("/addPatient");
+  //     })
+  //     .catch(err => {
+  //       req.flash("error", err.message);
+  //     });
+  // })
 };

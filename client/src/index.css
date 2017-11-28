@@ -131,3 +131,8 @@ ol.progtrckr li.progtrckr-done:hover:before {
   padding: 20px;
   color: white;
 }
+
+/* for required form fields */
+span.asterisk {
+  color: #e32;
+}
