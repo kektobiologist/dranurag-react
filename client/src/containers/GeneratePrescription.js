@@ -13,7 +13,8 @@ import {
   reduxForm,
   formValues,
   formValueSelector,
-  change
+  change,
+  reset
 } from "redux-form";
 import { connect } from "react-redux";
 
@@ -46,7 +47,7 @@ class GeneratePrescription extends Component {
 
   render() {
     const { patient, id, latestPrescription } = this.state;
-    const { reinitializeForm } = this.props;
+    const { reinitializeForm, clearForm } = this.props;
     const steps = [
       {
         name: "Enter Drugs",
@@ -81,6 +82,13 @@ class GeneratePrescription extends Component {
           >
             Copy Previous Prescription
           </button>
+          <button
+            className="btn btn-outline-primary ml-2"
+            role="button"
+            onClick={clearForm}
+          >
+            Clear Prescription
+          </button>
         </div>
         <MultiStep showNavigation={true} steps={steps} />
       </div>
@@ -101,7 +109,8 @@ GeneratePrescription = connect(null, dispatch => ({
         )
       );
     }
-  }
+  },
+  clearForm: () => dispatch(reset(formName))
 }))(GeneratePrescription);
 
 export default GeneratePrescription;
