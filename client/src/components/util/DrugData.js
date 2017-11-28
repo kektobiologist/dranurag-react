@@ -2,27 +2,27 @@ export const fieldValues = {
     frequencies: [
         "od",
         "bd",
+        "td",
+        "qd",
         "hs",
         "sos",
-        "td",
-        "after 15 days",
         "stat",
-        "once a month",
-        "qd",
         "once a week",
-        "once in 15 days"
+        "once in 15 days",
+        "once a month",
+        "after 15 days"
     ],
     dosages: [
-        "1 tsp",
         "1/2 tab",
+        "1 tsp",
         "1 tab",
-        "2 tabs",
-        "2 tsp",
         "1 drop",
-        "2 puffs",
         "1 puff",
         "1 rotacap",
-        "1 capsule"
+        "1 capsule",
+        "2 puffs",
+        "2 tsp",
+        "2 tabs"
     ],
     durations: [
         "10 days",
@@ -45,36 +45,107 @@ export const fieldValues = {
         "6 weeks"
     ],
     specialComments: [
-        "8am",
         "empty stomach",
         "after breakfast",
-        "9pm",
-        "1/2 hour before meals",
         "after lunch",
-        "after meals",
-        "8am, 6pm",
-        "6pm",
-        "4pm",
-        "morning",
-        "locally",
-        "12pm",
-        "1/2 hour before breakfast and dinner",
-        "after breakfast and dinner",
         "after dinner",
-        "2pm",
+        "after meals",
         "with meals",
-        "7am",
-        "once a month",
-        "for headache",
-        "before meals",
+        "after breakfast and dinner",
+        "1/2 hour before breakfast and dinner",
+        "1/2 hour before meals",
         "1/2 hour before breakfast",
-        "evening",
+        "before meals",
         "before breakfast, before lunch",
-        "7pm",
-        "10pm",
+        "morning",
+        "evening",
+        "6am",
+        "7am",
+        "8am",
+        "8am, 6pm",
         "11am",
-        "6am"
+        "12pm",
+        "2pm",
+        "4pm",
+        "6pm",
+        "7pm",
+        "9pm",
+        "10pm",
+        "locally",
+        "for headache",
+        "once a month"
     ]
 };
 
-export const fieldValuesMapping = {};
+export const fieldValuesMapping = {
+    od: { english: "Once a day", hindi: "दिन में एक बार" },
+    bd: { english: "Twice a day", hindi: "दिन में दो बार" },
+    hs: { english: "Once a day", hindi: "रात को" },
+    sos: { english: "In Emergency", hindi: "मुसीबत में" },
+    td: { english: "Thrice a day", hindi: "दिन में तीन बार " },
+    "after 15 days": { english: "After 15 days", hindi: "15 दिनों के बाद" },
+    stat: { english: "Stat", hindi: "तुरंत" },
+    "once a month": { english: "Once a month", hindi: "महीने में एक बार" },
+    qd: { english: "Four times a day", hindi: "दिन में चार बार" },
+    "once a week": { english: "Once a week", hindi: "सप्ताह मेँ एक बार" },
+    "once in 15 days": {
+        english: "Once in 15 days",
+        hindi: "15 दिनों में एक बार"
+    },
+    "1 tsp": { english: "1 Tsp", hindi: "1 चम्मच" },
+    "1/2 tab": { english: "1/2 Tablet", hindi: "1/2 टैबलेट" },
+    "1 tab": { english: "1 Tablet", hindi: "1 टैबलेट" },
+    "2 tabs": { english: "2 Tablets", hindi: "2 टैबलेट" },
+    "2 tsp": { english: "2 Tsp", hindi: "2 चम्मच" },
+    "1 drop": { english: "1 Drop", hindi: "1 ड्रॉप" },
+    "2 puffs": { english: "2 Puffs", hindi: "2 पफ" },
+    "1 puff": { english: "1 Puff", hindi: "1 पफ" },
+    "1 rotacap": { english: "1 Rotacap", hindi: "1 Rotacap" },
+    "1 capsule": { english: "1 Capsule", hindi: "1 कैप्सूल" },
+    "8am": { english: "8:00 AM", hindi: "सुबह के 8:00 बजे" },
+    "empty stomach": { english: "Empty Stomach", hindi: "खाली पेट" },
+    "after breakfast": { english: "After Breakfast", hindi: "नाश्ते के बाद" },
+    "9pm": { english: "9:00 PM", hindi: "रात 9:00 बजे" },
+    "1/2 hour before meals": {
+        english: "1/2 Hour before Meals",
+        hindi: "भोजन से 1/2 घंटे पहले"
+    },
+    "after lunch": { english: "After Lunch", hindi: "लंच के बाद " },
+    "after meals": { english: "After Meals", hindi: "भोजन के बाद" },
+    "8am, 6pm": {
+        english: "8:00 AM and 6:00 PM",
+        hindi: "सुबह के 8:00 बजे, शाम के 6:00 baje"
+    },
+    "6pm": { english: "6:00 PM", hindi: "शाम 6 बजे" },
+    "4pm": { english: "4:00 PM", hindi: "शाम 4 बजे" },
+    morning: { english: "Morning", hindi: "सुबह" },
+    locally: { english: "Locally", hindi: "स्थानिक" },
+    "12pm": { english: "12:00 PM", hindi: "दोपहर 12 बजे" },
+    "1/2 hour before breakfast and dinner": {
+        english: "1/2 Hour before Breakfast and Dinner",
+        hindi: "नाश्ता और डिनर के 1/2 घंटे पहले "
+    },
+    "after breakfast and dinner": {
+        english: "After Breakfast and Dinner",
+        hindi: "नाश्ता और डिनर के बाद"
+    },
+    "after dinner": { english: "After Dinner", hindi: "डिनर के बाद" },
+    "2pm": { english: "2:00 PM", hindi: "दोपहर 2 बजे " },
+    "with meals": { english: "With Meals", hindi: "खाने के साथ" },
+    "7am": { english: "7:00 AM", hindi: "सुबह 7 बजे" },
+    "for headache": { english: "For Headache", hindi: "सिरदर्द के लिए" },
+    "before meals": { english: "", hindi: "" },
+    "1/2 hour before breakfast": {
+        english: "1/2 Hour before Breakfast",
+        hindi: "नाश्ते से 1/2 घंटे पहले"
+    },
+    evening: { english: "Evening", hindi: "शाम को" },
+    "before breakfast, before lunch": {
+        english: "Before Breakfast and Lunch",
+        hindi: "नाश्ते और लंच के पहले"
+    },
+    "7pm": { english: "7:00 PM", hindi: "शाम 7 बजे" },
+    "10pm": { english: "10:00 PM", hindi: "रात के 10 बजे" },
+    "11am": { english: "11:00 AM", hindi: "दिन के 11 बजे" },
+    "6am": { english: "6:00 AM", hindi: "सुबह 6 बजे " }
+};

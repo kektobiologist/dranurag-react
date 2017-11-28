@@ -13,18 +13,28 @@
   "license": "ISC",
   "dependencies": {
     "bootstrap": "^4.0.0-beta",
+    "dateformat": "^3.0.2",
+    "ejs": "^2.5.7",
     "express": "^4.16.2",
+    "express-pdf": "^1.2.2",
     "express-session": "^1.15.6",
+    "html-pdf": "^2.2.0",
     "moment": "^2.19.1",
     "mongoose": "^4.12.3",
     "mongoose-auto-increment": "^5.0.1",
     "passport": "^0.4.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
+    "react-pdf": "^2.4.1",
+    "react-pdf-js": "^3.0.0",
     "react-popper": "^0.7.3",
     "react-transition-group": "^2.2.1",
     "reactstrap": "^5.0.0-alpha.3",
     "request": "^2.83.0",
-    "request-promise-native": "^1.0.5"
+    "request-promise-native": "^1.0.5",
+    "string": "^3.3.3"
+  },
+  "devDependencies": {
+    "webpack": "^3.8.1"
   }
 }

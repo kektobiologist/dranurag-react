@@ -6,13 +6,17 @@ var connection = mongoose.connect("mongodb://localhost/dranurag"); // connect to
 mongoose.Promise = global.Promise;
 var autoIncrement = require("mongoose-auto-increment");
 autoIncrement.initialize(connection);
+var bodyParser = require("body-parser");
 
 var Visit = require("./server/models/visit");
 var Patient = require("./server/models/patient");
 var PicturePrescription = require("./server/models/picturePrescription");
 
 const app = express();
+app.use(express.static("server/public"));
 
+app.use(bodyParser.urlencoded());
+app.use(bodyParser.json());
 var moment = require("moment");
 
 app.set("port", process.env.PORT || 3001);

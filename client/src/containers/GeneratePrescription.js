@@ -33,7 +33,7 @@ export default class GeneratePrescription extends Component {
         name: "Enter Drugs",
         component: <DrugSearchPanel onDrugClicked={() => {}} />
       },
-      { name: "Preview", component: <PreviewPanel /> }
+      { name: "Preview", component: <PreviewPanel patientId={id} /> }
     ];
     return (
       <div>

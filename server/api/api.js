@@ -1,11 +1,42 @@
 var Visit = require("../models/visit");
 var Patient = require("../models/patient");
 var PicturePrescription = require("../models/picturePrescription");
+var Prescription = require("../models/prescription");
 
 var moment = require("moment");
 var request = require("request-promise-native");
+var fs = require("fs");
+var ejs = require("ejs");
+var dateformat = require("dateformat");
+var stringjs = require("string");
 
 module.exports = app => {
+  // for res.pdfFromHTML
+  app.use(require("express-pdf"));
+  // prescription template
+  const prescriptionTemplate = ejs.compile(
+    fs.readFileSync("server/public/prescription.ejs", "utf8")
+  );
+  // options for express-pdf
+  const pdfOptions = {
+    filename: "prescription.pdf",
+    // htmlContent: htmlString, // fill in htmlContent manually!
+    options: {
+      paperSize: {
+        format: "A4"
+      },
+
+      base: process.env.BASE_URL || "http://localhost:3001",
+      // HTTP Headers that are used for requests
+      httpHeaders: {
+        // e.g.
+        Authorization: "Bearer ACEFAD8C-4B4D-4042-AB30-6C735F5BAC8B",
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0"
+      }
+    }
+  };
+
   app.get("/api/visits", (req, res) => {
     Visit.find()
       .populate("patient")
@@ -94,4 +125,100 @@ module.exports = app => {
         res.json(docs);
       });
   });
+
+  app.use("/api/pdfFromHTMLString", function(req, res) {
+    res.pdfFromHTML({
+      filename: "generated.pdf",
+      htmlContent: "<html><body>ASDF</body></html>",
+      options: {}
+    });
+  });
+
+  var renderHTML = (prescription, patient) => {
+    return prescriptionTemplate({
+      patient: patient,
+      prescription: prescription,
+      dateformat: dateformat,
+      stringjs: stringjs
+    });
+  };
+
+  app.post("/api/previewPrescriptionPdf", (req, res) => {
+    console.log("got prescripti reequst");
+    const prescription = req.body;
+    const { patient } = prescription;
+    // preview the prescription provided
+    Patient.findOne({ _id: patient })
+      .then(doc => renderHTML({ ...prescription, date: new Date() }, doc))
+      .then(htmlString => {
+        return res.pdfFromHTML({ ...pdfOptions, htmlContent: htmlString });
+      })
+      .catch(err => console.log(err));
+  });
+
+  app.post("/api/submitPrescription", (req, res) => {
+    // patient id is already fill in
+    const prescription = req.body;
+    new Prescription({ ...prescription, date: new Date() })
+      .save()
+      .then(doc => res.json(doc))
+      .catch(err => {
+        console.log(err);
+        res.json("NOTOK");
+      });
+  });
+
+  app.get("/api/prescriptionPdf/:id", (req, res) => {
+    const { id } = req.params;
+    Prescription.findOne({ _id: id })
+      .populate("patient")
+      .exec()
+      .then(prescription => renderHTML(prescription, prescription.patient))
+      .then(htmlString =>
+        res.pdfFromHTML({ ...pdfOptions, htmlContent: htmlString })
+      )
+      .catch(err => {
+        console.log(err);
+        res.send("NOTOK");
+      });
+  });
+
+  // prescription as html
+  app.get("/api/prescription/:id", (req, res) => {
+    const { id } = req.params;
+    Prescription.findOne({ _id: id })
+      .populate("patient")
+      .exec()
+      .then(prescription => renderHTML(prescription, prescription.patient))
+      .then(htmlString => res.send(htmlString))
+      .catch(err => {
+        console.log(err);
+        res.send("NOTOK");
+      });
+  });
+  // app.get("/api/prescriptionPdf/:id", (req, res) => {
+  //   const { id } = req.params;
+  //   Prescription.findOne({ _id: id })
+  //     .then(doc => renderHTML(doc))
+  //     .then(htmlString => {
+  //       res.pdfFromHTML();
+  //     })
+  //     .catch(err => res.json(err));
+  // });
+
+  // app.post("/api/submitPrescription/:patientId", (req, res) => {
+  //   const { patientId } = req.params;
+  //   const prescription = req.body;
+  //   // just save prescription; don't return pdf yet!
+  //   new Prescription({ ...prescription, date: new Date() })
+  //     .save()
+  //     .then(doc => {
+  //       // just return document
+  //       res.json(doc);
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //       res.json("NOTOK");
+  //     });
+  // });
 };

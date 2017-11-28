@@ -109,3 +109,25 @@ ol.progtrckr li.progtrckr-done:before {
 ol.progtrckr li.progtrckr-done:hover:before {
   color: #0fa0ce;
 }
+
+/*react-pdf css*/
+.ReactPDF__Document {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.ReactPDF__Page {
+  max-width: calc(~"100% - 2em");
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+  margin: 1em;
+
+  canvas {
+    max-width: 100%;
+    height: auto !important;
+  }
+}
+
+.ReactPDF__Loader .ReactPDF__Error .ReactPDF__NoData {
+  padding: 20px;
+  color: white;
+}

@@ -1,0 +1,9 @@
+{
+  "verbose": true,
+  "ignore": ["*.test.js", "fixtures/*", "view/", "public/"],
+  "env": {
+    "SCAN_URL": "http://scan-server:8899/scan/test",
+    "PORT": 3001,
+    "MONGODB_URI": "mongodb://localhost/dranurag"
+  }
+}

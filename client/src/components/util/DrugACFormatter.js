@@ -1,5 +1,9 @@
-import { fieldValues } from "./DrugData";
+import { fieldValues, fieldValuesMapping } from "./DrugData";
 import _ from "lodash";
+import string from "string";
+import "datejs";
+import moment from "moment";
+
 var durationConverter = str => {
   var strs = str.split(" ");
   if (strs.length < 2) {
@@ -14,6 +18,7 @@ export default drugMeta => {
   var drug = {
     name: drugMeta.name,
     id: drugMeta.id,
+    composition: drugMeta.composition,
     // should have initial values of frequency, dosage etc.
     drugMeta: {
       // generate a string to act as flipmove key for this object
@@ -36,7 +41,7 @@ export default drugMeta => {
           return { val: val, count: temp.count };
         else return { val: val, count: 0 };
       }),
-      [o => -o.count, o => o.val]
+      [o => -o.count]
     );
   });
   keys.forEach(([str, key]) => {
@@ -52,10 +57,6 @@ export default drugMeta => {
     regMap.forEach(([reg, value]) => {
       if (reg.exec(drug.name)) drug["dosage"] = value;
     });
-    // var tabRegex = /tablet/i;
-    // var capsuleRegex = /capsule/i;
-    // if (tabRegex.exec(drug.name)) drug["dosage"] = "1 tab";
-    // else if (capsuleRegex.exec(drug.name)) drug["dosage"] = "1 capsule";
   }
   delete drug.duration;
   var duration = durationConverter(drug.drugMeta.durations[0].val);
@@ -65,4 +66,26 @@ export default drugMeta => {
     drug.duration = { number: "1", type: "days" };
   }
   return drug;
+};
+
+export var getReadableDrug = (drug, language) => {
+  var readableDrug = Object.assign({}, drug);
+  // this is drug item as stored in form
+  var keys = ["frequency", "dosage", "specialComments"];
+  keys.forEach(key => {
+    if (readableDrug[key]) {
+      if (fieldValuesMapping[readableDrug[key]]) {
+        readableDrug[key] = fieldValuesMapping[readableDrug[key]][language];
+      }
+    }
+  });
+  // translate special comment if it is a time
+  var time = Date.parse(readableDrug["specialComments"]);
+  if (time) readableDrug["specialComments"] = moment(time).format("h:mm A");
+  // translate duration
+  // just capitalize for now
+  readableDrug["duration"].type = string(
+    readableDrug["duration"].type
+  ).capitalize().s;
+  return readableDrug;
 };

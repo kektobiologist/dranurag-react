@@ -3,9 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@react-pdf/core": "^0.5.1",
+    "@react-pdf/dom": "^0.5.1",
+    "@react-pdf/node": "^0.5.1",
     "algoliasearch": "^3.24.6",
     "algoliasearch-helper": "^2.23.0",
     "bootstrap": "^4.0.0-beta",
+    "datejs": "^1.0.0-rc3",
     "http-proxy-middleware": "^0.17.4",
     "jquery": "^3.2.1",
     "material-ui": "^0.19.4",
@@ -30,7 +34,8 @@
     "reactstrap": "^5.0.0-alpha.3",
     "redux-form": "^7.1.2",
     "redux-logger": "^3.0.6",
-    "slick-carousel": "^1.8.1"
+    "slick-carousel": "^1.8.1",
+    "string": "^3.3.3"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -42,8 +47,8 @@
   },
   "proxy": "http://localhost:3001/",
   "devDependencies": {
-    "@storybook/react": "^3.2.13",
     "@storybook/addon-actions": "^3.2.13",
-    "@storybook/addon-links": "^3.2.13"
+    "@storybook/addon-links": "^3.2.13",
+    "@storybook/react": "^3.2.13"
   }
 }

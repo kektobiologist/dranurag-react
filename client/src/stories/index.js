@@ -22,6 +22,8 @@ import { BrowserRouter } from "react-router-dom";
 import TodoList from "../components/experiments/TodoList";
 import Search from "../components/experiments/AlgoliaSearchHelper";
 import SimpleSlider from "../components/experiments/ReactSlick";
+import Document from "../components/experiments/ReactPDF";
+
 storiesOf("Welcome", module).add("to Storybook", () => (
   <Welcome showApp={linkTo("Button")} />
 ));
@@ -69,3 +71,7 @@ storiesOf("Demos/AlgoliaSearchHelper", module).add("default", () => {
 storiesOf("Demos/ReactSlick", module).add("default", () => {
   return <SimpleSlider />;
 });
+
+// storiesOf("Demos/ReactPDF", module).add("default", () => {
+//   return <Document />;
+// });

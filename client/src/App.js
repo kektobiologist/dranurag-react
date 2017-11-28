@@ -11,14 +11,15 @@ import DrugSearch from "./containers/DrugSearch";
 import Footer from "./components/util/Footer";
 import GeneratePrescription from "./containers/GeneratePrescription";
 
-import { createStore, combineReducers } from "redux";
+import { createStore, combineReducers, applyMiddleware } from "redux";
 import { reducer as reduxFormReducer } from "redux-form";
 import { Provider } from "react-redux";
+import logger from "redux-logger";
 
 const reducer = combineReducers({
-  form: reduxFormReducer // mounted under "form"
+  form: reduxFormReducer // mounted under "form",
 });
-const store = createStore(reducer);
+const store = createStore(reducer /*, applyMiddleware(logger)*/);
 // import "./sticky-footer.css";
 class App extends Component {
   render() {
