@@ -22,7 +22,7 @@ module.exports = app => {
     path: "prescription.pdf"
   };
 
-  app.get("/api/RandomVisits", (req, res) => {
+  app.get("/api/randomVisits", (req, res) => {
     Visit.find()
       .populate("patient")
       .populate("patient.age")
@@ -274,6 +274,7 @@ module.exports = app => {
     console.log("bmi is " + ret);
     return ret;
   }
+
   app.post("/api/addPatient", (req, res) => {
     patient = req.body;
     const { height, weight, name, sex } = patient;
@@ -297,6 +298,16 @@ module.exports = app => {
       .then(visit => {
         res.json("OK");
       })
+      .catch(err => {
+        console.log(err);
+        res.json("NOTOK");
+      });
+  });
+
+  app.get("/api/addVisit/:id", (req, res) => {
+    const { id } = req.params;
+    Visit.addVisit(Patient, Visit, id)
+      .then(res.json("OK"))
       .catch(err => {
         console.log(err);
         res.json("NOTOK");
