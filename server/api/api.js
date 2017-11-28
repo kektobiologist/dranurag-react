@@ -10,6 +10,7 @@ var ejs = require("ejs");
 var dateformat = require("dateformat");
 var stringjs = require("string");
 const puppeteer = require("puppeteer");
+var _ = require("lodash");
 
 module.exports = app => {
   // prescription template
@@ -21,7 +22,7 @@ module.exports = app => {
     path: "prescription.pdf"
   };
 
-  app.get("/api/visits", (req, res) => {
+  app.get("/api/RandomVisits", (req, res) => {
     Visit.find()
       .populate("patient")
       .populate("patient.age")
@@ -41,6 +42,28 @@ module.exports = app => {
         // setTimeout(() => res.json(docs), 2000);
         res.json(docs);
       });
+  });
+
+  app.get("/api/visits", (req, res) => {
+    var d = new Date();
+    d.setHours(d.getHours() - 6);
+    Visit.find({ date: { $gte: d } })
+      .sort({ date: -1 })
+      .populate("patient")
+      .exec()
+      .then(visits => {
+        return _.uniqBy(visits, e => e.patient._id);
+      })
+      .then(visits => {
+        return visits.map(e => {
+          helpText = e.patient.getHelpText();
+          e = e.toObject();
+          e.ago = moment(e.date).fromNow();
+          e.helpText = helpText;
+          return e;
+        });
+      })
+      .then(visits => res.json(visits));
   });
 
   app.get("/api/patient/:id", (req, res) => {
@@ -237,36 +260,46 @@ module.exports = app => {
       });
   });
 
-  // function toTitleCase(str) {
-  //   return str.replace(/\w\S*/g, function(txt) {
-  //     return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-  //   });
-  // }
+  function toTitleCase(str) {
+    return str.replace(/\w\S*/g, function(txt) {
+      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
+  }
 
-  // function bmi(weightKg, heightCm) {
-  //   if (!weightKg || !heightCm) return null;
-  //   weightKg = parseInt(weightKg);
-  //   heightCm = parseInt(heightCm);
-  //   ret = parseFloat(weightKg / (heightCm / 100 * (heightCm / 100))).toFixed(2);
-  //   console.log("bmi is " + ret);
-  //   return ret;
-  // }
-  // app.post('/api/addPatient', (req, res) => {
-  //   req.body.name = toTitleCase(req.body.name);
-  //   req.body.bmi = bmi(req.body.weight, req.body.height);
-  //   req.body.timestamp = Date.now();
-  //   if (req.body.age)
-  //     req.body.inferredBirthdate = moment().subtract(req.body.age, "years");
-  //   new Patient(req.body)
-  //     .save()
-  //     .then(patient => {
-  //       return Visit.addVisit(req, Patient, Visit, patient.id);
-  //     })
-  //     .then(() => {
-  //       res.redirect("/addPatient");
-  //     })
-  //     .catch(err => {
-  //       req.flash("error", err.message);
-  //     });
-  // })
+  function bmi(weightKg, heightCm) {
+    if (!weightKg || !heightCm) return null;
+    weightKg = parseInt(weightKg);
+    heightCm = parseInt(heightCm);
+    ret = parseFloat(weightKg / (heightCm / 100 * (heightCm / 100))).toFixed(2);
+    console.log("bmi is " + ret);
+    return ret;
+  }
+  app.post("/api/addPatient", (req, res) => {
+    patient = req.body;
+    const { height, weight, name, sex } = patient;
+    patient = {
+      ...patient,
+      height: height ? Number(height) : height,
+      weight: weight ? Number(weight) : weight,
+      name: toTitleCase(name),
+      timestamp: Date.now(),
+      sex: sex ? sex : "Male"
+    };
+    patient.bmi = bmi(patient.weight, patient.height);
+    if (patient.age)
+      patient.inferredBirthdate = moment().subtract(
+        Number(patient.age),
+        "years"
+      );
+    new Patient(patient)
+      .save()
+      .then(patient => Visit.addVisit(Patient, Visit, patient.id))
+      .then(visit => {
+        res.json("OK");
+      })
+      .catch(err => {
+        console.log(err);
+        res.json("NOTOK");
+      });
+  });
 };

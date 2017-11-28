@@ -134,7 +134,7 @@ font-family: 'Hind', sans-serif;
         </div>
         <div class="row pb-2">
           <div class='col'>
-          <%=patient.name%> &#8226; <%=patient.age%> yrs &#8226; <%=patient.sex%>
+          <%=patient.name%> <%= patient.age ? '\u2022 ' +  patient.age + ' yrs' : ''%>  &#8226; <%=patient.sex%>
           </div>
         </div>
         <%if (prescription.chiefComplaints) {%>
