@@ -32,10 +32,10 @@ class GeneratePrescription extends Component {
 
   componentDidMount() {
     const { id } = this.state;
-    fetch("/api/patient/" + id)
+    fetch("/api/patient/" + id, { credentials: "include" })
       .then(res => res.json())
       .then(patient => this.setState({ patient: patient }));
-    fetch("/api/getLatestPrescriptionJSON/" + id)
+    fetch("/api/getLatestPrescriptionJSON/" + id, { credentials: "include" })
       .then(res => res.json())
       // check if empty response
       .then(

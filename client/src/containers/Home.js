@@ -8,7 +8,9 @@ class Home extends Component {
   };
 
   updateVisits() {
-    fetch("/api/visits")
+    fetch("/api/visits", {
+      credentials: "include"
+    })
       .then(res => res.json())
       .then(res => res.filter(({ patient }) => patient))
       .then(visits => this.setState({ visits }));

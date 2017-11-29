@@ -3,61 +3,11 @@ import { Row, Col } from "react-bootstrap";
 import { addPatientFormName } from "../config/config";
 import { Field, reduxForm, Form } from "redux-form";
 import { withRouter } from "react-router-dom";
-
-var FormField = ({ required, label, iconName, postAddonText, children }) => {
-  return (
-    <div className="form-group">
-      <div className="input-group">
-        <span className="input-group-addon">
-          {iconName ? <i className={`fa ${iconName} fa-fw`} /> : ""}
-        </span>
-        {children}
-        {postAddonText ? (
-          <span className="input-group-addon">{postAddonText}</span>
-        ) : (
-          ""
-        )}
-      </div>
-      <small className="text-muted form-text">
-        {label} {required ? <span className="asterisk">*</span> : ""}
-      </small>
-    </div>
-  );
-};
-
-var TextField = ({
-  input: { value, onChange },
-  placeholder,
-  required,
-  inputType,
-  ...props
-}) => (
-  <FormField {...props} required={required}>
-    <input
-      type={inputType}
-      className="form-control input-no-enter"
-      required={required}
-      value={value}
-      onChange={onChange}
-      placeholder={placeholder}
-      onKeyPress={e => {
-        if (e.key === "Enter") e.preventDefault();
-      }}
-    />
-  </FormField>
-);
-
-var SelectField = ({ input: { value, onChange }, options, ...props }) => (
-  <FormField {...props}>
-    <select value={value} onChange={onChange} className="form-control">
-      {options.map(({ value, text }, idx) => (
-        <option key={idx} value={value}>
-          {text}
-        </option>
-      ))}
-    </select>
-  </FormField>
-);
+import {
+  FormField,
+  TextField,
+  SelectField
+} from "../components/util/FormFields";
 
 class AddPatient extends Component {
   onSubmit = values => {
@@ -68,7 +18,8 @@ class AddPatient extends Component {
         Accept: "application/pdf",
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(values)
+      body: JSON.stringify(values),
+      credentials: "include"
     })
       .then(res => res.json())
       .then(history.push("/"));

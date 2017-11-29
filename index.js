@@ -7,6 +7,7 @@ mongoose.Promise = global.Promise;
 var autoIncrement = require("mongoose-auto-increment");
 autoIncrement.initialize(connection);
 var bodyParser = require("body-parser");
+var flash = require("connect-flash");
 
 var Visit = require("./server/models/visit");
 var Patient = require("./server/models/patient");
@@ -25,7 +26,25 @@ app.set("port", process.env.PORT || 3001);
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 }
+// session and passport stuff
+var session = require("express-session");
+const MongoStore = require("connect-mongo")(session);
 
+var passport = require("passport");
+require("./server/auth/passport")(passport);
+app.use(
+  session({
+    secret: "keyboard cat",
+    saveUninitialized: false,
+    resave: false,
+    store: new MongoStore({ mongooseConnection: mongoose.connection })
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash()); // use connect-flash for flash messages stored in session
+
+require("./server/api/auth")(app);
 require("./server/api/api")(app);
 
 app.listen(app.get("port"), () => {

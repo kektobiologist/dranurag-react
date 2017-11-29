@@ -42,7 +42,7 @@ class MultiSearchBox extends Component {
     // search both on algolia and medplusmart
     helper.setQuery(value).search();
     if (value.length >= 3)
-      fetch(`/api/medplusmart/drugs?q=${value}`)
+      fetch(`/api/medplusmart/drugs?q=${value}`, { credentials: "include" })
         .then(res => res.json())
         .then(res => this.setState({ medplusmartResults: res }));
     else this.setState({ medplusmartResults: { drugs: [] } });

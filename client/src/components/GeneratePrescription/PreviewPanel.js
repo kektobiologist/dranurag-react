@@ -92,7 +92,8 @@ class PreviewPanel extends React.Component {
         Accept: "application/pdf",
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(prescription)
+      body: JSON.stringify(prescription),
+      credentials: "include"
     })
       .then(res => res.arrayBuffer())
       .then(res => {
@@ -111,7 +112,8 @@ class PreviewPanel extends React.Component {
         Accept: "application/pdf",
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(prescription)
+      body: JSON.stringify(prescription),
+      credentials: "include"
     })
       .then(res => res.json())
       .then(res => {

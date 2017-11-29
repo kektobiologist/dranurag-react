@@ -19,13 +19,15 @@ export default class PatientWithLoad extends Component {
 
   componentDidMount() {
     const { id } = this.state;
-    fetch("/api/patient/" + id)
+    fetch("/api/patient/" + id, { credentials: "include" })
       .then(res => res.json())
       .then(patient => this.setState({ patient: patient }));
-    fetch(`/api/patientScannedPrescriptions/${id}`)
+    fetch(`/api/patientScannedPrescriptions/${id}`, { credentials: "include" })
       .then(res => res.json())
       .then(scannedPrescriptions => this.setState({ scannedPrescriptions }));
-    fetch(`/api/patientGeneratedPrescriptionsInfo/${id}`)
+    fetch(`/api/patientGeneratedPrescriptionsInfo/${id}`, {
+      credentials: "include"
+    })
       .then(res => res.json())
       .then(generatedPrescriptions =>
         this.setState({ generatedPrescriptions })

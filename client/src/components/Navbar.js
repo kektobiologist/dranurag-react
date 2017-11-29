@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import {
   Collapse,
   Navbar as BSNavbar,
@@ -10,8 +10,10 @@ import {
   NavLink
 } from "reactstrap";
 import { LinkContainer } from "react-router-bootstrap";
+import { connect } from "react-redux";
+import { changeLoginState } from "../actions/actions";
 
-export default class Example extends React.Component {
+class Navbar extends React.Component {
   constructor(props) {
     super(props);
 
@@ -25,13 +27,22 @@ export default class Example extends React.Component {
     this.setState({ isOpen: false });
   };
 
+  handleLogout = () => {
+    const { history, changeLoginState } = this.props;
+    fetch(`/api/logout`, { credentials: "include" })
+      .then(res => res.json())
+      // res should always be false since we are logging out
+      .then(res => changeLoginState(res))
+      .then(() => history.push("/"));
+  };
+
   toggle() {
     this.setState({
       isOpen: !this.state.isOpen
     });
   }
   render() {
-    const { routes } = this.props;
+    const { routes, loginState } = this.props;
     return (
       <div>
         <BSNavbar className="fixed-top navbar-light bg-light" expand="md">
@@ -50,14 +61,18 @@ export default class Example extends React.Component {
               ))}
             </Nav>
             <Nav className="ml-auto" navbar>
-              <NavItem>
-                <NavLink href="/components/">Components</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink href="https://github.com/reactstrap/reactstrap">
-                  Github
-                </NavLink>
-              </NavItem>
+              {loginState ? (
+                <button
+                  role="button"
+                  className="btn btn-outline-primary"
+                  href="#"
+                  onClick={this.handleLogout}
+                >
+                  Logout
+                </button>
+              ) : (
+                ""
+              )}
             </Nav>
           </Collapse>
         </BSNavbar>
@@ -65,3 +80,12 @@ export default class Example extends React.Component {
     );
   }
 }
+
+Navbar = connect(
+  ({ loginState }) => ({ loginState }),
+  dispatch => ({
+    changeLoginState: loginState => dispatch(changeLoginState(loginState))
+  })
+)(Navbar);
+Navbar = withRouter(Navbar);
+export default Navbar;

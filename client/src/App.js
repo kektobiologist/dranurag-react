@@ -1,7 +1,12 @@
 import React, { Component } from "react";
 import Navbar from "./components/Navbar";
 
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Redirect,
+  Switch
+} from "react-router-dom";
 
 import AddPatient from "./containers/AddPatient";
 import Home from "./containers/Home";
@@ -10,17 +15,42 @@ import PatientSearch from "./containers/PatientSearch";
 import DrugSearch from "./containers/DrugSearch";
 import Footer from "./components/util/Footer";
 import GeneratePrescription from "./containers/GeneratePrescription";
+import Login from "./containers/Login";
 
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import { reducer as reduxFormReducer } from "redux-form";
 import { Provider } from "react-redux";
 import logger from "redux-logger";
-
+import { loginReducer } from "./reducers/reducers";
+import { connect } from "react-redux";
+import { changeLoginState } from "./actions/actions";
 const reducer = combineReducers({
-  form: reduxFormReducer // mounted under "form",
+  form: reduxFormReducer, // mounted under "form",
+  loginState: loginReducer
 });
 const store = createStore(reducer /*, applyMiddleware(logger)*/);
-// import "./sticky-footer.css";
+
+var PrivateRoute = ({ component: Component, loginState, ...rest }) => (
+  <Route
+    {...rest}
+    render={props => {
+      console.log(loginState);
+      return loginState ? (
+        <Component {...props} />
+      ) : (
+        <Redirect
+          to={{
+            pathname: "/login",
+            state: { from: props.location }
+          }}
+        />
+      );
+    }}
+  />
+);
+
+PrivateRoute = connect(({ loginState }) => ({ loginState }))(PrivateRoute);
+
 class App extends Component {
   render() {
     var routes = [
@@ -30,15 +60,14 @@ class App extends Component {
         url: "/patientSearch",
         display: "Patient Search",
         component: PatientSearch
-      },
-      {
+      }
+      /*{
         url: "/drugSearch",
         display: "Drug Search",
         component: DrugSearch
-      },
-      { url: "/VisitSearch", display: "Visit Search" }
+      },*/
+      /*{ url: "/VisitSearch", display: "Visit Search" }*/
     ];
-    // return <div />;
     return (
       <div>
         <Provider store={store}>
@@ -46,58 +75,30 @@ class App extends Component {
             <Router>
               <div className="container">
                 <Navbar routes={routes} />
-                {routes.map(({ url, component, exact }, idx) => (
-                  <Route
-                    key={idx}
-                    path={url}
-                    component={component}
-                    exact={exact}
+                <Switch>
+                  <Route path="/login" component={Login} />
+                  {routes.map(({ url, component, exact }, idx) => (
+                    // TODO: PRIVATE ROUTE NOT WORKING WIHTOUT SWITCH  ? ? ? ?
+                    // https://stackoverflow.com/questions/43520498/react-router-private-routes-redirect-not-working
+                    <PrivateRoute
+                      key={idx}
+                      path={url}
+                      component={component}
+                      exact={exact}
+                    />
+                  ))}
+                  <PrivateRoute path="/patient/:id" component={Patient} />
+                  <PrivateRoute
+                    path="/generatePrescription/:id"
+                    component={GeneratePrescription}
                   />
-                ))}
-                <Route path="/patient/:id" component={Patient} />
-                <Route
-                  path="/generatePrescription/:id"
-                  component={GeneratePrescription}
-                />
+                </Switch>
               </div>
             </Router>
             <Footer />
           </div>
         </Provider>
       </div>
-    );
-  }
-}
-
-class Gist extends Component {
-  state = {
-    gist: null
-  };
-
-  changeGist(nextProps) {
-    fetch("https://api.github.com/gists/" + nextProps.match.params.gistId)
-      .then(res => res.json())
-      .then(res => {
-        console.log(res);
-        return res;
-      })
-      .then(gist => this.setState({ gist }));
-  }
-  componentWillReceiveProps(nextProps) {
-    this.setState({ gist: null });
-    this.changeGist(nextProps);
-  }
-
-  componentDidMount() {
-    this.changeGist(this.props);
-  }
-
-  render() {
-    const { gist } = this.state;
-    return gist ? (
-      <div>{gist.description || "[no descripoton]"}</div>
-    ) : (
-      <div>Loading..</div>
     );
   }
 }
