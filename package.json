@@ -8,7 +8,7 @@
     "server": "nodemon -e ejs,js index.js",
     "start": "node index.js",
     "client": "node start-client.js",
-    "postinstall": "cd client && npm install && npm run build"
+    "postinstall": "cd client && yarn install && npm run build"
   },
   "author": "",
   "license": "ISC",
