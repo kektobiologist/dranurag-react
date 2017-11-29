@@ -5,13 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "supervisor -e ejs,js,node index.js",
+    "start": "nodemon -e ejs,js index.js",
     "server": "nodemon",
     "client": "node start-client.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "algoliasearch": "^3.24.6",
     "bootstrap": "^4.0.0-beta",
     "dateformat": "^3.0.2",
     "ejs": "^2.5.7",

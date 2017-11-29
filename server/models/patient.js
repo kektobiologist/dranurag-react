@@ -2,6 +2,7 @@
 var mongoose = require("mongoose");
 var autoIncrement = require("mongoose-auto-increment");
 var moment = require("moment");
+var algoliaHooksWrapper = require("./util/algoliaHooksWrapper");
 
 // birthdate is inferred from age when patient is registered
 var patientSchema = mongoose.Schema({
@@ -51,6 +52,9 @@ patientSchema.pre("findOneAndUpdate", function() {
     );
   }
 });
+
+// algolia hooks
+algoliaHooksWrapper(patientSchema, "patients");
 
 patientSchema.plugin(autoIncrement.plugin, { model: "Patient", startAt: 1000 });
 

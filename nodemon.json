@@ -4,6 +4,8 @@
   "env": {
     "SCAN_URL": "http://scan-server:8899/scan/test",
     "PORT": 3001,
-    "MONGODB_URI": "mongodb://localhost/dranurag"
+    "MONGODB_URI": "mongodb://localhost/dranurag",
+    "ALGOLIA_APPID": "1T0DWJW3ZN",
+    "ALGOLIA_SERVER_APIKEY": "5e2235bd1571ebb3d5c25ed03136f3cb"
   }
 }
