@@ -152,7 +152,9 @@ module.exports = app => {
   var getPdfBufferPuppeteer = async htmlString => {
     // TODO: use a global instance instead of making one every time?
     // no-sandbox required for heroku; might need ['--no-sandbox', '--disable-setuid-sandbox'] if this doenst work
-    const browser = await puppeteer.launch({ args: ["--no-sandbox"] });
+    const browser = await puppeteer.launch({
+      args: ["--no-sandbox", "--disable-setuid-sandbox"]
+    });
     const page = await browser.newPage();
     await page.goto(`data:text/html,${htmlString}`, {
       waitUntil: "networkidle0"
