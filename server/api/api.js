@@ -39,7 +39,6 @@ module.exports = app => {
         });
       })
       .then(docs => {
-        // setTimeout(() => res.json(docs), 2000);
         res.json(docs);
       });
   });
