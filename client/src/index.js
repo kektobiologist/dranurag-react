@@ -6,6 +6,6 @@ import App from "./App";
 import registerServiceWorker, { unregister } from "./registerServiceWorker";
 
 ReactDOM.render(<App />, document.getElementById("root"));
-// try without service worker?
 // registerServiceWorker();
+// try without service worker?
 unregister();
