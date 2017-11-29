@@ -1,7 +1,9 @@
 const express = require("express");
+const path = require("path");
+
 var mongoose = require("mongoose");
 // configuration ===============================================================
-var connection = mongoose.connect("mongodb://localhost/dranurag"); // connect to our database
+var connection = mongoose.connect(process.env.MONGODB_URI); // connect to our database
 // use js promise
 mongoose.Promise = global.Promise;
 var autoIncrement = require("mongoose-auto-increment");
@@ -46,6 +48,15 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 
 require("./server/api/auth")(app);
 require("./server/api/api")(app);
+
+// after api and auth routes so that doesn't mess with them?
+if (process.env.PROD) {
+  app.use(express.static(path.join(__dirname, "client/build")));
+
+  app.get("/*", function(req, res) {
+    res.sendFile(path.join(__dirname, "client/build", "index.html"));
+  });
+}
 
 app.listen(app.get("port"), () => {
   console.log(`Find the server at: http://localhost:${app.get("port")}/`); // eslint-disable-line no-console

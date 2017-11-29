@@ -69,7 +69,7 @@ class GeneratePrescription extends Component {
               </Link>
             </PatientInfoCard>
           ) : (
-            "Loading patient..."
+            ""
           )}
         </div>
         <hr />

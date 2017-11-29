@@ -55,7 +55,7 @@ export default class PatientWithLoad extends Component {
               </Link>
             </PatientInfoCard>
           ) : (
-            "Loading patient..."
+            ""
           )}
         </div>
         <hr />

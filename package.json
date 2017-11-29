@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon -e ejs,js index.js",
-    "server": "nodemon",
-    "client": "node start-client.js"
+    "server": "nodemon -e ejs,js index.js",
+    "start": "node index.js",
+    "client": "node start-client.js",
+    "postinstall": "cd client && npm install && npm run build"
   },
   "author": "",
   "license": "ISC",
@@ -33,6 +34,7 @@
     "react-pdf": "^2.4.1",
     "react-pdf-js": "^3.0.0",
     "react-popper": "^0.7.3",
+    "react-test-app": "file:client",
     "react-transition-group": "^2.2.1",
     "reactstrap": "^5.0.0-alpha.3",
     "request": "^2.83.0",
