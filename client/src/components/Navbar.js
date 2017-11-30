@@ -62,14 +62,16 @@ class Navbar extends React.Component {
             </Nav>
             <Nav className="ml-auto" navbar>
               {loginState ? (
-                <button
-                  role="button"
-                  className="btn btn-outline-primary"
-                  href="#"
-                  onClick={this.handleLogout}
-                >
-                  Logout
-                </button>
+                <div>
+                  <button
+                    role="button"
+                    className="btn btn-outline-primary"
+                    href="#"
+                    onClick={this.handleLogout}
+                  >
+                    Logout
+                  </button>
+                </div>
               ) : (
                 ""
               )}
