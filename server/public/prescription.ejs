@@ -137,6 +137,13 @@ font-family: 'Hind', sans-serif;
           <%=patient.name%> <%= patient.age ? '\u2022 ' +  patient.age + ' yrs' : ''%>  &#8226; <%=patient.sex%>
           </div>
         </div>
+        <div class="row py-1">
+          <strong class="col-4">Diagnosis:</strong>
+          <% // preprocess diagnosis
+          var diagnosis = stringjs(prescription.diagnosis).capitalize().s
+          %>
+          <text class="col-8"><%=diagnosis%></text>
+        </div>
         <%if (prescription.chiefComplaints) {%>
         <div class="row py-1">
           <strong class="col-4">Chief Complaints</strong>
@@ -207,9 +214,9 @@ font-family: 'Hind', sans-serif;
       <div class='footerContent'>
       <div class="d-flex justify-content-between">
             <div class="mt-auto pl-4">
-              <%if (prescription.reviewAfter) {%>
+              <%if (prescription.review) {%>
               <strong>Review After: </strong>
-              <%=prescription.reviewAfter['number']+ ' ' + prescription.reviewAfter['type']%>
+              <%=prescription.reviewAfterResults ? ' Test Results are Available.' : `${prescription.review.number} ${prescription.review.type}`%>
               <%}%>
             </div>
 

@@ -25,7 +25,9 @@ var PrescriptionSchema = mongoose.Schema({
   translatedDrugs: [DrugSchema],
   language: String,
   date: Date,
-  reviewAfter: DurationSchema
+  review: DurationSchema,
+  reviewAfterResults: Boolean,
+  diagnosis: String
 });
 
 PrescriptionSchema.plugin(autoIncrement.plugin, {

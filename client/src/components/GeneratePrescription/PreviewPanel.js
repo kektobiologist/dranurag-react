@@ -12,7 +12,6 @@ import {
   formValueSelector
 } from "redux-form";
 import { withRouter } from "react-router-dom";
-
 import { getReadableDrug } from "../util/DrugACFormatter";
 import PDFWidget from "./PDFWidget";
 
@@ -65,13 +64,39 @@ const DrugsTable = ({ input: { value }, drugs }) => {
   );
 };
 
+const DiagnosisAndReview = ({ diagnosis, review, reviewAfterResults }) => {
+  return (
+    <div className="container">
+      <div className="row">
+        <div className="col">Diagnosis: </div>
+        <div className="col">{diagnosis}</div>
+      </div>
+      <div className="row">
+        <div className="col">Review After: </div>
+        <div className="col">
+          {reviewAfterResults
+            ? "After Test Results"
+            : `${review.number} ${review.type}`}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 class PreviewPanel extends React.Component {
   state = {
     data: undefined
   };
 
   getPrescription = () => {
-    const { drugs, hindiChecked, patientId } = this.props;
+    const {
+      drugs,
+      hindiChecked,
+      diagnosis,
+      review,
+      reviewAfterResults,
+      patientId
+    } = this.props;
     var translatedDrugs = drugs.map(drug =>
       getReadableDrug(drug, hindiChecked ? "hindi" : "english")
     );
@@ -80,7 +105,10 @@ class PreviewPanel extends React.Component {
       patient: patientId,
       selectedDrugs: drugs,
       translatedDrugs: translatedDrugs,
-      language: hindiChecked ? "hindi" : "english"
+      language: hindiChecked ? "hindi" : "english",
+      diagnosis: diagnosis,
+      review: review,
+      reviewAfterResults: reviewAfterResults
     };
   };
 
@@ -129,7 +157,13 @@ class PreviewPanel extends React.Component {
   };
 
   render() {
-    const { drugs, hindiChecked } = this.props;
+    const {
+      drugs,
+      hindiChecked,
+      diagnosis,
+      review,
+      reviewAfterResults
+    } = this.props;
     const { data } = this.state;
     if (!drugs) return <div />;
     return (
@@ -148,6 +182,13 @@ class PreviewPanel extends React.Component {
           </thead>
           <Field component={DrugsTable} name="hindiCheckbox" drugs={drugs} />
         </table>
+        <div className="py-3">
+          <DiagnosisAndReview
+            diagnosis={diagnosis}
+            review={review}
+            reviewAfterResults={reviewAfterResults}
+          />
+        </div>
         <div className="row justify-content-between align-items-center">
           <div className="col-auto">
             <a
@@ -191,7 +232,10 @@ PreviewPanel = reduxForm({
 // through reduxForm
 PreviewPanel = connect(state => ({
   drugs: selector(state, "selectedDrugs"),
-  hindiChecked: selector(state, "hindiCheckbox")
+  hindiChecked: selector(state, "hindiCheckbox"),
+  diagnosis: selector(state, "diagnosis"),
+  review: selector(state, "review"),
+  reviewAfterResults: selector(state, "reviewAfterResults")
 }))(PreviewPanel);
 
 export default PreviewPanel;

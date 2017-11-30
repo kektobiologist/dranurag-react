@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import MultiStep from "../components/util/react-multistep";
 import DrugSearchPanel from "../components/GeneratePrescription/DrugSearchPanel";
 import PreviewPanel from "../components/GeneratePrescription/PreviewPanel";
+import DiagnosisAndReviewPanel from "../components/GeneratePrescription/DiagnosisAndReviewPanel";
 
 import { formName } from "../config/config";
 import {
@@ -49,6 +50,10 @@ class GeneratePrescription extends Component {
     const { patient, id, latestPrescription } = this.state;
     const { reinitializeForm, clearForm } = this.props;
     const steps = [
+      {
+        name: "Diagnosis and Review",
+        component: <DiagnosisAndReviewPanel />
+      },
       {
         name: "Enter Drugs",
         component: <DrugSearchPanel />
