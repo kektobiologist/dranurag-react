@@ -50,7 +50,8 @@ require("./server/api/auth")(app);
 require("./server/api/api")(app);
 
 // after api and auth routes so that doesn't mess with them?
-if (process.env.PROD) {
+if (process.env.PROD == true) {
+  console.log("prod env");
   app.use(express.static(path.join(__dirname, "client/build")));
 
   app.get("/*", function(req, res) {

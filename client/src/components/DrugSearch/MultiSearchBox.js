@@ -9,14 +9,12 @@ import { ListGroup, ListGroupItem } from "reactstrap";
 // [...]
 import { DrugCard } from "./DrugCard";
 import ReactSearchBar from "react-search-bar";
+import { AppID, ClientKey } from "../util/AlgoliaCredentials";
 
 class MultiSearchBox extends Component {
   constructor(props) {
     super(props);
-    var client = algoliasearch(
-      "1T0DWJW3ZN",
-      "5ce22be0f0b05dd152bec330daa03a9b"
-    );
+    var client = algoliasearch(AppID, ClientKey);
     var helper = algoliasearchHelper(client, "drugs");
     this.state = {
       client: client,

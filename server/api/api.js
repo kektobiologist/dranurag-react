@@ -50,6 +50,8 @@ module.exports = app => {
       .sort({ date: -1 })
       .populate("patient")
       .exec()
+      // filter visits that have patient associated with them!
+      .then(visits => visits.filter(visit => visit.patient))
       .then(visits => {
         return _.uniqBy(visits, e => e.patient._id);
       })
@@ -300,6 +302,19 @@ module.exports = app => {
       .then(visit => {
         res.json("OK");
       })
+      .catch(err => {
+        console.log(err);
+        res.json("NOTOK");
+      });
+  });
+
+  app.get("/api/deletePatient/:id", (req, res) => {
+    // TODO: should probably also delete visits associated with this patient
+    const { id } = req.params;
+    Patient.findById(id)
+      .then(doc => doc.remove())
+      .then(res => console.log(res))
+      .then(() => res.json("OK"))
       .catch(err => {
         console.log(err);
         res.json("NOTOK");

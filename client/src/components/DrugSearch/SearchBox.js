@@ -14,6 +14,7 @@ import {
   connectStateResults,
   connectHits
 } from "react-instantsearch/connectors";
+import { AppID, ClientKey } from "../util/AlgoliaCredentials";
 
 import { ListGroup, ListGroupItem } from "reactstrap";
 // [...]
@@ -27,11 +28,7 @@ export var SearchInputBox = () => (
 
 export function SearchBox({ onDrugClicked }) {
   return (
-    <InstantSearch
-      appId="1T0DWJW3ZN"
-      apiKey="5ce22be0f0b05dd152bec330daa03a9b"
-      indexName="drugs"
-    >
+    <InstantSearch appId={AppID} apiKey={ClientKey} indexName="drugs">
       <Configure hitsPerPage={15} />
       <div>
         <SearchInputBox />

@@ -15,6 +15,7 @@ import { connectStateResults } from "react-instantsearch/connectors";
 import { ListGroup, ListGroupItem } from "reactstrap";
 // [...]
 import PatientCard from "../components/PatientSearch/PatientCard";
+import { AppID, ClientKey } from "../components/util/AlgoliaCredentials";
 
 function Search() {
   return (
@@ -48,11 +49,7 @@ const Content = connectStateResults(
 );
 
 export default () => (
-  <InstantSearch
-    appId="1T0DWJW3ZN"
-    apiKey="5ce22be0f0b05dd152bec330daa03a9b"
-    indexName="patients"
-  >
+  <InstantSearch appId={AppID} apiKey={ClientKey} indexName="patients">
     <Configure hitsPerPage={15} />
     <Search />
   </InstantSearch>

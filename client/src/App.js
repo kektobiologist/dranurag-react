@@ -34,7 +34,6 @@ var PrivateRoute = ({ component: Component, loginState, ...rest }) => (
   <Route
     {...rest}
     render={props => {
-      console.log(loginState);
       return loginState ? (
         <Component {...props} />
       ) : (

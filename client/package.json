@@ -31,6 +31,7 @@
         "react-search-bar": "^2.2.0",
         "react-sidebar": "^2.3.2",
         "react-slick": "^0.15.4",
+        "react-spinners": "^0.2.5",
         "reactstrap": "^5.0.0-alpha.3",
         "redux": "^3.7.2",
         "redux-form": "^7.1.2",
