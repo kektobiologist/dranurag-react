@@ -19,12 +19,13 @@ class Login extends Component {
     this.state = {
       gotLoggedInState: false
     };
+    const { from } = this.props.location.state || { from: { pathname: "/" } };
     fetch(`/api/checkLoggedIn`, { credentials: "include" })
       .then(res => res.json())
       .then(res => {
         changeLoginState(res);
         this.setState({ gotLoggedInState: true });
-        if (res) history.push("/");
+        if (res) history.push(from.pathname);
       });
   }
 

@@ -60,6 +60,7 @@ class App extends Component {
         display: "Patient Search",
         component: PatientSearch
       }
+      // since using switch, default urls should match to home.
       /*{
         url: "/drugSearch",
         display: "Drug Search",
@@ -90,6 +91,12 @@ class App extends Component {
                   <PrivateRoute
                     path="/generatePrescription/:id"
                     component={GeneratePrescription}
+                  />
+                  {/*redirect to home page. has to be last route so doesn't override others in switch*/}
+                  <Route
+                    path="/"
+                    exact={false}
+                    render={props => <Redirect to={{ pathname: "/" }} />}
                   />
                 </Switch>
               </div>
