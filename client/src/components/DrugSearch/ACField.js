@@ -1,3 +1,4 @@
+// DEPRECATED: using ACFieldReactAutosuggest now.
 import React from "react";
 import Autocomplete from "react-autocomplete";
 
