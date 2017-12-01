@@ -79,6 +79,8 @@ class Panel extends Component {
   }
 }
 
+// TODO: initialValues call nulls the other form values! be careful when making this form after
+// other forms are initialized.
 Panel = reduxForm({
   form: formName,
   destroyOnUnmount: false, // <------ preserve form data

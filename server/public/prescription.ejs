@@ -26,8 +26,7 @@
     <!-- Custom Fonts -->
 
 
-<link href="http://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css?family=Hind" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Hind|Noto+Sans|Noto+Serif" rel="stylesheet">
 
   
     <!-- handlebars -->
@@ -55,9 +54,13 @@ html {
   body {
     margin-top: 0;
     padding-top: 0;
-font-family: 'Hind', sans-serif;
+font-family: 'Noto', sans-serif;
+   
 
-
+  }
+  div .rx {
+    font-family: 'Noto', serif;
+    font-size: 1.5rem;
   }
   .page {
     position: relative;
@@ -133,16 +136,22 @@ font-family: 'Hind', sans-serif;
           </div>
         </div>
         <div class="row pb-2">
+          <strong class='col-8'>
+            <%=patient.name%> 
+          </strong>
           <div class='col'>
-          <%=patient.name%> <%= patient.age ? '\u2022 ' +  patient.age + ' yrs' : ''%>  &#8226; <%=patient.sex%>
+            <%= patient.age ? patient.age + ' yrs / ': ''%>  <%=patient.sex%>
           </div>
         </div>
         <div class="row py-1">
-          <strong class="col-4">Diagnosis:</strong>
-          <% // preprocess diagnosis
-          var diagnosis = stringjs(prescription.diagnosis).capitalize().s
+          <div class='col-auto pl-3'>
+            <strong>Diagnosis:</strong>
+          </div>
+          <% // Don't preprocess diagnosis, keep input capitalization eg. HVAB, CBC
+          // var diagnosis = stringjs(prescription.diagnosis).capitalize().s
+          const {diagnosis} = prescription;
           %>
-          <text class="col-8"><%=diagnosis%></text>
+          <text class="col text-left"><%=diagnosis%></text>
         </div>
         <%if (prescription.chiefComplaints) {%>
         <div class="row py-1">
@@ -192,9 +201,11 @@ font-family: 'Hind', sans-serif;
           <%if (translatedDrugs.length) {%>
             <div class="card p-0">
               <div class="card-block">
-                <strong class="card-title">Medical Advice</strong>
-                <ul class="pl-3 pt-3">
-                  <%translatedDrugs.forEach(elm => {%>
+                <strong class="card-title">Treatment Advice</strong>
+                <div class="rx"> &#8478;</div>
+                <ol class="pl-3">
+                  <%//reverse order of drugs here%>
+                  <%translatedDrugs.slice(0).reverse().forEach(elm => {%>
                   <%const {name, composition, frequency, duration, specialComments, dosage} = elm%>
                   <li><span><%=name%></span> <small class='text-muted'>(<%= composition.slice(0, 3).join(', ')%>)</small>
                     <%if (frequency || duration || specialComments) {%>

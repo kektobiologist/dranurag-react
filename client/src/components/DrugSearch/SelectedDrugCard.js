@@ -7,6 +7,7 @@ import { Field, formValues } from "redux-form";
 import _ from "lodash";
 import moment from "moment";
 import ACField from "./ACField";
+import ACFieldReactAutosuggest from "./ACFieldReactAutosuggest";
 
 class SelectedDrugCard extends React.Component {
   state = {
@@ -65,7 +66,7 @@ class SelectedDrugCard extends React.Component {
               list={drugMeta[key]}
               label={label}
               name={`${drug}.${name}`}
-              component={ACField}
+              component={ACFieldReactAutosuggest}
             />
           </div>
         ))}

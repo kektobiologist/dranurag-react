@@ -113,7 +113,7 @@ export default class MultiStep extends Component {
           className="d-flex justify-content-around align-items-center"
           style={{ textAlign: "center" }}
         >
-          <div>
+          <div style={this.props.showNavigation ? {} : this.hidden}>
             <button
               className=" btn btn-outline-secondary"
               disabled={this.state.showPreviousBtn ? false : true}
@@ -123,7 +123,7 @@ export default class MultiStep extends Component {
             </button>
           </div>
           <ol className="progtrckr align-center px-2">{this.renderSteps()}</ol>
-          <div>
+          <div style={this.props.showNavigation ? {} : this.hidden}>
             <button
               className="btn btn-outline-secondary"
               onClick={this.next}

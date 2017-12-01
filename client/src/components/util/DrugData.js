@@ -81,7 +81,7 @@ export const fieldValuesMapping = {
     od: { english: "Once a day", hindi: "दिन में एक बार" },
     bd: { english: "Twice a day", hindi: "दिन में दो बार" },
     hs: { english: "Once a day", hindi: "रात को" },
-    sos: { english: "In Emergency", hindi: "मुसीबत में" },
+    sos: { english: "In Emergency", hindi: "ज़रूरत पड़ने पर" },
     td: { english: "Thrice a day", hindi: "दिन में तीन बार" },
     "after 15 days": { english: "After 15 days", hindi: "15 दिनों के बाद" },
     stat: { english: "Stat", hindi: "तुरंत" },

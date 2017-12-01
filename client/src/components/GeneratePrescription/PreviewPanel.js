@@ -68,11 +68,11 @@ const DiagnosisAndReview = ({ diagnosis, review, reviewAfterResults }) => {
   return (
     <div className="container">
       <div className="row">
-        <div className="col">Diagnosis: </div>
+        <strong className="col-2">Diagnosis: </strong>
         <div className="col">{diagnosis}</div>
       </div>
       <div className="row">
-        <div className="col">Review After: </div>
+        <strong className="col-2">Review After: </strong>
         <div className="col">
           {reviewAfterResults
             ? "After Test Results"
