@@ -150,18 +150,25 @@ module.exports = app => {
       stringjs: stringjs
     });
   };
+  const { performance } = require("perf_hooks");
 
   var getPdfBufferPuppeteer = async htmlString => {
     // TODO: use a global instance instead of making one every time?
     // no-sandbox required for heroku; might need ['--no-sandbox', '--disable-setuid-sandbox'] if this doenst work
+    performance.mark("Start");
     const browser = await puppeteer.launch({
       args: ["--no-sandbox", "--disable-setuid-sandbox"]
     });
+    performance.mark("Browser Opened");
+    performance.measure("Browser time", "Start", "Browser Opened");
     const page = await browser.newPage();
+    performance.mark("Page Opened");
+    performance.measure("Page open time", "Browser Opened", "Page Opened");
     await page.goto(`data:text/html,${htmlString}`, {
       waitUntil: "networkidle0"
     });
-
+    performance.mark("Page Rendered");
+    performance.measure("Page rendering", "Page Opened", "Page Rendered");
     await page.emulateMedia("screen");
     var pdfPromise = await page.pdf({
       format: "A4",
@@ -174,6 +181,11 @@ module.exports = app => {
       pageRanges: "1"
     });
 
+    performance.mark("PDF Rendered");
+    performance.measure("PDF Rendering", "Page Rendered", "PDF Rendered");
+    performance.clearMarks();
+    console.log(performance.getEntries());
+    performance.clearMeasures();
     await browser.close();
     return pdfPromise;
   };
@@ -329,5 +341,18 @@ module.exports = app => {
         console.log(err);
         res.json("NOTOK");
       });
+  });
+
+  app.post("/api/addPicturePrescription", function(req, res) {
+    console.log("got an add picture request");
+    new PicturePrescription({
+      patient: parseInt(req.body.id),
+      url: req.body.url,
+      timestamp: moment.now(),
+      title: moment().format("MMMM Do, YYYY")
+    })
+      .save()
+      .then(() => res.json("OK"))
+      .catch(e => res.json("NOTOK"));
   });
 };

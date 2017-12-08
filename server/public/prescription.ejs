@@ -136,11 +136,11 @@ font-family: 'Noto', sans-serif;
           </div>
         </div>
         <div class="row pb-2">
-          <strong class='col-8'>
+          <strong class='col-auto pl-3'>
             <%=patient.name%> 
           </strong>
           <div class='col'>
-            <%= patient.age ? patient.age + ' yrs / ': ''%>  <%=patient.sex%>
+            ( <%= patient.age ? patient.age + ' yrs / ': ''%>  <%=patient.sex%> )
           </div>
         </div>
         <div class="row py-1">

@@ -9,6 +9,7 @@
         "algoliasearch": "^3.24.6",
         "algoliasearch-helper": "^2.23.0",
         "bootstrap": "^4.0.0-beta",
+        "cloudinary": "^1.9.1",
         "datejs": "^1.0.0-rc3",
         "http-proxy-middleware": "^0.17.4",
         "jquery": "^3.2.1",

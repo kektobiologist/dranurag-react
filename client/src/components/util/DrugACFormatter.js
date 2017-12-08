@@ -63,7 +63,7 @@ export default drugMeta => {
   if (drug.drugMeta.durations[0].count && duration) {
     drug.duration = duration;
   } else {
-    drug.duration = { number: "1", type: "days" };
+    drug.duration = { number: "10", type: "days" };
   }
   return drug;
 };

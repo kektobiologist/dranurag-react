@@ -12,6 +12,7 @@ import {
 import PatientInfoCard from "../components/Patient/PatientInfoCard";
 import ScannedPatientPrescriptionsCard from "../components/Patient/ScannedPatientPrescriptionsCard";
 import GeneratedPatientPrescriptionsCard from "../components/Patient/GeneratedPatientPrescriptionsCard";
+import ScanPrescriptionCard from "../components/Patient/ScanPrescriptionCard";
 import { Link, withRouter } from "react-router-dom";
 
 const DeletePatientModal = ({ toggle, show, onDeleteClicked, patientId }) => (
@@ -120,6 +121,7 @@ class PatientWithLoad extends Component {
           )}
         </div>
         <hr />
+        <ScanPrescriptionCard patientId={id} />
         <div>
           {scannedPrescriptions ? (
             <ScannedPatientPrescriptionsCard
