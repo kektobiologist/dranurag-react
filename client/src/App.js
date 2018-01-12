@@ -16,6 +16,7 @@ import DrugSearch from "./containers/DrugSearch";
 import Footer from "./components/util/Footer";
 import GeneratePrescription from "./containers/GeneratePrescription";
 import Login from "./containers/Login";
+import ViewVisits from "./containers/ViewVisits";
 
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import { reducer as reduxFormReducer } from "redux-form";
@@ -59,6 +60,11 @@ class App extends Component {
         url: "/patientSearch",
         display: "Patient Search",
         component: PatientSearch
+      },
+      {
+        url: "/viewVisits",
+        display: "View Visits",
+        component: ViewVisits
       }
       // since using switch, default urls should match to home.
       /*{

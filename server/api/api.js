@@ -355,4 +355,39 @@ module.exports = app => {
       .then(() => res.json("OK"))
       .catch(e => res.json("NOTOK"));
   });
+
+  // visit search by date
+  app.post("/api/visitSearch", (req, res) => {
+    day = new Date(req.body.visitDate);
+    nextDay = moment(day)
+      .add(1, "days")
+      .toDate();
+    Visit.find({
+      date: {
+        $gte: day,
+        $lt: nextDay
+      }
+    })
+      .sort({ date: -1 })
+      .populate("patient")
+      .then(visits => {
+        return _.uniqBy(visits, e => e.patient._id);
+      })
+      .then(visits => {
+        return visits.map(e => {
+          helpText = e.patient.getHelpText();
+          e = e.toObject();
+          e.ago = moment(e.date).fromNow();
+          e.helpText = helpText;
+          return e;
+        });
+      })
+      .then(visits => {
+        res.json(visits);
+      })
+      .catch(err => {
+        console.log(err);
+        res.json([]);
+      });
+  });
 };
