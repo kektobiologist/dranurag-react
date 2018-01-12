@@ -48,10 +48,10 @@ class ViewVisits extends Component {
               isOutsideRange={day => !isInclusivelyBeforeDay(day, moment())}
               showDefaultInputIcon={true}
             />
-            <Spinner loading={loading} size={10} />
           </div>
         </div>
         <hr />
+        <Spinner loading={loading} size={10} />
         <ListGroup>
           {visits
             ? visits.map((visit, idx) => (
