@@ -15,7 +15,7 @@ import { Container } from "reactstrap";
 import { defaultPrescriptions, defaultPatient, defaultVisits } from "./data";
 
 import PatientInfoCard from "../components/Patient/PatientInfoCard";
-import PatientPrescriptionsCard from "../components/Patient/PatientPrescriptionsCard";
+// import PatientPrescriptionsCard from "../components/Patient/PatientPrescriptionsCard";
 import FlipMoveDemo from "../components/experiments/FlipMoveDemo";
 import VisitCard from "../components/Home/VisitCard";
 import { BrowserRouter } from "react-router-dom";
@@ -23,7 +23,7 @@ import TodoList from "../components/experiments/TodoList";
 import Search from "../components/experiments/AlgoliaSearchHelper";
 import SimpleSlider from "../components/experiments/ReactSlick";
 import Document from "../components/experiments/ReactPDF";
-
+import Editable from "../components/experiments/ContentEditable";
 storiesOf("Welcome", module).add("to Storybook", () => (
   <Welcome showApp={linkTo("Button")} />
 ));
@@ -42,11 +42,11 @@ storiesOf("Patient/PatientInfoCard", module)
     return <PatientInfoCard patient={defaultPatient} />;
   });
 
-storiesOf("Patient/PatientPrescriptionsCard", module)
-  .addDecorator(story => <Container>{story()}</Container>)
-  .add("default", () => {
-    return <PatientPrescriptionsCard prescriptions={defaultPrescriptions} />;
-  });
+// storiesOf("Patient/PatientPrescriptionsCard", module)
+//   .addDecorator(story => <Container>{story()}</Container>)
+//   .add("default", () => {
+//     return <PatientPrescriptionsCard prescriptions={defaultPrescriptions} />;
+//   });
 
 storiesOf("Demos/FlipMoveDemo", module).add("default", () => {
   return <FlipMoveDemo visits={defaultVisits.slice(0, 10)} />;
@@ -72,6 +72,9 @@ storiesOf("Demos/ReactSlick", module).add("default", () => {
   return <SimpleSlider />;
 });
 
+storiesOf("Demos/ContentEditable", module).add("default", () => {
+  return <Editable />;
+});
 // storiesOf("Demos/ReactPDF", module).add("default", () => {
 //   return <Document />;
 // });

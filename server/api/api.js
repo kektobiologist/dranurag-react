@@ -11,6 +11,8 @@ var dateformat = require("dateformat");
 var stringjs = require("string");
 const puppeteer = require("puppeteer");
 var _ = require("lodash");
+const restify = require("express-restify-mongoose");
+const express = require("express");
 
 module.exports = app => {
   // prescription template
@@ -390,4 +392,12 @@ module.exports = app => {
         res.json([]);
       });
   });
+
+  const router = express.Router();
+  // REST endpoints for editing patient
+  restify.serve(router, Patient, {
+    findOneAndUpdate: false,
+    findOneAndRemove: false
+  });
+  app.use(router);
 };

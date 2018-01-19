@@ -18,7 +18,7 @@ class ViewVisits extends Component {
     super(props);
   }
   onDateChange = date => {
-    this.setState({ date, loading: true });
+    this.setState({ date, loading: true, visits: undefined });
     fetch("/api/visitSearch", {
       method: "POST",
       headers: {

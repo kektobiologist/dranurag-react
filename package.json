@@ -21,6 +21,7 @@
     "dateformat": "^3.0.2",
     "ejs": "^2.5.7",
     "express": "^4.16.2",
+    "express-restify-mongoose": "^4.3.0",
     "express-session": "^1.15.6",
     "lodash": "^4.17.4",
     "moment": "^2.19.1",

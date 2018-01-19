@@ -210,3 +210,20 @@ span.asterisk {
   font-size: 12px;
   color: #777;
 }
+
+/* for custom x-editable*/
+.editable-container a,
+.editable-container a:hover,
+.editable-container h1,
+.editable-container h2,
+.editable-container h3,
+.editable-container h4,
+.editable-container h5,
+.editable-container h6,
+.editable-container div,
+.editable-container span {
+  text-decoration: none;
+  border-bottom: 1px dashed #08c;
+  cursor: pointer;
+  color: #323133;
+}

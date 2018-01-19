@@ -1,6 +1,7 @@
 import React from "react";
 import { Row, Col } from "reactstrap";
 import HelpText from "../util/HelpText";
+import Editable from "../util/popover-editable/Editable";
 
 var AttrRow = ({ keyName, val, units }) => {
   return (
@@ -26,7 +27,12 @@ export default ({ patient, children }) => {
         className="d-flex flex-column justify-content-between"
       >
         <div>
-          <h1 className="display-3">{patient.name}</h1>
+          <Editable
+            initialValue={patient.name}
+            fieldName="name"
+            display={value => <h1 className="display-3">{value}</h1>}
+            endpoint={`/api/v1/Patient/${patient._id}`}
+          />
           <HelpText patient={patient} />
           <div>ID: {patient._id}</div>
         </div>
