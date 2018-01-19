@@ -10,12 +10,16 @@ export var FormField = ({
   return (
     <div className="form-group">
       <div className="input-group">
-        <span className="input-group-addon">
-          {iconName ? <i className={`fa ${iconName} fa-fw`} /> : ""}
-        </span>
+        <div className="input-group-prepend">
+          <span className="input-group-text">
+            {iconName ? <i className={`fa ${iconName} fa-fw`} /> : ""}
+          </span>
+        </div>
         {children}
         {postAddonText ? (
-          <span className="input-group-addon">{postAddonText}</span>
+          <div className="input-group-append">
+            <span className="input-group-text">{postAddonText}</span>
+          </div>
         ) : (
           ""
         )}
