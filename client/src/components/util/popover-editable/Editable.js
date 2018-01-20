@@ -60,28 +60,50 @@ class Editable extends Component {
 
   render() {
     const { popoverOpen, value, editingValue, spinnerVisible } = this.state;
-    const { fieldName, display } = this.props;
+    const {
+      fieldName,
+      title = `Edit ${fieldName}`,
+      display,
+      selectValues,
+      inputType = "text"
+    } = this.props;
     return (
-      <div id={fieldName} className="editable-container">
+      <span id={fieldName} className="editable-container">
         <a href="#" onClick={this.toggle}>
           {display(value)}
         </a>
         <Popover
           isOpen={popoverOpen}
-          title={`Edit ${fieldName}`}
+          title={title}
           onAccept={this.onAccept}
           target={fieldName}
           toggle={this.toggle}
           spinnerVisible={spinnerVisible}
         >
-          <input
-            type="text"
-            value={editingValue}
-            onChange={this.handleChange}
-            className="form-control"
-          />
+          {" "}
+          {inputType == "text" ? (
+            <input
+              type="text"
+              value={editingValue}
+              onChange={this.handleChange}
+              className="form-control"
+            />
+          ) : (
+            // default to select
+            <select
+              value={editingValue}
+              onChange={this.handleChange}
+              className="form-control"
+            >
+              {selectValues.map(val => (
+                <option value={val} key={val}>
+                  {val}
+                </option>
+              ))}
+            </select>
+          )}
         </Popover>
-      </div>
+      </span>
     );
   }
 }

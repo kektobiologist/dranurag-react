@@ -5,21 +5,31 @@ var moment = require("moment");
 var algoliaHooksWrapper = require("./util/algoliaHooksWrapper");
 
 // birthdate is inferred from age when patient is registered
-var patientSchema = mongoose.Schema({
-  name: {
-    type: String,
-    required: true
+var patientSchema = mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true
+    },
+    inferredBirthdate: Date,
+    sex: String,
+    phone1: String,
+    phone2: String,
+    height: Number,
+    weight: Number,
+    bmi: Number,
+    allergies: String,
+    timestamp: Number
   },
-  inferredBirthdate: Date,
-  sex: String,
-  phone1: String,
-  phone2: String,
-  height: Number,
-  weight: Number,
-  bmi: Number,
-  allergies: String,
-  timestamp: Number
-});
+  {
+    toObject: {
+      virtuals: true
+    },
+    toJSON: {
+      virtuals: true
+    }
+  }
+);
 
 patientSchema.methods.getHelpText = function() {
   helpText = this.sex == "Male" ? "M" : "F";
@@ -32,15 +42,20 @@ patientSchema.methods.getHelpText = function() {
   return helpText;
 };
 
-patientSchema.virtual("age").get(function() {
-  return moment(new Date()).diff(this.inferredBirthdate, "years");
-});
-
-patientSchema.virtual("age").set(age => {
-  this.inferredBirthdate = moment()
-    .subtract(age, "years")
-    .toDate();
-});
+patientSchema
+  .virtual("age")
+  .get(function() {
+    return moment(new Date()).diff(this.inferredBirthdate, "years");
+  })
+  // using '=>' style functions changed 'this' var?
+  .set(function(age) {
+    this.set(
+      "inferredBirthdate",
+      moment()
+        .subtract(age, "years")
+        .toDate()
+    );
+  });
 
 // add pre for findOneAndUpdate just to see if it fixes the age issue
 // this is assuming the express-restify-mongoose uses findOneAndUpdate for PATCH

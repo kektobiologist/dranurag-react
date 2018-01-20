@@ -30,10 +30,11 @@ export default ({ patient, children }) => {
           <Editable
             initialValue={patient.name}
             fieldName="name"
+            title="Edit Name"
             display={value => <h1 className="display-3">{value}</h1>}
             endpoint={`/api/v1/Patient/${patient._id}`}
           />
-          <HelpText patient={patient} />
+          <HelpText patient={patient} editable={true} />
           <div>ID: {patient._id}</div>
         </div>
         <div>{children}</div>

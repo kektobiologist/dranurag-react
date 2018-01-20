@@ -397,7 +397,8 @@ module.exports = app => {
   // REST endpoints for editing patient
   restify.serve(router, Patient, {
     findOneAndUpdate: false,
-    findOneAndRemove: false
+    findOneAndRemove: false,
+    lean: false
   });
   app.use(router);
 };
