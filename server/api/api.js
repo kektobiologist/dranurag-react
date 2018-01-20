@@ -372,6 +372,8 @@ module.exports = app => {
     })
       .sort({ date: -1 })
       .populate("patient")
+      // filter visits that have patient associated with them!
+      .then(visits => visits.filter(visit => visit.patient))
       .then(visits => {
         return _.uniqBy(visits, e => e.patient._id);
       })
