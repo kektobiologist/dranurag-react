@@ -1,14 +1,5 @@
 import React, { Component } from "react";
-import {
-  Row,
-  Col,
-  Grid,
-  Modal,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  Button
-} from "reactstrap";
+import { Row, Col, Grid, Button } from "reactstrap";
 import PatientInfoCard from "../components/Patient/PatientInfoCard";
 import ScanPrescriptionCard from "../components/Patient/ScanPrescriptionCard";
 import AddInvoiceCard from "../components/Patient/AddInvoiceCard";
@@ -22,23 +13,7 @@ import {
   fetchPatientData,
   refreshPatientScannedPrescriptions
 } from "../actions/actions";
-
-const DeletePatientModal = ({ toggle, show, onDeleteClicked, patientId }) => (
-  <Modal isOpen={show} toggle={toggle}>
-    <ModalHeader toggle={toggle}>Delete Patient</ModalHeader>
-    <ModalBody>
-      Are you sure you want to delete patient #{patientId} ?
-    </ModalBody>
-    <ModalFooter>
-      <Button color="danger" onClick={onDeleteClicked}>
-        Delete
-      </Button>{" "}
-      <Button color="secondary" onClick={toggle}>
-        Cancel
-      </Button>
-    </ModalFooter>
-  </Modal>
-);
+import DeletionModal from "../components/util/DeletionModal";
 
 class PatientWithLoad extends Component {
   constructor(props) {
@@ -79,11 +54,12 @@ class PatientWithLoad extends Component {
     } = this.props;
     return (
       <div>
-        <DeletePatientModal
+        <DeletionModal
           show={showDeleteModal}
           toggle={this.toggleDeleteModal}
           onDeleteClicked={this.onDeletePatient}
-          patientId={id}
+          title="Delete Patient"
+          body={`Are you sure you want to delete patient #${id} ?`}
         />
         <div>
           {patient ? (

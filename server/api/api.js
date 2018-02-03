@@ -480,6 +480,13 @@ module.exports = app => {
       });
   });
 
+  app.get("/api/deleteInvoice/:id", (req, res) => {
+    const { id } = req.params;
+    Invoice.findByIdAndRemove(id)
+      .exec()
+      .then(() => res.json("OK"));
+  });
+
   app.get("/api/getPatientInvoices/:id", (req, res) => {
     const { id } = req.params;
     // don't populate patient
