@@ -10,10 +10,17 @@ import {
   Button
 } from "reactstrap";
 import PatientInfoCard from "../components/Patient/PatientInfoCard";
-import ScannedPatientPrescriptionsCard from "../components/Patient/ScannedPatientPrescriptionsCard";
-import GeneratedPatientPrescriptionsCard from "../components/Patient/GeneratedPatientPrescriptionsCard";
 import ScanPrescriptionCard from "../components/Patient/ScanPrescriptionCard";
+import {
+  GeneratedPrescriptionsBox,
+  ScannedPrescriptionsBox
+} from "../components/Patient/PatientPrescriptionsBoxes";
 import { Link, withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import {
+  fetchPatientData,
+  refreshPatientScannedPrescriptions
+} from "../actions/actions";
 
 const DeletePatientModal = ({ toggle, show, onDeleteClicked, patientId }) => (
   <Modal isOpen={show} toggle={toggle}>
@@ -35,37 +42,19 @@ const DeletePatientModal = ({ toggle, show, onDeleteClicked, patientId }) => (
 class PatientWithLoad extends Component {
   constructor(props) {
     super(props);
-    const { match } = props;
+    const { match, fetchPatient } = props;
     // console.log(match);
     this.state = {
-      patient: null,
-      scannedPrescriptions: null,
-      generatedPrescriptions: null,
       id: match.params.id,
       showDeleteModal: false
     };
+
+    fetchPatient(this.state.id);
   }
 
   toggleDeleteModal = () => {
     this.setState({ showDeleteModal: !this.state.showDeleteModal });
   };
-
-  componentDidMount() {
-    const { id } = this.state;
-    fetch("/api/patient/" + id, { credentials: "include" })
-      .then(res => res.json())
-      .then(patient => this.setState({ patient: patient }));
-    fetch(`/api/patientScannedPrescriptions/${id}`, { credentials: "include" })
-      .then(res => res.json())
-      .then(scannedPrescriptions => this.setState({ scannedPrescriptions }));
-    fetch(`/api/patientGeneratedPrescriptionsInfo/${id}`, {
-      credentials: "include"
-    })
-      .then(res => res.json())
-      .then(generatedPrescriptions =>
-        this.setState({ generatedPrescriptions })
-      );
-  }
 
   onDeletePatient = () => {
     const { id } = this.state;
@@ -75,14 +64,18 @@ class PatientWithLoad extends Component {
       .then(() => history.push("/"));
   };
 
+  onScanUploaded = () => {
+    const { refreshScannedPrescriptions } = this.props;
+    refreshScannedPrescriptions();
+  };
+
   render() {
+    const { id, showDeleteModal } = this.state;
     const {
       patient,
       scannedPrescriptions,
-      generatedPrescriptions,
-      id,
-      showDeleteModal
-    } = this.state;
+      generatedPrescriptions
+    } = this.props;
     return (
       <div>
         <DeletePatientModal
@@ -121,21 +114,20 @@ class PatientWithLoad extends Component {
           )}
         </div>
         <hr />
-        <ScanPrescriptionCard patientId={id} />
+        <ScanPrescriptionCard
+          patientId={id}
+          onScanUploaded={this.onScanUploaded}
+        />
         <div>
           {scannedPrescriptions ? (
-            <ScannedPatientPrescriptionsCard
-              prescriptions={scannedPrescriptions}
-            />
+            <ScannedPrescriptionsBox prescriptions={scannedPrescriptions} />
           ) : (
             "Loading scanned prescriptions..."
           )}
         </div>
         <div>
           {generatedPrescriptions ? (
-            <GeneratedPatientPrescriptionsCard
-              prescriptionInfos={generatedPrescriptions}
-            />
+            <GeneratedPrescriptionsBox prescriptions={generatedPrescriptions} />
           ) : (
             "Loading gererated prescriptions..."
           )}
@@ -146,5 +138,16 @@ class PatientWithLoad extends Component {
 }
 
 PatientWithLoad = withRouter(PatientWithLoad);
-
+PatientWithLoad = connect(
+  state => {
+    var patientData = state.patientData;
+    delete patientData.id; // don't want to overwrite id passed to PatientWithLoad
+    return patientData;
+  },
+  dispatch => ({
+    fetchPatient: id => dispatch(fetchPatientData(id)),
+    refreshScannedPrescriptions: () =>
+      dispatch(refreshPatientScannedPrescriptions())
+  })
+)(PatientWithLoad);
 export default PatientWithLoad;

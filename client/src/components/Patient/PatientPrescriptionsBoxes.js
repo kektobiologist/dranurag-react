@@ -1,9 +1,8 @@
-import React from "react";
+import React, { Component } from "react";
 
 import { ListGroup, ListGroupItem } from "reactstrap";
 import moment from "moment";
-
-var ScannedPrescriptionCard = ({ idx, prescription }) => {
+var PrescriptionCard = ({ idx, prescription }) => {
   const { url, timestamp, title } = prescription;
   return (
     <div>
@@ -18,18 +17,15 @@ var ScannedPrescriptionCard = ({ idx, prescription }) => {
   );
 };
 
-export default ({ prescriptions }) => {
+var PrescriptionsBox = ({ prescriptions, title }) => {
   return (
     <div>
-      <h2 className="py-2">Scanned Prescriptions</h2>
+      <h2 className="py-2">{title}</h2>
       <ListGroup>
         {prescriptions.map((prescription, idx) => {
           return (
             <ListGroupItem key={idx}>
-              <ScannedPrescriptionCard
-                idx={idx + 1}
-                prescription={prescription}
-              />
+              <PrescriptionCard idx={idx + 1} prescription={prescription} />
             </ListGroupItem>
           );
         })}
@@ -37,3 +33,11 @@ export default ({ prescriptions }) => {
     </div>
   );
 };
+
+// right now both generated and scanned prescriptions look the same so same display
+export var GeneratedPrescriptionsBox = props => (
+  <PrescriptionsBox {...props} title="Generated Prescriptions" />
+);
+export var ScannedPrescriptionsBox = props => (
+  <PrescriptionsBox {...props} title="Scanned Prescriptions" />
+);

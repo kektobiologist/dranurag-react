@@ -23,11 +23,14 @@ class MultiSearchBox extends Component {
       algoliaResults: { hits: [] },
       medplusmartResults: { drugs: [] }
     };
-    helper.on("result", content => this.setState({ algoliaResults: content }));
   }
 
   componentDidMount() {
     this.handleSearch("");
+    // should only add this callback after mounting is done, else setState might be called before mounting
+    this.state.helper.on("result", content =>
+      this.setState({ algoliaResults: content })
+    );
   }
 
   handleChange = e => {

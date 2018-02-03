@@ -6,7 +6,7 @@ import MultiStep from "../components/util/react-multistep";
 import DrugSearchPanel from "../components/GeneratePrescription/DrugSearchPanel";
 import PreviewPanel from "../components/GeneratePrescription/PreviewPanel";
 import DiagnosisAndReviewPanel from "../components/GeneratePrescription/DiagnosisAndReviewPanel";
-
+import { fetchPatientData } from "../actions/actions";
 import { formName } from "../config/config";
 import {
   Field,
@@ -22,33 +22,22 @@ import { connect } from "react-redux";
 class GeneratePrescription extends Component {
   constructor(props) {
     super(props);
-    const { match } = props;
+    const { match, fetchPatient } = props;
     // console.log(match);
     this.state = {
-      patient: null,
-      latestPrescription: null,
       id: match.params.id
     };
-  }
-
-  componentDidMount() {
-    const { id } = this.state;
-    fetch("/api/patient/" + id, { credentials: "include" })
-      .then(res => res.json())
-      .then(patient => this.setState({ patient: patient }));
-    fetch("/api/getLatestPrescriptionJSON/" + id, { credentials: "include" })
-      .then(res => res.json())
-      // check if empty response
-      .then(
-        latestPrescription =>
-          latestPrescription._id ? this.setState({ latestPrescription }) : ""
-      );
-    return;
+    fetchPatient(this.state.id);
   }
 
   render() {
-    const { patient, id, latestPrescription } = this.state;
-    const { reinitializeForm, clearForm } = this.props;
+    const { id } = this.state;
+    const {
+      reinitializeForm,
+      clearForm,
+      patient,
+      latestPrescription
+    } = this.props;
     const steps = [
       {
         name: "Diagnosis and Review",
@@ -117,5 +106,16 @@ GeneratePrescription = connect(null, dispatch => ({
   },
   clearForm: () => dispatch(reset(formName))
 }))(GeneratePrescription);
+
+// nested connect?
+GeneratePrescription = connect(
+  state => ({
+    patient: state.patientData.patient,
+    latestPrescription: state.patientData.latestPrescription
+  }),
+  dispatch => ({
+    fetchPatient: id => dispatch(fetchPatientData(id))
+  })
+)(GeneratePrescription);
 
 export default GeneratePrescription;

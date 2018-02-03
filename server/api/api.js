@@ -69,14 +69,73 @@ module.exports = app => {
       .then(visits => res.json(visits));
   });
 
+  var getPatientPromise = id => Patient.findOne({ _id: parseInt(id) }).exec();
+
+  var getScannedPrescriptionsPromise = id =>
+    PicturePrescription.find({ patient: parseInt(id) })
+      .sort({ timestamp: -1 })
+      .exec();
+
+  var getGeneratedPrescriptionsPromise = id =>
+    Prescription.find({ patient: id })
+      .sort({ date: -1 })
+      .exec()
+      .then(docs =>
+        docs.map(doc => ({
+          timestamp: doc.date,
+          url: `/api/prescriptionPdf/${doc._id}`,
+          title: moment(doc.date).format("MMMM Do, YYYY")
+        }))
+      );
+
+  var getLatestPrescriptionPromise = id =>
+    Prescription.find({ patient: id })
+      .sort({ date: -1 })
+      .limit(1)
+      .exec()
+      .then(docs => {
+        if (docs.length) return docs[0];
+        else return null;
+      });
+
+  app.get("/api/patientData/:id", (req, res) => {
+    const { id } = req.params;
+    Promise.all([
+      getPatientPromise(id),
+      getScannedPrescriptionsPromise(id),
+      getGeneratedPrescriptionsPromise(id),
+      getLatestPrescriptionPromise(id)
+    ])
+      .then(
+        (
+          [
+            patient,
+            scannedPrescriptions,
+            generatedPrescriptions,
+            latestPrescription
+          ]
+        ) => {
+          res.json({
+            patientId: parseInt(id), // id seems to be reserved keyword in react?
+            patient,
+            scannedPrescriptions,
+            generatedPrescriptions,
+            latestPrescription
+          });
+        }
+      )
+      .catch(err => {
+        console.log(err);
+        res.json({});
+      });
+  });
+
   app.get("/api/patient/:id", (req, res) => {
     const { id } = req.params;
-    Patient.findOne({ _id: parseInt(id) })
-      .exec()
-      .then(doc => {
-        // setTimeout(() => res.json(doc), 1000);
-        res.json(doc);
-      });
+    getPatientPromise(id).then(doc => {
+      // setTimeout(() => res.json(doc), 1000);
+      res.json(doc);
+    });
   });
 
   app.get("/api/medplusmart/drugs", (req, res) => {
@@ -128,12 +187,9 @@ module.exports = app => {
 
   app.get("/api/patientScannedPrescriptions/:id", (req, res) => {
     const { id } = req.params;
-    PicturePrescription.find({ patient: parseInt(id) })
-      .sort({ timestamp: -1 })
-      .exec()
-      .then(docs => {
-        res.json(docs);
-      });
+    getScannedPrescriptionsPromise(id).then(docs => {
+      res.json(docs);
+    });
   });
 
   app.use("/api/pdfFromHTMLString", function(req, res) {
@@ -250,10 +306,8 @@ module.exports = app => {
       });
   });
 
-  // prescriptions info only: url, timestamp, title
-  app.get("/api/patientGeneratedPrescriptionsInfo/:patientId", (req, res) => {
-    const { patientId } = req.params;
-    Prescription.find({ patient: patientId })
+  var getGeneratedPrescriptionsPromise = id =>
+    Prescription.find({ patient: id })
       .sort({ date: -1 })
       .exec()
       .then(docs =>
@@ -262,20 +316,16 @@ module.exports = app => {
           url: `/api/prescriptionPdf/${doc._id}`,
           title: moment(doc.date).format("MMMM Do, YYYY")
         }))
-      )
-      .then(docs => res.json(docs));
+      );
+  // prescriptions info only: url, timestamp, title
+  app.get("/api/patientGeneratedPrescriptionsInfo/:patientId", (req, res) => {
+    const { patientId } = req.params;
+    getGeneratedPrescriptionsPromise(patientId).then(docs => res.json(docs));
   });
 
   app.get("/api/getLatestPrescriptionJSON/:patientId", (req, res) => {
     const { patientId } = req.params;
-    Prescription.find({ patient: patientId })
-      .sort({ date: -1 })
-      .limit(1)
-      .exec()
-      .then(docs => {
-        if (docs.length) res.json(docs[0]);
-        else res.json({});
-      });
+    getLatestPrescriptionPromise(patientId).then(doc => res.json(doc));
   });
 
   function toTitleCase(str) {

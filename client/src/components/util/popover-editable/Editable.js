@@ -14,6 +14,11 @@ class Editable extends Component {
     this.state.value = props.initialValue;
   }
 
+  // initialValue can change even after construction..
+  componentWillReceiveProps(nextProps) {
+    this.setState({ value: nextProps.initialValue });
+  }
+
   toggle = () => {
     const { popoverOpen, editingValue, value } = this.state;
     // reset editing value to value

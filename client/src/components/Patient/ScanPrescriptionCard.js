@@ -29,7 +29,7 @@ class ScanPrescriptionCard extends React.Component {
   onSaveClicked = () => {
     this.setState({ loading: true });
     const { imgSrc } = this.state;
-    const { patientId, history } = this.props;
+    const { patientId, history, onScanUploaded } = this.props;
     cloudinary.v2.uploader.unsigned_upload(
       imgSrc,
       process.env.REACT_APP_CLOUDINARY_UNSIGNED_KEY,
@@ -53,7 +53,9 @@ class ScanPrescriptionCard extends React.Component {
             .then(res => res.json())
             .then(() => this.setState({ loading: false }))
             // hack : https://github.com/ReactTraining/react-router/issues/1982#issuecomment-305735126
-            .then(() => history.go(0));
+            // actually don't use history, just us cb to inform that upload is done.
+            // .then(() => history.go(0));
+            .then(onScanUploaded);
       }
     );
   };
