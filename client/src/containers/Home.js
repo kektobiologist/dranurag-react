@@ -2,33 +2,21 @@ import React, { Component } from "react";
 import { Row, Col, ListGroup, ListGroupItem } from "react-bootstrap";
 import VisitCard from "../components/Home/VisitCard";
 import Spinner from "../components/util/Spinner";
-
+import { connect } from "react-redux";
+import { fetchTodaysVisits } from "../actions/actions";
 class Home extends Component {
-  state = {
-    visits: null,
-    loading: false
-  };
-
-  updateVisits() {
-    this.setState({ loading: true, visits: null });
-    fetch("/api/visits", {
-      credentials: "include"
-    })
-      .then(res => res.json())
-      .then(res => res.filter(({ patient }) => patient))
-      .then(visits => this.setState({ visits }))
-      .then(() => this.setState({ loading: false }));
-  }
-
   onRefresh = () => {
-    this.updateVisits();
+    const { fetchVisits } = this.props;
+    fetchVisits();
   };
+
   componentDidMount() {
-    this.updateVisits();
+    const { fetchVisits } = this.props;
+    fetchVisits();
   }
 
   render() {
-    const { visits, loading } = this.state;
+    const { visits, loading } = this.props;
     return (
       <div>
         <div className="d-flex justify-content-between">
@@ -60,5 +48,11 @@ class Home extends Component {
     );
   }
 }
+Home = connect(
+  state => ({ ...state.todaysVisits }),
+  dispatch => ({
+    fetchVisits: () => dispatch(fetchTodaysVisits())
+  })
+)(Home);
 
 export default Home;

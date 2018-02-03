@@ -1,6 +1,6 @@
 const express = require("express");
 const path = require("path");
-
+const pause = require("connect-pause");
 var mongoose = require("mongoose");
 // configuration ===============================================================
 var connection = mongoose.connect(process.env.MONGODB_URI); // connect to our database
@@ -27,6 +27,10 @@ app.set("port", process.env.PORT || 3001);
 // Express only serves static assets in production
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
+}
+// Add latency for testing
+if (process.env.ADD_LATENCY) {
+  app.use(pause(500));
 }
 // session and passport stuff
 var session = require("express-session");

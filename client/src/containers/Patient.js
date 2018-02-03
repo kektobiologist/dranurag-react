@@ -11,6 +11,7 @@ import {
 } from "reactstrap";
 import PatientInfoCard from "../components/Patient/PatientInfoCard";
 import ScanPrescriptionCard from "../components/Patient/ScanPrescriptionCard";
+import AddInvoiceCard from "../components/Patient/AddInvoiceCard";
 import {
   GeneratedPrescriptionsBox,
   ScannedPrescriptionsBox
@@ -114,10 +115,18 @@ class PatientWithLoad extends Component {
           )}
         </div>
         <hr />
-        <ScanPrescriptionCard
-          patientId={id}
-          onScanUploaded={this.onScanUploaded}
-        />
+        <div className="row">
+          <div className="col">
+            <ScanPrescriptionCard
+              patientId={id}
+              onScanUploaded={this.onScanUploaded}
+            />
+          </div>
+          <div className="col">
+            <AddInvoiceCard patientId={id} />
+          </div>
+        </div>
+        <hr />
         <div>
           {scannedPrescriptions ? (
             <ScannedPrescriptionsBox prescriptions={scannedPrescriptions} />

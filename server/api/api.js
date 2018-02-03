@@ -2,6 +2,7 @@ var Visit = require("../models/visit");
 var Patient = require("../models/patient");
 var PicturePrescription = require("../models/picturePrescription");
 var Prescription = require("../models/prescription");
+var Invoice = require("../models/invoice");
 
 var moment = require("moment");
 var request = require("request-promise-native");
@@ -14,6 +15,7 @@ var _ = require("lodash");
 const restify = require("express-restify-mongoose");
 const express = require("express");
 
+// should really split this up into multiple files
 module.exports = app => {
   // prescription template
   const prescriptionTemplate = ejs.compile(
@@ -98,13 +100,19 @@ module.exports = app => {
         else return null;
       });
 
+  var getPatientInvoicesPromise = id =>
+    Invoice.find({ patient: id })
+      .sort({ timestamp: -1 })
+      .exec();
+
   app.get("/api/patientData/:id", (req, res) => {
     const { id } = req.params;
     Promise.all([
       getPatientPromise(id),
       getScannedPrescriptionsPromise(id),
       getGeneratedPrescriptionsPromise(id),
-      getLatestPrescriptionPromise(id)
+      getLatestPrescriptionPromise(id),
+      getPatientInvoicesPromise(id)
     ])
       .then(
         (
@@ -112,7 +120,8 @@ module.exports = app => {
             patient,
             scannedPrescriptions,
             generatedPrescriptions,
-            latestPrescription
+            latestPrescription,
+            invoices
           ]
         ) => {
           res.json({
@@ -120,7 +129,8 @@ module.exports = app => {
             patient,
             scannedPrescriptions,
             generatedPrescriptions,
-            latestPrescription
+            latestPrescription,
+            invoices
           });
         }
       )
@@ -453,4 +463,45 @@ module.exports = app => {
     lean: false
   });
   app.use(router);
+
+  // Invoice endpoints
+  app.post("/api/addInvoice", (req, res) => {
+    const { patientId, amount } = req.body;
+    new Invoice({
+      patient: patientId,
+      amount,
+      timestamp: Date.now()
+    })
+      .save()
+      .then(invoice => res.json(invoice))
+      .catch(err => {
+        console.log(err);
+        res.json(null);
+      });
+  });
+
+  app.get("/api/getPatientInvoices/:id", (req, res) => {
+    const { id } = req.params;
+    // don't populate patient
+    getPatientInvoicesPromise(id)
+      .then(invoices => res.json(invoices))
+      .catch(err => {
+        console.log(err);
+        res.json([]);
+      });
+  });
+
+  app.post("/api/getInvoicesWithinDates", (req, res) => {
+    const { startDate, endDate } = req.body;
+    // populate full patients, maybe not required...
+    Invoice.find({ timestamp: { $gte: startDate, $lte: endDate } })
+      .sort({ timestamp: 1 })
+      .populate("patient")
+      .exec()
+      .then(invoices => res.json(invoices))
+      .catch(err => {
+        console.log(err);
+        res.json([]);
+      });
+  });
 };

@@ -33,3 +33,39 @@ export var refreshPatientScannedPrescriptions = () => (dispatch, getState) => {
       dispatch(updatePatientData({ ...patientData, scannedPrescriptions }))
     );
 };
+
+export var refreshPatientInvoices = () => (dispatch, getState) => {
+  const patientData = getState().patientData;
+  const { patientId } = patientData;
+  if (!patientId) return; // can't do shit
+  fetch(`/api/getPatientInvoices/${patientId}`, {
+    credentials: "include"
+  })
+    .then(res => res.json())
+    .then(invoices =>
+      dispatch(updatePatientData({ ...patientData, invoices }))
+    );
+};
+
+var updateTodaysVisits = todaysVisits => ({
+  type: "UPDATE_TODAYS_VISITS",
+  value: todaysVisits
+});
+
+var setFetchingTodaysVisits = value => ({
+  type: "SET_FETCHING_TODAYS_VISITS",
+  value: value
+});
+
+export var fetchTodaysVisits = () => dispatch => {
+  dispatch(setFetchingTodaysVisits(true));
+  fetch("/api/visits", {
+    credentials: "include"
+  })
+    .then(res => res.json())
+    .then(res => res.filter(({ patient }) => patient))
+    .then(visits => {
+      dispatch(setFetchingTodaysVisits(false));
+      dispatch(updateTodaysVisits(visits));
+    });
+};

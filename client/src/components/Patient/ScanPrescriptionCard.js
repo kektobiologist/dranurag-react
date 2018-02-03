@@ -51,7 +51,7 @@ class ScanPrescriptionCard extends React.Component {
             credentials: "include"
           })
             .then(res => res.json())
-            .then(() => this.setState({ loading: false }))
+            .then(() => this.setState({ loading: false, imgSrc: "" }))
             // hack : https://github.com/ReactTraining/react-router/issues/1982#issuecomment-305735126
             // actually don't use history, just us cb to inform that upload is done.
             // .then(() => history.go(0));
@@ -63,47 +63,43 @@ class ScanPrescriptionCard extends React.Component {
   render() {
     const { imgSrc, loading } = this.state;
     return (
-      <div className="card-deck w-50">
-        <div className="card mb-3">
-          <div className="card-body">
-            <div className="d-flex justify-content-between">
-              <div>
-                <a
-                  id="scan-pr"
-                  className="btn btn-outline-primary mr-2"
-                  href="#"
-                  role="button"
-                  onClick={this.onScanClicked}
-                >
-                  Scan Prescription
-                </a>
-              </div>
-              <div className="py-2">
-                <Spinner loading={loading} size={10} />
-              </div>
-              {imgSrc ? (
-                <div>
-                  <a
-                    id="save-pr"
-                    className="btn btn-outline-primary"
-                    href="#"
-                    role="button"
-                    onClick={this.onSaveClicked}
-                  >
-                    Save
-                  </a>
-                </div>
-              ) : (
-                ""
-              )}
+      <div className="card mb-3">
+        <div className="card-body">
+          <div className="d-flex justify-content-between">
+            <div>
+              <button
+                id="scan-pr"
+                className="btn btn-outline-primary mr-2"
+                type="button"
+                onClick={this.onScanClicked}
+              >
+                Scan Prescription
+              </button>
             </div>
+            <div className="py-2">
+              <Spinner loading={loading} size={10} />
+            </div>
+            {imgSrc ? (
+              <div>
+                <button
+                  id="save-pr"
+                  className="btn btn-outline-primary"
+                  type="button"
+                  onClick={this.onSaveClicked}
+                >
+                  Save
+                </button>
+              </div>
+            ) : (
+              ""
+            )}
           </div>
-          <form>
-            <input type="hidden" name="file" className="upload_field" />
-          </form>
-          <div className="thumbnails" />
-          <img src={imgSrc} id="scanned_img" className="w-100" />
         </div>
+        <form>
+          <input type="hidden" name="file" className="upload_field" />
+        </form>
+        <div className="thumbnails" />
+        <img src={imgSrc} id="scanned_img" className="w-100" />
       </div>
     );
   }

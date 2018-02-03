@@ -23,13 +23,18 @@ import { reducer as reduxFormReducer } from "redux-form";
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 import logger from "redux-logger";
-import { loginReducer, patientDataReducer } from "./reducers/reducers";
+import {
+  loginReducer,
+  patientDataReducer,
+  todaysVisitsReducer
+} from "./reducers/reducers";
 import { connect } from "react-redux";
 import { changeLoginState } from "./actions/actions";
 const reducer = combineReducers({
   form: reduxFormReducer, // mounted under "form",
   loginState: loginReducer,
-  patientData: patientDataReducer
+  patientData: patientDataReducer,
+  todaysVisits: todaysVisitsReducer
 });
 const store = createStore(
   reducer,
