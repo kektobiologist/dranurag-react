@@ -8,6 +8,10 @@ var updatePatientData = patientData => ({
   value: patientData
 });
 
+export var updatePatientDataPatient = patient => (dispatch, getState) => {
+  dispatch(updatePatientData({ ...getState().patientData, patient }));
+};
+
 var clearPatientData = () => ({
   type: "CLEAR_PATIENT_DATA"
 });

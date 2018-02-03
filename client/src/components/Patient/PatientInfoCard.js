@@ -2,6 +2,8 @@ import React from "react";
 import { Row, Col } from "reactstrap";
 import HelpText from "../util/HelpText";
 import Editable from "../util/popover-editable/Editable";
+import { updatePatientDataPatient } from "../../actions/actions";
+import { connect } from "react-redux";
 
 var AttrRow = ({ keyName, val, units }) => {
   return (
@@ -15,7 +17,7 @@ var AttrRow = ({ keyName, val, units }) => {
 
 // card containing detailed patient info (height weight etc.)
 // used in Patient and GeneratePrescription pages
-export default ({ patient, children }) => {
+var PatientInfoCard = ({ patient, children, updatePatient }) => {
   const { height, weight, allergies, phone2 } = patient;
   var heightM = height / 100; // m
   var bmi = height ? (weight / (heightM * heightM)).toFixed(2) : "-";
@@ -28,11 +30,12 @@ export default ({ patient, children }) => {
       >
         <div>
           <Editable
-            initialValue={patient.name}
+            value={patient.name}
             fieldName="name"
             title="Edit Name"
             display={value => <h1 className="display-3">{value}</h1>}
             endpoint={`/api/v1/Patient/${patient._id}`}
+            onUpdate={updatePatient}
           />
           <HelpText patient={patient} editable={true} />
           <div>ID: {patient._id}</div>
@@ -54,3 +57,9 @@ export default ({ patient, children }) => {
     </Row>
   );
 };
+
+PatientInfoCard = connect(null, dispatch => ({
+  updatePatient: patient => dispatch(updatePatientDataPatient(patient))
+}))(PatientInfoCard);
+
+export default PatientInfoCard;

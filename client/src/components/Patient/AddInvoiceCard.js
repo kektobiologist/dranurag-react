@@ -13,7 +13,7 @@ var InvoiceCard = ({ invoice, onDelete }) => {
       <span className="text-muted">#{_id}. </span>
       <span>Rs. {amount}</span>
       <span className="text-muted pull-right">
-        {`${moment(timestamp).format("ddd, D MMM YY")}`}
+        {`${moment(timestamp).format("ddd, D MMM 'YY")}`}
         <button
           type="button"
           className="close ml-3"

@@ -4,23 +4,13 @@ import Popover from "./Popover";
 class Editable extends Component {
   state = {
     popoverOpen: false,
-    value: "",
     editingValue: "",
     spinnerVisible: false
   };
 
-  constructor(props) {
-    super(props);
-    this.state.value = props.initialValue;
-  }
-
-  // initialValue can change even after construction..
-  componentWillReceiveProps(nextProps) {
-    this.setState({ value: nextProps.initialValue });
-  }
-
   toggle = () => {
-    const { popoverOpen, editingValue, value } = this.state;
+    const { popoverOpen, editingValue } = this.state;
+    const { value } = this.props;
     // reset editing value to value
     this.setState({
       editingValue: value,
@@ -33,8 +23,8 @@ class Editable extends Component {
   };
 
   onAccept = () => {
-    const { endpoint, fieldName } = this.props;
-    const { value, editingValue } = this.state;
+    const { endpoint, fieldName, value, onUpdate } = this.props;
+    const { editingValue } = this.state;
     if (value == editingValue) {
       this.toggle();
       return;
@@ -51,9 +41,9 @@ class Editable extends Component {
       credentials: "include"
     })
       .then(res => res.json())
-      .then(res => res[fieldName])
-      .then(value => {
-        this.setState({ value, spinnerVisible: false });
+      .then(res => onUpdate(res))
+      .then(() => {
+        this.setState({ spinnerVisible: false });
         this.toggle();
       })
       .catch(err => {
@@ -64,13 +54,14 @@ class Editable extends Component {
   };
 
   render() {
-    const { popoverOpen, value, editingValue, spinnerVisible } = this.state;
+    const { popoverOpen, editingValue, spinnerVisible } = this.state;
     const {
       fieldName,
       title = `Edit ${fieldName}`,
       display,
       selectValues,
-      inputType = "text"
+      inputType = "text",
+      value
     } = this.props;
     return (
       <span id={fieldName} className="editable-container">
