@@ -1,3 +1,4 @@
-var moment = require("moment");
+var moment = require("moment-timezone");
 
-console.log(moment(new Date(1512066600000)).format("MM-DD-YYYY"));
+var x = moment(new Date(1512066600000));
+console.log(x.tz("Asia/Kolkata").format("MM-DD-YYYY"));
