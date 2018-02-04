@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.css";
 // import "../font-awesome.min.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import "../react-calendar-heatmap.css";
 
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
@@ -13,17 +14,9 @@ import { Button, Welcome } from "@storybook/react/demo";
 import { Container } from "reactstrap";
 
 import { defaultPrescriptions, defaultPatient, defaultVisits } from "./data";
+import CalendarHeatmap from "react-calendar-heatmap";
 
-import PatientInfoCard from "../components/Patient/PatientInfoCard";
-// import PatientPrescriptionsCard from "../components/Patient/PatientPrescriptionsCard";
-import FlipMoveDemo from "../components/experiments/FlipMoveDemo";
-import VisitCard from "../components/Home/VisitCard";
-import { BrowserRouter } from "react-router-dom";
 import TodoList from "../components/experiments/TodoList";
-import Search from "../components/experiments/AlgoliaSearchHelper";
-import SimpleSlider from "../components/experiments/ReactSlick";
-import Document from "../components/experiments/ReactPDF";
-import Editable from "../components/experiments/ContentEditable";
 storiesOf("Welcome", module).add("to Storybook", () => (
   <Welcome showApp={linkTo("Button")} />
 ));
@@ -36,45 +29,26 @@ storiesOf("Button", module)
     <Button onClick={action("clicked")}>😀 😎 👍 💯</Button>
   ));
 
-storiesOf("Patient/PatientInfoCard", module)
-  .addDecorator(story => <Container>{story()}</Container>)
-  .add("default", () => {
-    return <PatientInfoCard patient={defaultPatient} />;
-  });
+storiesOf("TodoList", module).add("default", () => <TodoList />);
 
-// storiesOf("Patient/PatientPrescriptionsCard", module)
-//   .addDecorator(story => <Container>{story()}</Container>)
-//   .add("default", () => {
-//     return <PatientPrescriptionsCard prescriptions={defaultPrescriptions} />;
-//   });
-
-storiesOf("Demos/FlipMoveDemo", module).add("default", () => {
-  return <FlipMoveDemo visits={defaultVisits.slice(0, 10)} />;
-});
-
-storiesOf("VisitCard", module).add("default", () => {
-  return (
-    <BrowserRouter>
-      <VisitCard visit={defaultVisits[0]} />
-    </BrowserRouter>
-  );
-});
-
-storiesOf("Demos/TodoList", module).add("default", () => {
-  return <TodoList />;
-});
-
-storiesOf("Demos/AlgoliaSearchHelper", module).add("default", () => {
-  return <Search />;
-});
-
-storiesOf("Demos/ReactSlick", module).add("default", () => {
-  return <SimpleSlider />;
-});
-
-storiesOf("Demos/ContentEditable", module).add("default", () => {
-  return <Editable />;
-});
-// storiesOf("Demos/ReactPDF", module).add("default", () => {
-//   return <Document />;
-// });
+storiesOf("Calendar Heatmap", module).add("default", () => (
+  <div className="container">
+    <div className="row mb-3">
+      <div className="col-xs-12 col-md-6">
+        <CalendarHeatmap
+          startDate={new Date("2016-01-01")}
+          endDate={new Date("2016-04-01")}
+          values={[
+            { date: "2016-01-01", count: 1 },
+            { date: "2016-01-22", count: 10 },
+            { date: "2016-01-30", count: 15 }
+            // ...and so on
+          ]}
+          tooltipDataAttrs={{ "data-toggle": "tooltip" }}
+          titleForValue={value => `Date is ${value ? value.date : "unknown"}`}
+          showOutOfRangeDays={true}
+        />
+      </div>
+    </div>
+  </div>
+));
