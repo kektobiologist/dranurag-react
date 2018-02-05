@@ -14,6 +14,11 @@ const puppeteer = require("puppeteer");
 var _ = require("lodash");
 const restify = require("express-restify-mongoose");
 const express = require("express");
+var pdfMake = require("pdfmake");
+const PdfPrinter = require("pdfmake/src/printer");
+var path = require("path");
+
+var invoiceTemplateMaker = require("../scripts/pdfmake-invoice-template");
 
 // should really split this up into multiple files
 module.exports = app => {
@@ -557,6 +562,45 @@ module.exports = app => {
           ...obj
         }));
         res.json(ret);
+      });
+  });
+
+  const fontDescriptors = {
+    Roboto: {
+      normal: path.join(__dirname, "../public/fonts/Roboto-Regular.ttf"),
+      bold: path.join(__dirname, "../public/fonts/Roboto-Bold.ttf"),
+      italics: path.join(__dirname, "../public/fonts/Roboto-Italic.ttf"),
+      bolditalics: path.join(
+        __dirname,
+        "../public/fonts/Roboto-MediumItalic.ttf"
+      )
+    }
+  };
+  // invoice pdf generation
+  app.get("/api/invoicePdf/:id", (req, res) => {
+    const { id } = req.params;
+    Invoice.findById(id)
+      .populate("patient")
+      .then(({ _id, patient, date, amount }) => {
+        console.log(__dirname);
+        var pdfDefinition = invoiceTemplateMaker({
+          invoiceId: _id,
+          patientId: patient._id,
+          date: moment(date),
+          name: patient.name,
+          fees: amount.toString()
+        });
+        // var pdf = pdfMake.createPdf(pdfDefinition);
+        // console.log(pdf);
+        const printer = new PdfPrinter(fontDescriptors);
+        const pdfDoc = printer.createPdfKitDocument(pdfDefinition);
+        pdfDoc
+          .pipe(fs.createWriteStream("basics.pdf"))
+          .on("finish", function() {
+            console.log("pdf success");
+          });
+        pdfDoc.end();
+        res.json("OK");
       });
   });
 };
