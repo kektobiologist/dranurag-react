@@ -470,7 +470,7 @@ module.exports = app => {
     new Invoice({
       patient: patientId,
       amount,
-      timestamp: Date.now()
+      date: new Date()
     })
       .save()
       .then(invoice => res.json(invoice))
@@ -498,17 +498,65 @@ module.exports = app => {
       });
   });
 
+  // inputs are dates with time, output is exclusive of endDate
+  var getInvoicesWithinDatesPromise = (startDate, endDate) =>
+    Invoice.find({
+      date: { $gte: new Date(startDate), $lt: new Date(endDate) }
+    })
+      .sort({ date: 1 })
+      .populate("patient")
+      .exec();
+
+  // generic endpoint to just get all invoices, unformatted
   app.post("/api/getInvoicesWithinDates", (req, res) => {
     const { startDate, endDate } = req.body;
     // populate full patients, maybe not required...
-    Invoice.find({ timestamp: { $gte: startDate, $lte: endDate } })
-      .sort({ timestamp: 1 })
-      .populate("patient")
-      .exec()
+    getInvoicesWithinDatesPromise(startDate, endDate)
       .then(invoices => res.json(invoices))
       .catch(err => {
         console.log(err);
         res.json([]);
+      });
+  });
+
+  var groupArray = require("group-array");
+  // will return minimal, formatted stuff to render calendar heatmap and daywise patient list
+  app.post("/api/getInvoiceHeatmapData", (req, res) => {
+    const { startDate, endDate } = req.body;
+    getInvoicesWithinDatesPromise(startDate, endDate)
+      // remove unimportant patient data
+      .then(invoices =>
+        invoices.map(invoice => {
+          const { _id, name } = invoice.patient;
+          invoice.patient = { _id, name };
+          return invoice;
+        })
+      )
+      .then(invoices => {
+        // init object with all dates
+        var table = {};
+        var startDate_ = moment(new Date(startDate));
+        var endDate_ = moment(new Date(endDate));
+        for (var m = startDate_; m.isBefore(endDate_); m.add(1, "days")) {
+          table[m.format("YYYY-MM-DD")] = {
+            amount: 0, // total money
+            invoices: []
+          };
+        }
+        // group them by dateString
+        grouped = groupArray(invoices, "dateString");
+        Object.entries(grouped).forEach(([date, invoices]) => {
+          table[date] = {
+            amount: invoices.reduce((acc, invoice) => acc + invoice.amount, 0),
+            invoices: invoices
+          };
+        });
+        // turn {key: val} to [{date: key, ...val}]
+        ret = Object.entries(table).map(([date, obj]) => ({
+          date: date,
+          ...obj
+        }));
+        res.json(ret);
       });
   });
 };

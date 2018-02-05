@@ -70,3 +70,10 @@
 .react-calendar-heatmap .color-gitlab-4 {
   fill: #254e77;
 }
+
+/*limit height of svg*/
+.react-calendar-heatmap {
+  height: 100%;
+  display: block;
+  margin: auto;
+}

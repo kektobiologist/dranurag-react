@@ -2,9 +2,7 @@ import React, { Component } from "react";
 import { Row, Col, ListGroup } from "react-bootstrap";
 import Spinner from "../components/util/Spinner";
 import VisitCard from "../components/Home/VisitCard";
-import "react-dates/initialize";
 import { SingleDatePicker, isInclusivelyBeforeDay } from "react-dates";
-import "react-dates/lib/css/_datepicker.css";
 import moment from "moment";
 
 class ViewVisits extends Component {
@@ -19,12 +17,17 @@ class ViewVisits extends Component {
   }
   onDateChange = date => {
     this.setState({ date, loading: true, visits: undefined });
+    // react-dates by default selects 12:00 pm of the day as time
+    // with default timezone set through moment-timezone in App.js.
+    // so need to subtract 12:00 hours to get beginning of day.
+    var dateCorrect = new Date(date);
+    dateCorrect.setHours(dateCorrect.getHours() - 12);
     fetch("/api/visitSearch", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ visitDate: date }),
+      body: JSON.stringify({ visitDate: dateCorrect }),
       credentials: "include"
     })
       .then(res => res.json())

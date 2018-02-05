@@ -276,5 +276,596 @@ var defaultVisits = [
     helpText: "M / 67 yrs"
   }
 ];
-
+export var calendarHeatmapData = [
+  {
+    date: "2017-11-23",
+    amount: 0,
+    invoices: []
+  },
+  {
+    date: "2017-11-24",
+    amount: 0,
+    invoices: []
+  },
+  {
+    date: "2017-11-25",
+    amount: 0,
+    invoices: []
+  },
+  {
+    date: "2017-11-26",
+    amount: 0,
+    invoices: []
+  },
+  {
+    date: "2017-11-27",
+    amount: 0,
+    invoices: []
+  },
+  {
+    date: "2017-11-28",
+    amount: 0,
+    invoices: []
+  },
+  {
+    date: "2017-11-29",
+    amount: 0,
+    invoices: []
+  },
+  {
+    date: "2017-11-30",
+    amount: 0,
+    invoices: []
+  },
+  {
+    date: "2017-12-01",
+    amount: 1500,
+    invoices: [
+      {
+        _id: 1205,
+        patient: {
+          _id: 1009,
+          name: "Jamuna Das",
+          age: 0,
+          id: "1009"
+        },
+        date: "2017-11-30T18:30:00.000Z",
+        amount: 500,
+        __v: 0,
+        dateString: "2017-12-01",
+        id: "1205"
+      },
+      {
+        _id: 1206,
+        patient: {
+          _id: 1009,
+          name: "Jamuna Das",
+          age: 0,
+          id: "1009"
+        },
+        date: "2017-11-30T18:30:00.000Z",
+        amount: 500,
+        __v: 0,
+        dateString: "2017-12-01",
+        id: "1206"
+      },
+      {
+        _id: 1207,
+        patient: {
+          _id: 1003,
+          name: "Apoorv Umang",
+          age: 0,
+          id: "1003"
+        },
+        date: "2017-11-30T18:30:00.000Z",
+        amount: 500,
+        __v: 0,
+        dateString: "2017-12-01",
+        id: "1207"
+      }
+    ]
+  },
+  {
+    date: "2017-12-02",
+    amount: 2000,
+    invoices: [
+      {
+        _id: 1208,
+        patient: {
+          _id: 1006,
+          name: "E",
+          age: 0,
+          id: "1006"
+        },
+        date: "2017-12-01T18:30:00.000Z",
+        amount: 500,
+        __v: 0,
+        dateString: "2017-12-02",
+        id: "1208"
+      },
+      {
+        _id: 1209,
+        patient: {
+          _id: 1001,
+          name: "Arpit Tarang Saxena",
+          age: 0,
+          id: "1001"
+        },
+        date: "2017-12-01T18:30:00.000Z",
+        amount: 500,
+        __v: 0,
+        dateString: "2017-12-02",
+        id: "1209"
+      },
+      {
+        _id: 1210,
+        patient: {
+          _id: 1004,
+          name: "Anurag Saxena",
+          age: 0,
+          id: "1004"
+        },
+        date: "2017-12-01T18:30:00.000Z",
+        amount: 500,
+        __v: 0,
+        dateString: "2017-12-02",
+        id: "1210"
+      },
+      {
+        _id: 1211,
+        patient: {
+          _id: 1007,
+          name: "Deepak Agrawal",
+          age: 0,
+          id: "1007"
+        },
+        date: "2017-12-01T18:30:00.000Z",
+        amount: 500,
+        __v: 0,
+        dateString: "2017-12-02",
+        id: "1211"
+      }
+    ]
+  },
+  {
+    date: "2017-12-03",
+    amount: 300,
+    invoices: [
+      {
+        _id: 1212,
+        patient: {
+          _id: 1010,
+          name: "Saroj Kumar",
+          age: 0,
+          id: "1010"
+        },
+        date: "2017-12-02T18:30:00.000Z",
+        amount: 300,
+        __v: 0,
+        dateString: "2017-12-03",
+        id: "1212"
+      }
+    ]
+  },
+  {
+    date: "2017-12-04",
+    amount: 1100,
+    invoices: [
+      {
+        _id: 1213,
+        patient: {
+          _id: 1003,
+          name: "Apoorv Umang",
+          age: 0,
+          id: "1003"
+        },
+        date: "2017-12-03T18:30:00.000Z",
+        amount: 500,
+        __v: 0,
+        dateString: "2017-12-04",
+        id: "1213"
+      },
+      {
+        _id: 1214,
+        patient: {
+          _id: 1005,
+          name: "Arpit Tarang Saxena",
+          age: 0,
+          id: "1005"
+        },
+        date: "2017-12-03T18:30:00.000Z",
+        amount: 300,
+        __v: 0,
+        dateString: "2017-12-04",
+        id: "1214"
+      },
+      {
+        _id: 1215,
+        patient: {
+          _id: 1006,
+          name: "E",
+          age: 0,
+          id: "1006"
+        },
+        date: "2017-12-03T18:30:00.000Z",
+        amount: 300,
+        __v: 0,
+        dateString: "2017-12-04",
+        id: "1215"
+      }
+    ]
+  },
+  {
+    date: "2017-12-05",
+    amount: 1500,
+    invoices: [
+      {
+        _id: 1216,
+        patient: {
+          _id: 1003,
+          name: "Apoorv Umang",
+          age: 0,
+          id: "1003"
+        },
+        date: "2017-12-04T18:30:00.000Z",
+        amount: 500,
+        __v: 0,
+        dateString: "2017-12-05",
+        id: "1216"
+      },
+      {
+        _id: 1217,
+        patient: {
+          _id: 1007,
+          name: "Deepak Agrawal",
+          age: 0,
+          id: "1007"
+        },
+        date: "2017-12-04T18:30:00.000Z",
+        amount: 500,
+        __v: 0,
+        dateString: "2017-12-05",
+        id: "1217"
+      },
+      {
+        _id: 1218,
+        patient: {
+          _id: 1003,
+          name: "Apoorv Umang",
+          age: 0,
+          id: "1003"
+        },
+        date: "2017-12-04T18:30:00.000Z",
+        amount: 500,
+        __v: 0,
+        dateString: "2017-12-05",
+        id: "1218"
+      }
+    ]
+  },
+  {
+    date: "2017-12-06",
+    amount: 1500,
+    invoices: [
+      {
+        _id: 1219,
+        patient: {
+          _id: 1004,
+          name: "Anurag Saxena",
+          age: 0,
+          id: "1004"
+        },
+        date: "2017-12-05T18:30:00.000Z",
+        amount: 500,
+        __v: 0,
+        dateString: "2017-12-06",
+        id: "1219"
+      },
+      {
+        _id: 1220,
+        patient: {
+          _id: 1003,
+          name: "Apoorv Umang",
+          age: 0,
+          id: "1003"
+        },
+        date: "2017-12-05T18:30:00.000Z",
+        amount: 500,
+        __v: 0,
+        dateString: "2017-12-06",
+        id: "1220"
+      },
+      {
+        _id: 1221,
+        patient: {
+          _id: 1001,
+          name: "Arpit Tarang Saxena",
+          age: 0,
+          id: "1001"
+        },
+        date: "2017-12-05T18:30:00.000Z",
+        amount: 500,
+        __v: 0,
+        dateString: "2017-12-06",
+        id: "1221"
+      }
+    ]
+  },
+  {
+    date: "2017-12-07",
+    amount: 1900,
+    invoices: [
+      {
+        _id: 1222,
+        patient: {
+          _id: 1007,
+          name: "Deepak Agrawal",
+          age: 0,
+          id: "1007"
+        },
+        date: "2017-12-06T18:30:00.000Z",
+        amount: 300,
+        __v: 0,
+        dateString: "2017-12-07",
+        id: "1222"
+      },
+      {
+        _id: 1223,
+        patient: {
+          _id: 1010,
+          name: "Saroj Kumar",
+          age: 0,
+          id: "1010"
+        },
+        date: "2017-12-06T18:30:00.000Z",
+        amount: 300,
+        __v: 0,
+        dateString: "2017-12-07",
+        id: "1223"
+      },
+      {
+        _id: 1224,
+        patient: {
+          _id: 1004,
+          name: "Anurag Saxena",
+          age: 0,
+          id: "1004"
+        },
+        date: "2017-12-06T18:30:00.000Z",
+        amount: 500,
+        __v: 0,
+        dateString: "2017-12-07",
+        id: "1224"
+      },
+      {
+        _id: 1225,
+        patient: {
+          _id: 1002,
+          name: "Arpit Saxena",
+          age: 0,
+          id: "1002"
+        },
+        date: "2017-12-06T18:30:00.000Z",
+        amount: 300,
+        __v: 0,
+        dateString: "2017-12-07",
+        id: "1225"
+      },
+      {
+        _id: 1226,
+        patient: {
+          _id: 1005,
+          name: "Arpit Tarang Saxena",
+          age: 0,
+          id: "1005"
+        },
+        date: "2017-12-06T18:30:00.000Z",
+        amount: 500,
+        __v: 0,
+        dateString: "2017-12-07",
+        id: "1226"
+      }
+    ]
+  },
+  {
+    date: "2017-12-08",
+    amount: 1600,
+    invoices: [
+      {
+        _id: 1227,
+        patient: {
+          _id: 1001,
+          name: "Arpit Tarang Saxena",
+          age: 0,
+          id: "1001"
+        },
+        date: "2017-12-07T18:30:00.000Z",
+        amount: 300,
+        __v: 0,
+        dateString: "2017-12-08",
+        id: "1227"
+      },
+      {
+        _id: 1228,
+        patient: {
+          _id: 1007,
+          name: "Deepak Agrawal",
+          age: 0,
+          id: "1007"
+        },
+        date: "2017-12-07T18:30:00.000Z",
+        amount: 500,
+        __v: 0,
+        dateString: "2017-12-08",
+        id: "1228"
+      },
+      {
+        _id: 1229,
+        patient: {
+          _id: 1002,
+          name: "Arpit Saxena",
+          age: 0,
+          id: "1002"
+        },
+        date: "2017-12-07T18:30:00.000Z",
+        amount: 300,
+        __v: 0,
+        dateString: "2017-12-08",
+        id: "1229"
+      },
+      {
+        _id: 1230,
+        patient: {
+          _id: 1009,
+          name: "Jamuna Das",
+          age: 0,
+          id: "1009"
+        },
+        date: "2017-12-07T18:30:00.000Z",
+        amount: 500,
+        __v: 0,
+        dateString: "2017-12-08",
+        id: "1230"
+      }
+    ]
+  },
+  {
+    date: "2017-12-09",
+    amount: 1400,
+    invoices: [
+      {
+        _id: 1231,
+        patient: {
+          _id: 1010,
+          name: "Saroj Kumar",
+          age: 0,
+          id: "1010"
+        },
+        date: "2017-12-08T18:30:00.000Z",
+        amount: 300,
+        __v: 0,
+        dateString: "2017-12-09",
+        id: "1231"
+      },
+      {
+        _id: 1232,
+        patient: {
+          _id: 1005,
+          name: "Arpit Tarang Saxena",
+          age: 0,
+          id: "1005"
+        },
+        date: "2017-12-08T18:30:00.000Z",
+        amount: 300,
+        __v: 0,
+        dateString: "2017-12-09",
+        id: "1232"
+      },
+      {
+        _id: 1233,
+        patient: {
+          _id: 1001,
+          name: "Arpit Tarang Saxena",
+          age: 0,
+          id: "1001"
+        },
+        date: "2017-12-08T18:30:00.000Z",
+        amount: 300,
+        __v: 0,
+        dateString: "2017-12-09",
+        id: "1233"
+      },
+      {
+        _id: 1234,
+        patient: {
+          _id: 1005,
+          name: "Arpit Tarang Saxena",
+          age: 0,
+          id: "1005"
+        },
+        date: "2017-12-08T18:30:00.000Z",
+        amount: 500,
+        __v: 0,
+        dateString: "2017-12-09",
+        id: "1234"
+      }
+    ]
+  },
+  {
+    date: "2017-12-10",
+    amount: 2300,
+    invoices: [
+      {
+        _id: 1235,
+        patient: {
+          _id: 1004,
+          name: "Anurag Saxena",
+          age: 0,
+          id: "1004"
+        },
+        date: "2017-12-09T18:30:00.000Z",
+        amount: 500,
+        __v: 0,
+        dateString: "2017-12-10",
+        id: "1235"
+      },
+      {
+        _id: 1236,
+        patient: {
+          _id: 1010,
+          name: "Saroj Kumar",
+          age: 0,
+          id: "1010"
+        },
+        date: "2017-12-09T18:30:00.000Z",
+        amount: 300,
+        __v: 0,
+        dateString: "2017-12-10",
+        id: "1236"
+      },
+      {
+        _id: 1237,
+        patient: {
+          _id: 1009,
+          name: "Jamuna Das",
+          age: 0,
+          id: "1009"
+        },
+        date: "2017-12-09T18:30:00.000Z",
+        amount: 500,
+        __v: 0,
+        dateString: "2017-12-10",
+        id: "1237"
+      },
+      {
+        _id: 1238,
+        patient: {
+          _id: 1005,
+          name: "Arpit Tarang Saxena",
+          age: 0,
+          id: "1005"
+        },
+        date: "2017-12-09T18:30:00.000Z",
+        amount: 500,
+        __v: 0,
+        dateString: "2017-12-10",
+        id: "1238"
+      },
+      {
+        _id: 1239,
+        patient: {
+          _id: 1004,
+          name: "Anurag Saxena",
+          age: 0,
+          id: "1004"
+        },
+        date: "2017-12-09T18:30:00.000Z",
+        amount: 500,
+        __v: 0,
+        dateString: "2017-12-10",
+        id: "1239"
+      }
+    ]
+  }
+];
 export { defaultPatient, defaultPrescriptions, defaultVisits };

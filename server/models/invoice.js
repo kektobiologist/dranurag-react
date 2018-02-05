@@ -2,12 +2,12 @@
 
 var mongoose = require("mongoose");
 var autoIncrement = require("mongoose-auto-increment");
-var moment = require("moment");
+var moment = require("moment-timezone");
 
 var schema = mongoose.Schema(
   {
     patient: { type: Number, ref: "Patient", required: true },
-    timestamp: Number,
+    date: { type: Date, required: true },
     amount: Number // in rupees obviously
   },
   {
@@ -21,8 +21,10 @@ var schema = mongoose.Schema(
 );
 
 // moment js seems to be aware of timezone when formatting dates?
+// it uses local timezone, so need to specify india timezone separately
+// done globally in index.js
 schema.virtual("dateString").get(function() {
-  return moment(new Date(this.timestamp)).format("MM-DD-YYYY");
+  return moment(new Date(this.date)).format("YYYY-MM-DD");
 });
 
 schema.plugin(autoIncrement.plugin, { model: "Invoice", startAt: 1000 });

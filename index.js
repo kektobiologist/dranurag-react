@@ -20,7 +20,9 @@ app.use(express.static("server/public"));
 
 app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
-var moment = require("moment");
+var moment = require("moment-timezone");
+// setting default timezone here to kolkata. All instances of moment will use this tz.
+moment.tz.setDefault("Asia/Kolkata");
 
 app.set("port", process.env.PORT || 3001);
 

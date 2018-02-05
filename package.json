@@ -1,5 +1,5 @@
 {
-  "name": "react-fullstack-test-app",
+  "name": "dranurag-react",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -24,6 +24,7 @@
     "express": "^4.16.2",
     "express-restify-mongoose": "^4.3.0",
     "express-session": "^1.15.6",
+    "group-array": "^0.3.3",
     "lodash": "^4.17.4",
     "moment": "^2.19.1",
     "moment-timezone": "^0.5.14",

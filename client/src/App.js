@@ -8,6 +8,11 @@ import {
   Switch
 } from "react-router-dom";
 
+// react-dates initialization
+import "react-dates/initialize";
+import "react-dates/lib/css/_datepicker.css";
+import "./react-calendar-heatmap.css";
+
 import AddPatient from "./containers/AddPatient";
 import Home from "./containers/Home";
 import Patient from "./containers/Patient";
@@ -17,6 +22,7 @@ import Footer from "./components/util/Footer";
 import GeneratePrescription from "./containers/GeneratePrescription";
 import Login from "./containers/Login";
 import ViewVisits from "./containers/ViewVisits";
+import InvoiceReports from "./containers/InvoiceReports";
 
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import { reducer as reduxFormReducer } from "redux-form";
@@ -30,6 +36,11 @@ import {
 } from "./reducers/reducers";
 import { connect } from "react-redux";
 import { changeLoginState } from "./actions/actions";
+
+// set moment timezone here globally, will be used throughout project
+import moment from "moment-timezone";
+moment.tz.setDefault("Asia/Kolkata");
+
 const reducer = combineReducers({
   form: reduxFormReducer, // mounted under "form",
   loginState: loginReducer,
@@ -75,6 +86,11 @@ class App extends Component {
         url: "/viewVisits",
         display: "View Visits",
         component: ViewVisits
+      },
+      {
+        url: "/invoiceReports",
+        display: "Invoice Reports",
+        component: InvoiceReports
       }
       // since using switch, default urls should match to home.
       /*{

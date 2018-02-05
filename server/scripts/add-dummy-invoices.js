@@ -23,7 +23,7 @@ var setup = async () => {
       var patient = patients[Math.floor(Math.random() * 10)];
       await new Invoice({
         patient: patient._id,
-        timestamp: m.valueOf(),
+        date: m.toDate(),
         amount: Math.random() > 0.5 ? 500 : 300
       }).save();
     }
