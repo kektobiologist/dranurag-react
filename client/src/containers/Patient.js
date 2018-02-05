@@ -92,13 +92,13 @@ class PatientWithLoad extends Component {
         </div>
         <hr />
         <div className="row">
-          <div className="col">
+          <div className="col-md-6">
             <ScanPrescriptionCard
               patientId={id}
               onScanUploaded={this.onScanUploaded}
             />
           </div>
-          <div className="col">
+          <div className="col-md-6">
             <AddInvoiceCard patientId={id} />
           </div>
         </div>

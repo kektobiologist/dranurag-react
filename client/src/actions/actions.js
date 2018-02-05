@@ -42,7 +42,7 @@ export var refreshPatientInvoices = () => (dispatch, getState) => {
   const patientData = getState().patientData;
   const { patientId } = patientData;
   if (!patientId) return; // can't do shit
-  fetch(`/api/getPatientInvoices/${patientId}`, {
+  fetch(`/api/invoice/getPatientInvoices/${patientId}`, {
     credentials: "include"
   })
     .then(res => res.json())

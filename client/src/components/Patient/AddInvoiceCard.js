@@ -11,7 +11,7 @@ var InvoiceCard = ({ invoice, onDelete }) => {
   const { _id, date, amount } = invoice;
   return (
     <div>
-      <a href={`/api/invoicePdf/${_id}`} target="_blank">
+      <a href={`/api/invoice/pdf/${_id}`} target="_blank">
         <span className="text-muted">#{_id}. </span>
         <span>Rs. {toCurrency(amount)}</span>
       </a>
@@ -52,7 +52,7 @@ class AddInvoiceCard extends Component {
     const { refreshInvoices } = this.props;
     this.toggleDeleteModal();
     this.setState({ loading: true });
-    fetch(`/api/deleteInvoice/${invoiceId}`, { credentials: "include" })
+    fetch(`/api/invoice/delete/${invoiceId}`, { credentials: "include" })
       .then(res => res.json())
       .then(() => this.setState({ loading: false }))
       .then(refreshInvoices)
@@ -63,7 +63,7 @@ class AddInvoiceCard extends Component {
     const { patientId, refreshInvoices } = this.props;
     const { value } = this.state;
     this.setState({ loading: true });
-    fetch(`/api/addInvoice`, {
+    fetch(`/api/invoice/add`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
