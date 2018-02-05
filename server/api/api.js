@@ -581,6 +581,10 @@ module.exports = app => {
     const { id } = req.params;
     Invoice.findById(id)
       .populate("patient")
+      .then(invoice => {
+        if (!invoice) throw "no doc";
+        return invoice;
+      })
       .then(({ _id, patient, date, amount }) => {
         console.log(__dirname);
         var pdfDefinition = invoiceTemplateMaker({
@@ -596,6 +600,10 @@ module.exports = app => {
           console.log("pdf success");
         });
         pdfDoc.end();
+      })
+      .catch(err => {
+        console.log(err);
+        res.json(err);
       });
   });
 };
