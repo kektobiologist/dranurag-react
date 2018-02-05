@@ -61,7 +61,7 @@ class InvoiceReports extends Component {
           <div className="col-6">
             {selectedDayData ? <SelectedDayReport {...selectedDayData} /> : ""}
           </div>
-          <div className="col align-self-bottom">
+          <div className="col pb-3">
             {data ? (
               <h3>
                 <span className="pull-right">
