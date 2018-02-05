@@ -32,6 +32,7 @@ class DateRangePicker extends Component {
           // somehow this makes only past dates selectable
           isOutsideRange={day => !isInclusivelyBeforeDay(day, today)}
           showDefaultInputIcon={true}
+          displayFormat={"MMM D Y"}
         />
       </div>
     );

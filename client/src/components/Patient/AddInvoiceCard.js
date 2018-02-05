@@ -5,15 +5,16 @@ import { refreshPatientInvoices } from "../../actions/actions";
 import moment from "moment";
 import Spinner from "../util/Spinner";
 import DeletionModal from "../util/DeletionModal";
+import { toCurrency } from "../util/util";
 
 var InvoiceCard = ({ invoice, onDelete }) => {
-  const { _id, timestamp, amount } = invoice;
+  const { _id, date, amount } = invoice;
   return (
     <div>
       <span className="text-muted">#{_id}. </span>
-      <span>Rs. {amount}</span>
+      <span>Rs. {toCurrency(amount)}</span>
       <span className="text-muted pull-right">
-        {`${moment(timestamp).format("ddd, D MMM 'YY")}`}
+        {`${moment(date).format("D MMM 'YY")}`}
         <button
           type="button"
           className="close ml-3"
