@@ -1,6 +1,16 @@
 // playground requires you to assign document definition to a variable called dd
+const moment = require("moment");
 
 module.exports = ({ invoiceId, patientId, date, name, fees }) => {
+  // calculation financial year.
+  var thatApril = moment(date)
+    .month("April")
+    .startOf("month");
+  var financialYear = moment(date).year();
+  if (moment(date).isBefore(thatApril)) financialYear -= 1;
+  var invoiceNumber = `SCMed/${financialYear % 100}-${(financialYear + 1) %
+    100}/${invoiceId}`;
+
   return {
     content: [
       {
@@ -34,7 +44,7 @@ module.exports = ({ invoiceId, patientId, date, name, fees }) => {
           },
 
           {
-            text: `${invoiceId} \n${patientId} `
+            text: `${invoiceNumber} \n${patientId} `
           },
           {
             text: "Invoice date: \nPatient Name: "

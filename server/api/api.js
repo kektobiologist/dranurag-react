@@ -590,17 +590,12 @@ module.exports = app => {
           name: patient.name,
           fees: amount.toString()
         });
-        // var pdf = pdfMake.createPdf(pdfDefinition);
-        // console.log(pdf);
         const printer = new PdfPrinter(fontDescriptors);
         const pdfDoc = printer.createPdfKitDocument(pdfDefinition);
-        pdfDoc
-          .pipe(fs.createWriteStream("basics.pdf"))
-          .on("finish", function() {
-            console.log("pdf success");
-          });
+        pdfDoc.pipe(res).on("finish", function() {
+          console.log("pdf success");
+        });
         pdfDoc.end();
-        res.json("OK");
       });
   });
 };

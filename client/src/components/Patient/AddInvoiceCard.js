@@ -11,8 +11,11 @@ var InvoiceCard = ({ invoice, onDelete }) => {
   const { _id, date, amount } = invoice;
   return (
     <div>
-      <span className="text-muted">#{_id}. </span>
-      <span>Rs. {toCurrency(amount)}</span>
+      <a href={`/api/invoicePdf/${_id}`} target="_blank">
+        <span className="text-muted">#{_id}. </span>
+        <span>Rs. {toCurrency(amount)}</span>
+      </a>
+
       <span className="text-muted pull-right">
         {`${moment(date).format("D MMM 'YY")}`}
         <button

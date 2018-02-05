@@ -12,7 +12,9 @@ export default ({ date, amount, invoices }) => (
       <ListGroup>
         {invoices.map(({ _id, patient, amount }, idx) => (
           <ListGroupItem key={idx}>
-            <span className="text-muted">Inv #{_id}</span>
+            <a href={`/api/invoicePdf/${_id}`} target="_blank">
+              <span className="text-muted">Inv #{_id}</span>
+            </a>
             <span> {patient.name}</span>
             <span className="pull-right">Rs. {toCurrency(amount)}</span>
           </ListGroupItem>
