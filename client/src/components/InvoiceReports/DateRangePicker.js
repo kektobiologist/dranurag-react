@@ -33,6 +33,7 @@ class DateRangePicker extends Component {
           isOutsideRange={day => !isInclusivelyBeforeDay(day, today)}
           showDefaultInputIcon={true}
           displayFormat={"MMM D Y"}
+          minimumNights={0} // enable 1 day selections
         />
       </div>
     );
