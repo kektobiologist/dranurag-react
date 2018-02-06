@@ -11,6 +11,8 @@ import {
 // react-dates initialization
 import "react-dates/initialize";
 import "react-dates/lib/css/_datepicker.css";
+// for bug in old browsers: https://github.com/airbnb/react-dates/issues/233#issuecomment-301107184
+import "airbnb-js-shims";
 import "./react-calendar-heatmap.css";
 
 import AddPatient from "./containers/AddPatient";

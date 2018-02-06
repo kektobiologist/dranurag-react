@@ -3,6 +3,7 @@
     "version": "0.1.0",
     "private": true,
     "dependencies": {
+        "airbnb-js-shims": "^1.4.1",
         "algoliasearch": "^3.24.6",
         "algoliasearch-helper": "^2.23.0",
         "bootstrap": "^4.0.0-beta",
