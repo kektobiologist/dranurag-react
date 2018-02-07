@@ -1,7 +1,7 @@
 import getIndex from "./algoliaclient";
 var algoliaCb = (err, content) => {
   if (err) console.log("error: " + err);
-  else console.log(content);
+  // else console.log(content);
 };
 
 var algoliaHooksWrapper = (schema, indexName) => {

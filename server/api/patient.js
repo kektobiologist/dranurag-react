@@ -30,8 +30,10 @@ router.post("/add", (req, res, next) => {
 
 router.get("/delete/:id", (req, res, next) => {
   // TODO: should probably also delete visits associated with this patient
+  // use find by id and then remove, so that algolia hook is called!
   const { id } = req.params;
-  Patient.findByIdAndRemove(id)
+  Patient.findOne({ _id: id })
+    .then(doc => (doc ? doc.remove() : null))
     .then(doc => res.json(doc))
     .catch(next);
 });
