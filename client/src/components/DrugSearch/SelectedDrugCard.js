@@ -4,7 +4,6 @@ import Autocomplete from "react-autocomplete";
 import { Field, formValues } from "redux-form";
 
 // hardcode the possible values of fields
-import _ from "lodash";
 import moment from "moment";
 import ACField from "./ACField";
 import ACFieldReactAutosuggest from "./ACFieldReactAutosuggest";

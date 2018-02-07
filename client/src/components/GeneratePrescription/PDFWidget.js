@@ -25,4 +25,4 @@ class PDFWidget extends Component {
   }
 }
 
-export default PDFWidget;
+export { PDFWidget };

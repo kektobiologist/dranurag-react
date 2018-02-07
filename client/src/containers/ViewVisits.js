@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Row, Col, ListGroup } from "react-bootstrap";
+import { Row, Col, ListGroup } from "reactstrap";
 import Spinner from "../components/util/Spinner";
 import VisitCard from "../components/Home/VisitCard";
 import { SingleDatePicker, isInclusivelyBeforeDay } from "react-dates";

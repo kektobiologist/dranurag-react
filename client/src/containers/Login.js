@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col } from "reactstrap";
 import { loginFormName } from "../config/config";
 import { Field, reduxForm, Form } from "redux-form";
 import { withRouter } from "react-router-dom";

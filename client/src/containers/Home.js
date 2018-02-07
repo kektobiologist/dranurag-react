@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Row, Col, ListGroup, ListGroupItem } from "react-bootstrap";
+import { Row, Col, ListGroup, ListGroupItem } from "reactstrap";
 import VisitCard from "../components/Home/VisitCard";
 import Spinner from "../components/util/Spinner";
 import { connect } from "react-redux";

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, ButtonToolbar } from "react-bootstrap";
+import { Button, ButtonToolbar } from "reactstrap";
 import PatientInfoBlock from "../util/PatientInfoBlock";
 import { ListGroupItem } from "reactstrap";
 import { Link } from "react-router-dom";

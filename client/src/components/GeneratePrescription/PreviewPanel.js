@@ -13,7 +13,8 @@ import {
 } from "redux-form";
 import { withRouter } from "react-router-dom";
 import { getReadableDrug } from "../util/DrugACFormatter";
-import PDFWidget from "./PDFWidget";
+// using dynamic loading for PDFWidget
+// https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#code-splitting
 
 const HindiCheckBox = ({ input: { value, onChange } }) => (
   <div className="form-check">
@@ -85,8 +86,16 @@ const DiagnosisAndReview = ({ diagnosis, review, reviewAfterResults }) => {
 
 class PreviewPanel extends React.Component {
   state = {
-    data: undefined
+    data: undefined,
+    PDFWidget: undefined
   };
+
+  componentDidMount() {
+    // dynamic load pdf widget
+    import("./PDFWidget")
+      .then(({ PDFWidget }) => this.setState({ PDFWidget }))
+      .then(console.log("pdfwidget loaded"));
+  }
 
   getPrescription = () => {
     const {
@@ -164,7 +173,7 @@ class PreviewPanel extends React.Component {
       review,
       reviewAfterResults
     } = this.props;
-    const { data } = this.state;
+    const { data, PDFWidget } = this.state;
     if (!drugs) return <div />;
     return (
       <div>
@@ -211,7 +220,7 @@ class PreviewPanel extends React.Component {
           </div>
         </div>
 
-        {data ? <PDFWidget file={{ data: data }} /> : ""}
+        {data && PDFWidget ? <PDFWidget file={{ data: data }} /> : ""}
       </div>
     );
   }

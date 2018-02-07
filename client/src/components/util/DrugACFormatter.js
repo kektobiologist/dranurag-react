@@ -1,7 +1,6 @@
 import { fieldValues, fieldValuesMapping } from "./DrugData";
 import _ from "lodash";
 import string from "string";
-import "datejs";
 import moment from "moment";
 
 var durationConverter = str => {
@@ -79,9 +78,10 @@ export var getReadableDrug = (drug, language) => {
       }
     }
   });
+  // TODO: was using datejs to parse time here, but that shit is too big
   // translate special comment if it is a time
-  var time = Date.parse(readableDrug["specialComments"]);
-  if (time) readableDrug["specialComments"] = moment(time).format("h:mm A");
+  // var time = Date.parse(readableDrug["specialComments"]);
+  // if (time) readableDrug["specialComments"] = moment(time).format("h:mm A");
   // translate duration
   // just capitalize for now
   readableDrug["duration"].type = string(
