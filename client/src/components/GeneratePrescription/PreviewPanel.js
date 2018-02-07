@@ -191,14 +191,13 @@ class PreviewPanel extends React.Component {
         </div>
         <div className="row justify-content-between align-items-center">
           <div className="col-auto">
-            <a
-              role="button"
+            <button
               className="btn btn-outline-primary pl-2"
+              type="button"
               onClick={this.onPreviewClicked}
-              href="#"
             >
               Preview PDF
-            </a>
+            </button>
           </div>
           <div className="col-auto pr-2">
             <a

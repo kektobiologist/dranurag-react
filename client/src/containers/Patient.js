@@ -75,14 +75,13 @@ class PatientWithLoad extends Component {
                   </Link>
                 </div>
                 <div className="pl-2">
-                  <a
-                    role="button"
-                    href="#"
+                  <button
+                    type="button"
                     className="btn btn-outline-danger"
                     onClick={this.toggleDeleteModal}
                   >
                     Delete Profile
-                  </a>
+                  </button>
                 </div>
               </div>
             </PatientInfoCard>
