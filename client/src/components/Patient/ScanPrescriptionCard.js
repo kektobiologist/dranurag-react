@@ -39,13 +39,13 @@ class ScanPrescriptionCard extends React.Component {
       },
       (error, result) => {
         if (!error)
-          fetch("/api/addPicturePrescription", {
+          fetch("/api/prescription/scanned/submit", {
             method: "POST",
             headers: {
               "Content-Type": "application/json"
             },
             body: JSON.stringify({
-              id: patientId,
+              patient: patientId,
               url: result.url
             }),
             credentials: "include"

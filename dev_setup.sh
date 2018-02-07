@@ -13,7 +13,7 @@ function launcher {
 }
 
 
-launcher    "node"         "nodemon"
+launcher    "node"         "npm run startDev"
 launcher "react"    "cd client && npm start"
 launcher "storybook"      "cd client && npm run storybook"
 launcher "postman" "~/Downloads/Postman/Postman"

@@ -1,13 +1,17 @@
-const express = require("express");
 const path = require("path");
+if (process.env.NODE_ENV != "production")
+  var configVars = require("dotenv").config({
+    path: path.join(__dirname, "./.env.dev")
+  });
+const express = require("express");
 const pause = require("connect-pause");
 var mongoose = require("mongoose");
 // configuration ===============================================================
-var connection = mongoose.connect(process.env.MONGODB_URI); // connect to our database
+var connection = mongoose.connect(process.env.MONGODB_URI, {
+  useMongoClient: true
+}); // connect to our database
 // use js promise
 mongoose.Promise = global.Promise;
-var autoIncrement = require("mongoose-auto-increment");
-autoIncrement.initialize(connection);
 var bodyParser = require("body-parser");
 var flash = require("connect-flash");
 
@@ -18,8 +22,8 @@ var PicturePrescription = require("./server/models/picturePrescription");
 const app = express();
 app.use(express.static("server/public"));
 
-app.use(bodyParser.urlencoded());
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({ extended: true }));
 var moment = require("moment-timezone");
 // setting default timezone here to kolkata. All instances of moment will use this tz.
 moment.tz.setDefault("Asia/Kolkata");
@@ -31,9 +35,9 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 }
 // Add latency for testing
-if (process.env.ADD_LATENCY) {
-  app.use(pause(500));
-}
+// if (process.env.ADD_LATENCY) {
+//   app.use(pause(500));
+// }
 // session and passport stuff
 var session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
@@ -68,3 +72,6 @@ if (process.env.NODE_ENV == "production") {
 app.listen(app.get("port"), () => {
   console.log(`Find the server at: http://localhost:${app.get("port")}/`); // eslint-disable-line no-console
 });
+
+// for use in testing
+module.exports = app;

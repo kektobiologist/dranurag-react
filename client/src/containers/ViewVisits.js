@@ -20,14 +20,14 @@ class ViewVisits extends Component {
     // react-dates by default selects 12:00 pm of the day as time
     // with default timezone set through moment-timezone in App.js.
     // so need to subtract 12:00 hours to get beginning of day.
-    var dateCorrect = new Date(date);
-    dateCorrect.setHours(dateCorrect.getHours() - 12);
-    fetch("/api/visitSearch", {
+
+    // actually no need to correct date now, it's done in backend only
+    fetch("/api/visit/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ visitDate: dateCorrect }),
+      body: JSON.stringify({ date: date }),
       credentials: "include"
     })
       .then(res => res.json())

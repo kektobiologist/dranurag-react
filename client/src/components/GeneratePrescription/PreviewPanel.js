@@ -114,7 +114,7 @@ class PreviewPanel extends React.Component {
 
   onPreviewClicked = () => {
     var prescription = this.getPrescription();
-    fetch(`/api/previewPrescriptionPdf`, {
+    fetch(`/api/prescription/generated/previewPdf`, {
       method: "POST",
       headers: {
         Accept: "application/pdf",
@@ -134,7 +134,7 @@ class PreviewPanel extends React.Component {
   onSubmitClicked = () => {
     var prescription = this.getPrescription();
     const { history, patientId, reset } = this.props;
-    fetch(`/api/submitPrescription`, {
+    fetch(`/api/prescription/generated/submit`, {
       method: "POST",
       headers: {
         Accept: "application/pdf",
@@ -151,7 +151,7 @@ class PreviewPanel extends React.Component {
       .then(res => {
         history.push(`/patient/${patientId}`);
         reset();
-        window.open(`/api/prescriptionPdf/${res._id}`);
+        window.open(`/api/prescription/generated/pdf/${res._id}`);
       })
       .catch(err => console.log(err));
   };

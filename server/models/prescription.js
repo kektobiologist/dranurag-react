@@ -1,6 +1,6 @@
 // models/prescription.js
 var mongoose = require("mongoose");
-var autoIncrement = require("mongoose-auto-increment");
+import { autoIncrement } from "mongoose-plugin-autoinc";
 
 var DurationSchema = mongoose.Schema(
   { number: String, type: String },
@@ -30,7 +30,12 @@ var PrescriptionSchema = mongoose.Schema({
   diagnosis: String
 });
 
-PrescriptionSchema.plugin(autoIncrement.plugin, {
+PrescriptionSchema.pre("save", function(next) {
+  this.date = new Date();
+  next();
+});
+
+PrescriptionSchema.plugin(autoIncrement, {
   model: "Prescription",
   startAt: 1000
 });

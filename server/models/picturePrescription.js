@@ -1,16 +1,34 @@
 // models/picture_prescription.js
 // load the things we need
-var mongoose = require('mongoose');
-var autoIncrement = require('mongoose-auto-increment');
+var mongoose = require("mongoose");
+import { autoIncrement } from "mongoose-plugin-autoinc";
+var moment = require("moment");
 
+var schema = mongoose.Schema(
+  {
+    patient: { type: Number, ref: "Patient", required: true },
+    url: String,
+    date: Date
+  },
+  {
+    toObject: {
+      virtuals: true
+    },
+    toJSON: {
+      virtuals: true
+    }
+  }
+);
 
-var schema = mongoose.Schema({
-  patient: {type: Number, ref: 'Patient', required: true},
-  url: String,
-  timestamp: Number,
-  title: String,
-})
+schema.virtual("title").get(function() {
+  return moment(this.date).format("MMMM Do, YYYY");
+});
 
-schema.plugin(autoIncrement.plugin, { model: 'PicturePrescription', startAt: 1000 });
+schema.pre("save", function(next) {
+  this.date = new Date();
+  next();
+});
 
-module.exports = mongoose.model('PicturePrescription', schema)
+schema.plugin(autoIncrement, { model: "PicturePrescription", startAt: 1000 });
+
+module.exports = mongoose.model("PicturePrescription", schema);

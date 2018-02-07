@@ -35,7 +35,7 @@ class PatientWithLoad extends Component {
   onDeletePatient = () => {
     const { id } = this.state;
     const { history } = this.props;
-    fetch(`/api/deletePatient/${id}`, { credentials: "include" })
+    fetch(`/api/patient/delete/${id}`, { credentials: "include" })
       .then(res => res.json())
       .then(() => history.push("/"));
   };

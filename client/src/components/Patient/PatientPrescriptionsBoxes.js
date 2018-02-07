@@ -3,16 +3,14 @@ import React, { Component } from "react";
 import { ListGroup, ListGroupItem } from "reactstrap";
 import moment from "moment";
 var PrescriptionCard = ({ idx, prescription }) => {
-  const { url, timestamp, title } = prescription;
+  const { url, date, title } = prescription;
   return (
     <div>
       <span className="text-muted">{idx}. </span>
       <a href={url} target="_blank">
         {title}
       </a>
-      <span className="text-muted pull-right">
-        {moment(timestamp).fromNow()}
-      </span>
+      <span className="text-muted pull-right">{moment(date).fromNow()}</span>
     </div>
   );
 };
