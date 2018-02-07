@@ -70,7 +70,7 @@ class GeneratePrescription extends Component {
         <div className="container">
           <button
             className="btn btn-outline-primary"
-            role="button"
+            type="button"
             onClick={() => reinitializeForm(latestPrescription)}
             disabled={latestPrescription ? false : true}
           >
@@ -78,7 +78,7 @@ class GeneratePrescription extends Component {
           </button>
           <button
             className="btn btn-outline-primary ml-2"
-            role="button"
+            type="button"
             onClick={clearForm}
           >
             Clear Prescription

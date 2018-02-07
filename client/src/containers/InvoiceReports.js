@@ -19,7 +19,7 @@ class InvoiceReports extends Component {
     // to make endDate inclusive, will add 12 hours instead.
     startDate.setHours(startDate.getHours() - 12);
     endDate.setHours(endDate.getHours() + 12);
-    fetch(`/api/invoice/getInvoiceHeatmapData`, {
+    fetch(`/api/invoice/heatmapData`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

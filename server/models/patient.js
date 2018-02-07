@@ -1,6 +1,6 @@
 // models/patient.js
 var mongoose = require("mongoose");
-var autoIncrement = require("mongoose-auto-increment");
+import { autoIncrement } from "mongoose-plugin-autoinc";
 var moment = require("moment");
 var algoliaHooksWrapper = require("./util/algoliaHooksWrapper");
 
@@ -17,9 +17,8 @@ var patientSchema = mongoose.Schema(
     phone2: String,
     height: Number,
     weight: Number,
-    bmi: Number,
     allergies: String,
-    timestamp: Number
+    date: Date
   },
   {
     toObject: {
@@ -31,21 +30,10 @@ var patientSchema = mongoose.Schema(
   }
 );
 
-patientSchema.methods.getHelpText = function() {
-  helpText = this.sex == "Male" ? "M" : "F";
-  if (this.inferredBirthdate) {
-    helpText += " / " + this.age + " yrs";
-  }
-  if (this.phone1) {
-    helpText += " /  <i class='fa fa-phone px-1'></i> " + this.phone1;
-  }
-  return helpText;
-};
-
 patientSchema
   .virtual("age")
   .get(function() {
-    return moment(new Date()).diff(this.inferredBirthdate, "years");
+    return moment().diff(this.inferredBirthdate, "years");
   })
   // using '=>' style functions changed 'this' var?
   .set(function(age) {
@@ -56,6 +44,36 @@ patientSchema
         .toDate()
     );
   });
+
+function bmi(weightKg, heightCm) {
+  if (!weightKg || !heightCm) return null;
+  weightKg = parseInt(weightKg);
+  heightCm = parseInt(heightCm);
+  return Number(
+    parseFloat(weightKg / (heightCm / 100 * (heightCm / 100))).toFixed(2)
+  );
+}
+
+// no setter for bmi
+patientSchema.virtual("bmi").get(function() {
+  return bmi(this.weight, this.height);
+});
+
+function toTitleCase(str) {
+  return str.replace(/\w\S*/g, function(txt) {
+    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+  });
+}
+
+// pre hooks for save
+patientSchema.pre("save", function(next) {
+  this.name = toTitleCase(this.name);
+  this.sex =
+    this.sex == "Male" ? this.sex : this.sex == "Female" ? this.sex : "Male";
+  // add date here. it's the time of last update i guess? no idea
+  this.date = new Date();
+  next();
+});
 
 // add pre for findOneAndUpdate just to see if it fixes the age issue
 // this is assuming the express-restify-mongoose uses findOneAndUpdate for PATCH
@@ -71,6 +89,6 @@ patientSchema.pre("findOneAndUpdate", function() {
 // algolia hooks
 algoliaHooksWrapper(patientSchema, "patients");
 
-patientSchema.plugin(autoIncrement.plugin, { model: "Patient", startAt: 1000 });
+patientSchema.plugin(autoIncrement, { model: "Patient", startAt: 1000 });
 
 module.exports = mongoose.model("Patient", patientSchema);

@@ -1,7 +1,7 @@
 // models/visit.js
 // Visit is just (patientId, datetime)
 var mongoose = require("mongoose");
-var autoIncrement = require("mongoose-auto-increment");
+import { autoIncrement } from "mongoose-plugin-autoinc";
 
 var visitSchema = mongoose.Schema({
   patient: { type: Number, ref: "Patient", required: true },
@@ -10,6 +10,7 @@ var visitSchema = mongoose.Schema({
 
 visitSchema.statics.addVisit = function(patientModel, visitModel, patientId) {
   if (!patientId) {
+    throw { message: "No patient Id provided." };
   } else {
     return patientModel.findOne({ _id: patientId }).then(patient => {
       if (!patient) {
@@ -22,6 +23,6 @@ visitSchema.statics.addVisit = function(patientModel, visitModel, patientId) {
     });
   }
 };
-visitSchema.plugin(autoIncrement.plugin, { model: "Visit", startAt: 1000 });
+visitSchema.plugin(autoIncrement, { model: "Visit", startAt: 1000 });
 
 module.exports = mongoose.model("Visit", visitSchema);

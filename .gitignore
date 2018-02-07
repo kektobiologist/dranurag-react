@@ -1,4 +1,8 @@
 node_modules/
 client/node_modules
 client/build
+dist/
 nodemon.json
+.env.dev
+.env.test
+.env.prod

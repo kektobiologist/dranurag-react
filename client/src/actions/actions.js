@@ -29,7 +29,7 @@ export var refreshPatientScannedPrescriptions = () => (dispatch, getState) => {
   const patientData = getState().patientData;
   const { patientId } = patientData;
   if (!patientId) return; // can't do shit
-  fetch(`/api/patientScannedPrescriptions/${patientId}`, {
+  fetch(`/api/prescription/scanned/patient/${patientId}`, {
     credentials: "include"
   })
     .then(res => res.json())
@@ -42,7 +42,7 @@ export var refreshPatientInvoices = () => (dispatch, getState) => {
   const patientData = getState().patientData;
   const { patientId } = patientData;
   if (!patientId) return; // can't do shit
-  fetch(`/api/invoice/getPatientInvoices/${patientId}`, {
+  fetch(`/api/invoice/patient/${patientId}`, {
     credentials: "include"
   })
     .then(res => res.json())
@@ -63,7 +63,7 @@ var setFetchingTodaysVisits = value => ({
 
 export var fetchTodaysVisits = () => dispatch => {
   dispatch(setFetchingTodaysVisits(true));
-  fetch("/api/visits", {
+  fetch("/api/visit/today", {
     credentials: "include"
   })
     .then(res => res.json())

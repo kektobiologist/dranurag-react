@@ -1,8 +1,8 @@
 // models/invoice.js
 
 var mongoose = require("mongoose");
-var autoIncrement = require("mongoose-auto-increment");
 var moment = require("moment-timezone");
+import { autoIncrement } from "mongoose-plugin-autoinc";
 
 var schema = mongoose.Schema(
   {
@@ -27,6 +27,6 @@ schema.virtual("dateString").get(function() {
   return moment(new Date(this.date)).format("YYYY-MM-DD");
 });
 
-schema.plugin(autoIncrement.plugin, { model: "Invoice", startAt: 1000 });
+schema.plugin(autoIncrement, { model: "Invoice", startAt: 1000 });
 
 module.exports = mongoose.model("Invoice", schema);

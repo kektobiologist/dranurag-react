@@ -12,7 +12,7 @@ import {
 class AddPatient extends Component {
   onSubmit = values => {
     const { history } = this.props;
-    fetch(`/api/addPatient`, {
+    fetch(`/api/patient/add`, {
       method: "POST",
       headers: {
         Accept: "application/pdf",

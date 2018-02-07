@@ -114,7 +114,7 @@ class PreviewPanel extends React.Component {
 
   onPreviewClicked = () => {
     var prescription = this.getPrescription();
-    fetch(`/api/previewPrescriptionPdf`, {
+    fetch(`/api/prescription/generated/previewPdf`, {
       method: "POST",
       headers: {
         Accept: "application/pdf",
@@ -134,7 +134,7 @@ class PreviewPanel extends React.Component {
   onSubmitClicked = () => {
     var prescription = this.getPrescription();
     const { history, patientId, reset } = this.props;
-    fetch(`/api/submitPrescription`, {
+    fetch(`/api/prescription/generated/submit`, {
       method: "POST",
       headers: {
         Accept: "application/pdf",
@@ -151,7 +151,7 @@ class PreviewPanel extends React.Component {
       .then(res => {
         history.push(`/patient/${patientId}`);
         reset();
-        window.open(`/api/prescriptionPdf/${res._id}`);
+        window.open(`/api/prescription/generated/pdf/${res._id}`);
       })
       .catch(err => console.log(err));
   };
@@ -191,14 +191,13 @@ class PreviewPanel extends React.Component {
         </div>
         <div className="row justify-content-between align-items-center">
           <div className="col-auto">
-            <a
-              role="button"
+            <button
               className="btn btn-outline-primary pl-2"
+              type="button"
               onClick={this.onPreviewClicked}
-              href="#"
             >
               Preview PDF
-            </a>
+            </button>
           </div>
           <div className="col-auto pr-2">
             <a

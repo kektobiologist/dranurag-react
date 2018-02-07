@@ -1,12 +1,11 @@
-var getIndex = require("./algoliaclient");
-
+import getIndex from "./algoliaclient";
 var algoliaCb = (err, content) => {
   if (err) console.log("error: " + err);
-  else console.log(content);
+  // else console.log(content);
 };
 
 var algoliaHooksWrapper = (schema, indexName) => {
-  index = getIndex(indexName);
+  var index = getIndex(indexName);
 
   schema.post("save", doc => {
     index.addObject({ ...doc.toObject(), objectID: doc._id }, algoliaCb);

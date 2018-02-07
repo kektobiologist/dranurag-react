@@ -35,7 +35,7 @@ class PatientWithLoad extends Component {
   onDeletePatient = () => {
     const { id } = this.state;
     const { history } = this.props;
-    fetch(`/api/deletePatient/${id}`, { credentials: "include" })
+    fetch(`/api/patient/delete/${id}`, { credentials: "include" })
       .then(res => res.json())
       .then(() => history.push("/"));
   };
@@ -75,14 +75,13 @@ class PatientWithLoad extends Component {
                   </Link>
                 </div>
                 <div className="pl-2">
-                  <a
-                    role="button"
-                    href="#"
+                  <button
+                    type="button"
                     className="btn btn-outline-danger"
                     onClick={this.toggleDeleteModal}
                   >
                     Delete Profile
-                  </a>
+                  </button>
                 </div>
               </div>
             </PatientInfoCard>

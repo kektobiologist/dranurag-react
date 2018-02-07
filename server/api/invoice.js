@@ -38,7 +38,7 @@ var getPatientInvoicesPromise = id =>
     .sort({ timestamp: -1 })
     .exec();
 
-router.get("/getPatientInvoices/:id", (req, res) => {
+router.get("/patient/:id", (req, res) => {
   const { id } = req.params;
   // don't populate patient
   getPatientInvoicesPromise(id)
@@ -59,7 +59,7 @@ var getInvoicesWithinDatesPromise = (startDate, endDate) =>
     .exec();
 
 // generic endpoint to just get all invoices, unformatted
-router.post("/getInvoicesWithinDates", (req, res) => {
+router.post("/withinDates", (req, res) => {
   const { startDate, endDate } = req.body;
   // populate full patients, maybe not required...
   getInvoicesWithinDatesPromise(startDate, endDate)
@@ -72,7 +72,7 @@ router.post("/getInvoicesWithinDates", (req, res) => {
 
 var groupArray = require("group-array");
 // will return minimal, formatted stuff to render calendar heatmap and daywise patient list
-router.post("/getInvoiceHeatmapData", (req, res) => {
+router.post("/heatmapData", (req, res) => {
   const { startDate, endDate } = req.body;
   getInvoicesWithinDatesPromise(startDate, endDate)
     // remove unimportant patient data
@@ -95,7 +95,7 @@ router.post("/getInvoiceHeatmapData", (req, res) => {
         };
       }
       // group them by dateString
-      grouped = groupArray(invoices, "dateString");
+      var grouped = groupArray(invoices, "dateString");
       Object.entries(grouped).forEach(([date, invoices]) => {
         table[date] = {
           amount: invoices.reduce((acc, invoice) => acc + invoice.amount, 0),
@@ -103,7 +103,7 @@ router.post("/getInvoiceHeatmapData", (req, res) => {
         };
       });
       // turn {key: val} to [{date: key, ...val}]
-      ret = Object.entries(table).map(([date, obj]) => ({
+      var ret = Object.entries(table).map(([date, obj]) => ({
         date: date,
         ...obj
       }));
@@ -129,7 +129,6 @@ router.get("/pdf/:id", (req, res) => {
       return invoice;
     })
     .then(({ _id, patient, date, amount }) => {
-      console.log(__dirname);
       var pdfDefinition = invoiceTemplateMaker({
         invoiceId: _id,
         patientId: patient._id,
@@ -139,18 +138,22 @@ router.get("/pdf/:id", (req, res) => {
       });
       const printer = new PdfPrinter(fontDescriptors);
       const pdfDoc = printer.createPdfKitDocument(pdfDefinition);
+      res.type("pdf");
       pdfDoc.pipe(res).on("finish", function() {
-        console.log("pdf success");
+        // console.log("pdf success");
       });
       pdfDoc.end();
     })
     .catch(err => {
-      console.log(err);
-      res.json(err);
+      if (err == "no doc") res.json(err);
+      else {
+        console.log(err);
+        res.json(err);
+      }
     });
 });
 
 module.exports = {
-  invoiceRouter: router,
+  router,
   getPatientInvoicesPromise
 };

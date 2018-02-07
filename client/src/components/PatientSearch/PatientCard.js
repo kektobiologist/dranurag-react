@@ -30,7 +30,7 @@ var PatientCard = ({ patient, history }) => {
           className="btn btn-outline-primary"
           href="#"
           onClick={() => {
-            fetch(`/api/addVisit/${patient._id}`, { credentials: "include" })
+            fetch(`/api/visit/add/${patient._id}`, { credentials: "include" })
               .then(res => res.json())
               .catch(err => console.log(err))
               .then(res => history.push("/"));

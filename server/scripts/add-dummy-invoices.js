@@ -3,8 +3,6 @@ var connection = mongoose.connect(process.env.MONGODB_URI); // connect to our da
 
 // use js promise
 mongoose.Promise = global.Promise;
-var autoIncrement = require("mongoose-auto-increment");
-autoIncrement.initialize(connection);
 var moment = require("moment");
 
 var Invoice = require("../models/invoice");
