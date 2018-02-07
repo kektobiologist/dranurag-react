@@ -4,7 +4,7 @@ var configVars = require("dotenv").config({
   path: path.join(__dirname, "../../.env.test")
 });
 
-const app = require("../../index");
+const app = require("../index");
 let mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
 

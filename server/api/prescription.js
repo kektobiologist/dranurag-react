@@ -78,6 +78,7 @@ const { performance } = require("perf_hooks");
 var getPdfBufferPuppeteer = async htmlString => {
   // TODO: use a global instance instead of making one every time?
   // no-sandbox required for heroku; might need ['--no-sandbox', '--disable-setuid-sandbox'] if this doenst work
+
   performance.mark("Start");
   const browser = await puppeteer.launch({
     args: ["--no-sandbox", "--disable-setuid-sandbox"]
