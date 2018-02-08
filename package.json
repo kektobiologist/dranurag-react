@@ -63,5 +63,6 @@
   },
   "babel": {
     "presets": ["es2015", "stage-3"]
-  }
+  },
+  "cacheDirectories": ["node_modules", "client/node_modules"]
 }
