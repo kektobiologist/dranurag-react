@@ -11,6 +11,16 @@ var path = require("path");
 
 var invoiceTemplateMaker = require("../scripts/pdfmake-invoice-template");
 
+router.use((req, res, next) => {
+  // invoice API not meant for suresh bhaiya, so return not authorized for him
+  if (req.user.authLevel >= 1) {
+    // res.status(401).json("INVOICE API not available.");
+    res.json([]);
+  } else {
+    next();
+  }
+});
+
 router.post("/add", (req, res) => {
   const { patientId, amount } = req.body;
   new Invoice({
