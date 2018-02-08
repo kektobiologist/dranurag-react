@@ -47,7 +47,7 @@ module.exports = app => {
             scannedPrescriptions,
             generatedPrescriptions,
             latestPrescription,
-            invoices
+            invoices: req.user.authLevel >= 1 ? [] : invoices
           });
         }
       )
