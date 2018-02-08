@@ -15,13 +15,12 @@ import "react-dates/lib/css/_datepicker.css";
 import "airbnb-js-shims";
 import "./react-calendar-heatmap.css";
 
+import asyncComponent from "./components/util/AsyncComponent";
 import AddPatient from "./containers/AddPatient";
 import Home from "./containers/Home";
 import Patient from "./containers/Patient";
-import PatientSearch from "./containers/PatientSearch";
-import DrugSearch from "./containers/DrugSearch";
 import Footer from "./components/util/Footer";
-import GeneratePrescription from "./containers/GeneratePrescription";
+
 import Login from "./containers/Login";
 import ViewVisits from "./containers/ViewVisits";
 import InvoiceReports from "./containers/InvoiceReports";
@@ -39,9 +38,18 @@ import {
 import { connect } from "react-redux";
 import { changeLoginState } from "./actions/actions";
 
+// import PatientSearch from "./containers/PatientSearch";
+const AsyncPatientSearch = asyncComponent(() =>
+  import("./containers/PatientSearch")
+);
+
+// import GeneratePrescription from "./containers/GeneratePrescription";
+const AsyncGeneratePrescription = asyncComponent(() =>
+  import("./containers/GeneratePrescription")
+);
+
 // set moment timezone here globally, will be used throughout project
-import moment from "moment-timezone";
-moment.tz.setDefault("Asia/Kolkata");
+// not doing this, local timezone on client will probably be india only
 
 const reducer = combineReducers({
   form: reduxFormReducer, // mounted under "form",
@@ -82,7 +90,7 @@ class App extends Component {
       {
         url: "/patientSearch",
         display: "Patient Search",
-        component: PatientSearch
+        component: AsyncPatientSearch
       },
       {
         url: "/viewVisits",
@@ -95,12 +103,6 @@ class App extends Component {
         component: InvoiceReports
       }
       // since using switch, default urls should match to home.
-      /*{
-        url: "/drugSearch",
-        display: "Drug Search",
-        component: DrugSearch
-      },*/
-      /*{ url: "/VisitSearch", display: "Visit Search" }*/
     ];
     return (
       <div>
@@ -124,7 +126,7 @@ class App extends Component {
                   <PrivateRoute path="/patient/:id" component={Patient} />
                   <PrivateRoute
                     path="/generatePrescription/:id"
-                    component={GeneratePrescription}
+                    component={AsyncGeneratePrescription}
                   />
                   {/*redirect to home page. has to be last route so doesn't override others in switch*/}
                   <Route

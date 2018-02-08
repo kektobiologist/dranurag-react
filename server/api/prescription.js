@@ -182,7 +182,7 @@ router.get("/generated/:id", async (req, res, next) => {
   }
 });
 
-// prescriptions info only: url, timestamp, title
+// prescriptions info only: url, date, title
 router.get("/generated/info/:patientId", (req, res) => {
   const { patientId } = req.params;
   getGeneratedPrescriptionsPromise(patientId).then(docs => res.json(docs));

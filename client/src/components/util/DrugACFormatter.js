@@ -1,5 +1,4 @@
 import { fieldValues, fieldValuesMapping } from "./DrugData";
-import _ from "lodash";
 import string from "string";
 import moment from "moment";
 
@@ -33,15 +32,14 @@ export default drugMeta => {
     ["specialComments", "specialComments"]
   ];
   keys.forEach(([str, key]) => {
-    drug.drugMeta[str] = _.sortBy(
-      fieldValues[str].map(val => {
+    drug.drugMeta[str] = fieldValues[str]
+      .map(val => {
         var temp;
-        if ((temp = _.find(drugMeta[str], { val: val })))
+        if ((temp = drugMeta[str].find(o => o.val == val)))
           return { val: val, count: temp.count };
         else return { val: val, count: 0 };
-      }),
-      [o => -o.count]
-    );
+      })
+      .sort((a, b) => b.count - a.count);
   });
   keys.forEach(([str, key]) => {
     if (drug.drugMeta[str][0].count) drug[key] = drug.drugMeta[str][0].val;

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import DateRangePicker from "../components/InvoiceReports/DateRangePicker";
 import CalendarHeatmap from "../components/InvoiceReports/CalendarHeatmap";
 import SelectedDayReport from "../components/InvoiceReports/SelectedDayReport";
 import moment from "moment";
@@ -10,8 +9,16 @@ class InvoiceReports extends Component {
     data: null,
     selectedDayData: null,
     startDate: null,
-    endDate: null
+    endDate: null,
+    DateRangePicker: undefined
   };
+
+  componentDidMount() {
+    // dynamic import DateRangePicker
+    import("../components/InvoiceReports/DateRangePicker").then(
+      ({ DateRangePicker }) => this.setState({ DateRangePicker })
+    );
+  }
 
   onDatesChange = (startDate, endDate) => {
     // again these are react-dates date and ar 12:00pm local time, so need
@@ -35,13 +42,23 @@ class InvoiceReports extends Component {
   };
 
   render() {
-    const { data, selectedDayData, startDate, endDate } = this.state;
+    const {
+      data,
+      selectedDayData,
+      startDate,
+      endDate,
+      DateRangePicker
+    } = this.state;
     var total = data ? data.reduce((sum, { amount }) => sum + amount, 0) : 0;
     return (
       <div>
         <div className="d-flex">
           <div className="mx-auto px-auto">
-            <DateRangePicker onChange={this.onDatesChange} />
+            {DateRangePicker ? (
+              <DateRangePicker onChange={this.onDatesChange} />
+            ) : (
+              ""
+            )}
           </div>
         </div>
         <hr />

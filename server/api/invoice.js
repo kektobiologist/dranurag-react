@@ -35,7 +35,7 @@ router.get("/delete/:id", (req, res) => {
 
 var getPatientInvoicesPromise = id =>
   Invoice.find({ patient: id })
-    .sort({ timestamp: -1 })
+    .sort({ date: -1 })
     .exec();
 
 router.get("/patient/:id", (req, res) => {
@@ -75,6 +75,9 @@ var groupArray = require("group-array");
 router.post("/heatmapData", (req, res) => {
   const { startDate, endDate } = req.body;
   getInvoicesWithinDatesPromise(startDate, endDate)
+    // remove invoices that don't have patient associated!
+    // should probably just do cleanup on patient removal...
+    .then(invoices => invoices.filter(invoice => invoice.patient))
     // remove unimportant patient data
     .then(invoices =>
       invoices.map(invoice => {

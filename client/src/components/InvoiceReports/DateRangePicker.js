@@ -40,4 +40,4 @@ class DateRangePicker extends Component {
   }
 }
 
-export default DateRangePicker;
+export { DateRangePicker };

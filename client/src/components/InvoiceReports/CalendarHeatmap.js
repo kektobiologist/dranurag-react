@@ -1,16 +1,16 @@
 import React, { Component } from "react";
-import _ from "lodash";
 import CalendarHeatmap from "react-calendar-heatmap";
 import moment from "moment";
 
 export default ({ data, numClasses = 5, onClick }) => {
-  var maxAmount = _.max(_.map(data, "amount")) || 1; // in case max is 0
-  var dates = data.map(({ date }) => moment(date));
+  var maxAmount = Math.max(...data.map(datum => datum["amount"])) || 1;
+  // var maxAmount = _.max(_.map(data, "amount")) || 1; // in case max is 0
+  var dates = data.map(({ date }) => new Date(date));
   // BUG? for some reason have to go back 1 day for start date...
-  var minDate = _.min(dates)
+  var minDate = moment(Math.min(...dates))
     .add(-1, "days")
     .format("YYYY-MM-DD");
-  var maxDate = _.max(dates).format("YYYY-MM-DD");
+  var maxDate = moment(Math.max(...dates)).format("YYYY-MM-DD");
   return (
     <CalendarHeatmap
       startDate={minDate}
