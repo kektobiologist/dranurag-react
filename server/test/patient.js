@@ -24,7 +24,7 @@ import moment from "moment";
 before(done => {
   agent
     .post("/api/login")
-    .send({ username: "arpit", password: "pavilion" })
+    .send({ username: "username", password: "password" })
     .end((err, res) => done());
 });
 

@@ -1,7 +1,7 @@
 import "babel-polyfill"; // bullshit
 
 const path = require("path");
-if (process.env.NODE_ENV != "production")
+if (process.env.NODE_ENV == "development")
   var configVars = require("dotenv").config({
     path: path.join(__dirname, "../.env.dev")
   });
@@ -33,10 +33,10 @@ moment.tz.setDefault("Asia/Kolkata");
 
 app.set("port", process.env.PORT || 3001);
 
-// Add latency for testing
-// if (process.env.ADD_LATENCY) {
-//   app.use(pause(500));
-// }
+// Add latency for dev testing
+if (process.env.ADD_LATENCY == true) {
+  app.use(pause(500));
+}
 // session and passport stuff
 var session = require("express-session");
 const MongoStore = require("connect-mongo")(session);

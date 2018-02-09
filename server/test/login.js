@@ -29,7 +29,7 @@ describe("Login", () => {
     agent
       .post("/api/login")
       .set("content-type", "application/json")
-      .send({ username: "arpit", password: "pavilion" })
+      .send({ username: "username", password: "password" })
       .end((err, res) => {
         res.should.have.status(200);
         res.should.be.json;

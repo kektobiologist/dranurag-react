@@ -8,7 +8,7 @@ let mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
 
 let Invoice = require("../models/invoice");
-
+let Patient = require("../models/patient");
 // required for binary data with superagent/chai-http
 // https://github.com/chaijs/chai-http/issues/141
 var binaryParser = require("superagent-binary-parser");
@@ -26,7 +26,7 @@ import moment from "moment";
 before(done => {
   agent
     .post("/api/login")
-    .send({ username: "arpit", password: "pavilion" })
+    .send({ username: "username", password: "password" })
     .end((err, res) => done());
 });
 
@@ -60,54 +60,33 @@ describe("Invoice", () => {
   });
 
   describe("Get Patient Invoices", () => {
-    it("gets existing patient invoices", done => {
-      var expected = [
-        {
-          _id: 1385,
-          patient: 1129,
-          amount: 500,
-          date: "2018-02-05T17:41:00.773Z",
-          __v: 0,
-          dateString: "2018-02-05",
-          id: "1385"
-        },
-        {
-          _id: 1386,
-          patient: 1129,
-          amount: 500,
-          date: "2018-02-05T17:47:43.336Z",
-          __v: 0,
-          dateString: "2018-02-05",
-          id: "1386"
-        },
-        {
-          _id: 1387,
-          patient: 1129,
-          amount: 500,
-          date: "2018-02-05T17:54:11.746Z",
-          __v: 0,
-          dateString: "2018-02-05",
-          id: "1387"
-        },
-        {
-          _id: 1389,
-          patient: 1129,
-          amount: 500,
-          date: "2018-02-06T05:30:11.757Z",
-          __v: 0,
-          dateString: "2018-02-06",
-          id: "1389"
-        }
-      ];
-      agent
-        .get("/api/invoice/patient/1129")
-        .then(res => {
-          res.should.have.status(200);
-          res.should.be.json;
-          res.body.should.be.eql(expected);
-          done();
-        })
-        .catch(err => done(err));
+    it("gets existing patient invoices", async () => {
+      // insert some patients and invoices
+      var patient = await new Patient({ name: "dummy" }).save();
+      var invoices = await Promise.all(
+        [500, 500, 200].map(amount =>
+          new Invoice({
+            patient: patient._id,
+            amount,
+            date: new Date()
+          }).save()
+        )
+      );
+      var res = await agent.get(`/api/invoice/patient/${patient._id}`);
+      res.should.have.status(200);
+      res.should.be.json;
+      res.body
+        .sort((a, b) => a._id - b._id)
+        .should.be.eql(
+          invoices
+            .map(invoice => JSON.parse(JSON.stringify(invoice)))
+            .sort((a, b) => a._id - b._id)
+        );
+      // cleanup
+      await Promise.all([
+        patient.remove(),
+        ...invoices.map(invoice => invoice.remove())
+      ]);
     });
 
     it("gets non existing patient invoices", done => {
