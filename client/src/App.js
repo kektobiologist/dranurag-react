@@ -57,10 +57,7 @@ const reducer = combineReducers({
   patientData: patientDataReducer,
   todaysVisits: todaysVisitsReducer
 });
-const store = createStore(
-  reducer,
-  applyMiddleware(thunk) /*, applyMiddleware(logger)*/
-);
+const store = createStore(reducer, applyMiddleware(thunk /*, logger*/));
 
 var PrivateRoute = ({ component: Component, loginState, ...rest }) => (
   <Route

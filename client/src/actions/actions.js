@@ -73,3 +73,7 @@ export var fetchTodaysVisits = () => dispatch => {
       dispatch(updateTodaysVisits(visits));
     });
 };
+
+export var touchTodaysVisits = (dispatch, getState) => {
+  dispatch(updateTodaysVisits({ ...getState().todaysVisits }));
+};

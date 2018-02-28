@@ -89,10 +89,15 @@ Login = reduxForm({
 
 Login = withRouter(Login);
 
-Login = connect(null, dispatch => ({
-  changeLoginState: loginState => {
-    dispatch(changeLoginState(loginState));
-  }
-}))(Login);
+Login = connect(
+  ({ loginState }) => ({
+    loginState
+  }),
+  dispatch => ({
+    changeLoginState: loginState => {
+      dispatch(changeLoginState(loginState));
+    }
+  })
+)(Login);
 
 export default Login;

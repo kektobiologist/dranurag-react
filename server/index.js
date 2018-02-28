@@ -34,7 +34,7 @@ moment.tz.setDefault("Asia/Kolkata");
 app.set("port", process.env.PORT || 3001);
 
 // Add latency for dev testing
-if (process.env.ADD_LATENCY == true) {
+if (process.env.ADD_LATENCY) {
   app.use(pause(500));
 }
 // session and passport stuff
