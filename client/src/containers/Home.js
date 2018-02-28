@@ -3,17 +3,8 @@ import { Row, Col, ListGroup, ListGroupItem } from "reactstrap";
 import VisitCard from "../components/Home/VisitCard";
 import Spinner from "../components/util/Spinner";
 import { connect } from "react-redux";
-import { fetchTodaysVisits, touchTodaysVisits } from "../actions/actions";
+import { fetchTodaysVisits } from "../actions/actions";
 class Home extends Component {
-  componentDidMount() {
-    const { touchVisits } = this.props;
-    this.interval = setInterval(touchVisits, 60 * 1000);
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.interval);
-  }
-
   onRefresh = () => {
     const { fetchVisits } = this.props;
     fetchVisits();
@@ -60,8 +51,7 @@ class Home extends Component {
 Home = connect(
   state => ({ ...state.todaysVisits }),
   dispatch => ({
-    fetchVisits: () => dispatch(fetchTodaysVisits()),
-    touchVisits: () => dispatch(touchTodaysVisits())
+    fetchVisits: () => dispatch(fetchTodaysVisits())
   })
 )(Home);
 
