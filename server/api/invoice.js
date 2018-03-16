@@ -22,11 +22,11 @@ router.use((req, res, next) => {
 });
 
 router.post("/add", (req, res) => {
-  const { patientId, amount } = req.body;
+  const { patientId, amount, date } = req.body;
   new Invoice({
     patient: patientId,
     amount,
-    date: new Date()
+    date: new Date(date)
   })
     .save()
     .then(invoice => res.json(invoice))

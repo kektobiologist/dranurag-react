@@ -18,7 +18,6 @@ import "./react-calendar-heatmap.css";
 import asyncComponent from "./components/util/AsyncComponent";
 import AddPatient from "./containers/AddPatient";
 import Home from "./containers/Home";
-import Patient from "./containers/Patient";
 import Footer from "./components/util/Footer";
 
 import Login from "./containers/Login";
@@ -37,6 +36,9 @@ import {
 } from "./reducers/reducers";
 import { connect } from "react-redux";
 import { changeLoginState } from "./actions/actions";
+
+// import Patient from "./containers/Patient";
+const AsyncPatient = asyncComponent(() => import("./containers/Patient"));
 
 // import PatientSearch from "./containers/PatientSearch";
 const AsyncPatientSearch = asyncComponent(() =>
@@ -120,7 +122,7 @@ class App extends Component {
                       exact={exact}
                     />
                   ))}
-                  <PrivateRoute path="/patient/:id" component={Patient} />
+                  <PrivateRoute path="/patient/:id" component={AsyncPatient} />
                   <PrivateRoute
                     path="/generatePrescription/:id"
                     component={AsyncGeneratePrescription}
