@@ -12,8 +12,10 @@ function launcher {
     fi
 }
 
-
+# don't need postman and storybook, pass 'all' to run them
 launcher    "node"         "npm run startDev"
-launcher "react"    "cd client && npm start"
-launcher "storybook"      "cd client && npm run storybook"
-launcher "postman" "~/Downloads/Postman/Postman"
+launcher    "react"        "cd client && npm start"
+if [[ $1 == 'all' ]]; then
+  launcher "storybook"      "cd client && npm run storybook"
+  launcher "postman" "~/Downloads/Postman/Postman"
+fi
