@@ -33,7 +33,7 @@ var InvoiceCard = ({ invoice, onDelete }) => {
 
 class AddInvoiceCard extends Component {
   state = {
-    value: 500, // Rs 500 is default
+    value: 600, // Rs 600 is default
     collapse: false,
     loading: false,
     showDeleteModal: false,
