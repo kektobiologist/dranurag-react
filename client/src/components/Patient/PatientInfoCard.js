@@ -5,11 +5,11 @@ import Editable from "../util/popover-editable/Editable";
 import { updatePatientDataPatient } from "../../actions/actions";
 import { connect } from "react-redux";
 
-var AttrRow = ({ keyName, val, units }) => {
+var AttrRow = ({ keyName, units, children }) => {
   return (
     <Row className="py-2">
       <Col xs="4">{keyName}: </Col>
-      <Col xs="3">{val}</Col>
+      <Col xs="3">{children}</Col>
       {units ? <Col xs="3">{units}</Col> : ""}
     </Row>
   );
@@ -33,7 +33,7 @@ var PatientInfoCard = ({ patient, children, updatePatient }) => {
             value={patient.name}
             fieldName="name"
             title="Edit Name"
-            display={value => <h1 className="display-3">{value}</h1>}
+            display={value => <span className="display-3">{value}</span>}
             endpoint={`/api/v1/Patient/${patient._id}`}
             onUpdate={updatePatient}
           />
@@ -45,13 +45,25 @@ var PatientInfoCard = ({ patient, children, updatePatient }) => {
 
       <Col xs="12" lg="6" className="py-2">
         {[
-          ["Height", height ? height : "-", "cms"],
-          ["Weight", weight ? weight : "-", "kgs"],
-          ["BMI", bmi, null],
-          ["Allergies", allergies ? allergies : "-", null],
-          ["Alternate Phone", phone2 ? phone2 : "-", null]
-        ].map(([keyName, val, units], idx) => (
-          <AttrRow key={idx} keyName={keyName} val={val} units={units} />
+          ["Height", height, "cms", true, "height"],
+          ["Weight", weight, "kgs", true, "weight"],
+          ["BMI", bmi, null, false],
+          ["Allergies", allergies ? allergies : "-", null, false]
+        ].map(([keyName, val, units, editable, backendKey], idx) => (
+          <AttrRow key={idx} keyName={keyName} units={units}>
+            {editable ? (
+              <Editable
+                value={val}
+                fieldName={backendKey}
+                title={`Edit ${keyName}`}
+                display={value => <span> {`${value || "none"}`}</span>}
+                endpoint={`/api/v1/Patient/${patient._id}`}
+                onUpdate={updatePatient}
+              />
+            ) : (
+              `${val}`
+            )}
+          </AttrRow>
         ))}
       </Col>
     </Row>

@@ -6,6 +6,7 @@ import moment from "moment";
 import Spinner from "../util/Spinner";
 import DeletionModal from "../util/DeletionModal";
 import { toCurrency } from "../util/util";
+import { SingleDatePicker, isInclusivelyBeforeDay } from "react-dates";
 
 var InvoiceCard = ({ invoice, onDelete }) => {
   const { _id, date, amount } = invoice;
@@ -37,7 +38,9 @@ class AddInvoiceCard extends Component {
     collapse: false,
     loading: false,
     showDeleteModal: false,
-    deletionId: null
+    deletionId: null,
+    date: moment(),
+    focuses: undefined
   };
 
   toggleDeleteModal = () => {
@@ -61,14 +64,14 @@ class AddInvoiceCard extends Component {
 
   onSubmit = () => {
     const { patientId, refreshInvoices } = this.props;
-    const { value } = this.state;
+    const { value, date } = this.state;
     this.setState({ loading: true });
     fetch(`/api/invoice/add`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ patientId, amount: value }),
+      body: JSON.stringify({ patientId, amount: value, date }),
       credentials: "include"
     })
       .then(res => res.json())
@@ -105,8 +108,20 @@ class AddInvoiceCard extends Component {
 
         <Collapse isOpen={collapse}>
           <div className="card-body">
-            <div className="d-flex">
-              <div className="input-group pr-2">
+            <div className="d-flex align-items-center">
+              <SingleDatePicker
+                date={this.state.date} // momentPropTypes.momentObj or null
+                onDateChange={date => this.setState({ date })} // PropTypes.func.isRequired
+                // TODO: removing focused makes app freeze?
+                focused={this.state.focused} // PropTypes.bool
+                onFocusChange={({ focused }) => this.setState({ focused })} // PropTypes.func.isRequired
+                // somehow this makes only past dates selectable
+                isOutsideRange={day => !isInclusivelyBeforeDay(day, moment())}
+                showDefaultInputIcon={false}
+                small={true}
+                displayFormat={"MMM D"}
+              />
+              <div className="input-group px-2">
                 <div className="input-group-prepend">
                   <span className="input-group-text">Rs.</span>
                 </div>

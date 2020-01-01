@@ -3,7 +3,7 @@ import { Button, ButtonToolbar } from "reactstrap";
 import PatientInfoBlock from "../util/PatientInfoBlock";
 import { ListGroupItem } from "reactstrap";
 import { Link } from "react-router-dom";
-import moment from "moment";
+import TimeAgo from "timeago-react"; // var TimeAgo = require('timeago-react');
 
 class VisitCard extends Component {
   state = {
@@ -42,7 +42,9 @@ class VisitCard extends Component {
             )}
           </div>
           <div>
-            <small className="text-muted">{moment(visit.date).fromNow()}</small>
+            <small className="text-muted">
+              {<TimeAgo datetime={visit.date} />}
+            </small>
           </div>
         </div>
       </div>

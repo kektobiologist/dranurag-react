@@ -49,6 +49,15 @@ var HelpText = ({ patient, editable = false, updatePatient }) => {
           endpoint={endpoint}
           onUpdate={updatePatient}
         />
+        {" , "}
+        <Editable
+          value={patient.phone2 || ""}
+          fieldName="phone2"
+          title="Edit Alternate Phone Number"
+          display={value => <span> {value || "no alt. phone"}</span>}
+          endpoint={endpoint}
+          onUpdate={updatePatient}
+        />
       </div>
     );
   } else {

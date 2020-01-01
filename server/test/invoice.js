@@ -31,11 +31,12 @@ before(done => {
 });
 
 describe("Invoice", () => {
+  // TODO: add test to check adding invoice without date
   describe("Add and Delete Invoice", () => {
     it("adds and deletes an invoice", done => {
       agent
         .post("/api/invoice/add")
-        .send({ patientId: 1129, amount: 500 })
+        .send({ patientId: 1129, amount: 500, date: new Date() })
         .then(res => {
           res.should.have.status(200);
           res.should.be.json;

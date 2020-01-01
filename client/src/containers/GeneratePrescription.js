@@ -51,7 +51,7 @@ class GeneratePrescription extends Component {
     ];
     return (
       <div>
-        <div className="container">
+        {/*        <div className="container">
           {patient ? (
             <PatientInfoCard patient={patient}>
               <Link
@@ -67,6 +67,7 @@ class GeneratePrescription extends Component {
           )}
         </div>
         <hr />
+*/}{" "}
         <div className="container">
           <button
             className="btn btn-outline-primary"

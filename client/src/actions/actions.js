@@ -9,7 +9,14 @@ var updatePatientData = patientData => ({
 });
 
 export var updatePatientDataPatient = patient => (dispatch, getState) => {
-  dispatch(updatePatientData({ ...getState().patientData, patient }));
+  // assume that fn is called with patient which only has some fields populated that have changed values.
+  var patientData = getState().patientData;
+  dispatch(
+    updatePatientData({
+      ...patientData,
+      patient: { ...patientData.patient, ...patient }
+    })
+  );
 };
 
 var clearPatientData = () => ({
