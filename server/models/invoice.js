@@ -8,6 +8,7 @@ var schema = mongoose.Schema(
   {
     patient: { type: Number, ref: "Patient", required: true },
     date: { type: Date, required: true },
+    paymentMode: { type: String, enum: ['CASH', 'PAYTM', 'UPI', 'CARD'], default: 'CASH' },
     amount: Number // in rupees obviously
   },
   {

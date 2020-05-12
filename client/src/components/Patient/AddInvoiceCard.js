@@ -8,14 +8,14 @@ import DeletionModal from "../util/DeletionModal";
 import { toCurrency } from "../util/util";
 
 var InvoiceCard = ({ invoice, onDelete }) => {
-  const { _id, date, amount } = invoice;
+  const { _id, date, amount, paymentMode = 'CASH' } = invoice;
   return (
     <div>
       <a href={`/api/invoice/pdf/${_id}`} target="_blank">
         <span className="text-muted">#{_id}. </span>
         <span>Rs. {toCurrency(amount)}</span>
       </a>
-
+      <span className='text-muted pl-3'>{paymentMode}</span>
       <span className="text-muted pull-right">
         {`${moment(date).format("D MMM 'YY")}`}
         <button
@@ -33,7 +33,8 @@ var InvoiceCard = ({ invoice, onDelete }) => {
 
 class AddInvoiceCard extends Component {
   state = {
-    value: 600, // Rs 600 is default
+    amount: 600, // Rs 600 is default,
+    paymentMode: 'CASH',
     collapse: false,
     loading: false,
     showDeleteModal: false,
@@ -44,9 +45,13 @@ class AddInvoiceCard extends Component {
     this.setState({ showDeleteModal: !this.state.showDeleteModal });
   };
 
-  onChange = event => {
-    this.setState({ value: event.target.value });
+  onChangeAmount = event => {
+    this.setState({ amount: event.target.value });
   };
+
+  onChangePaymentMode = event => {
+    this.setState({ paymentMode: event.target.value });
+  }
 
   onDeleteInvoice = invoiceId => {
     const { refreshInvoices } = this.props;
@@ -61,14 +66,14 @@ class AddInvoiceCard extends Component {
 
   onSubmit = () => {
     const { patientId, refreshInvoices } = this.props;
-    const { value } = this.state;
+    const { amount, paymentMode } = this.state;
     this.setState({ loading: true });
     fetch(`/api/invoice/add`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ patientId, amount: value }),
+      body: JSON.stringify({ patientId, amount, paymentMode }),
       credentials: "include"
     })
       .then(res => res.json())
@@ -114,9 +119,20 @@ class AddInvoiceCard extends Component {
                   type="number"
                   className="form-control"
                   placeholder="Amount"
-                  value={this.state.value}
-                  onChange={this.onChange}
+                  value={this.state.amount}
+                  onChange={this.onChangeAmount}
                 />
+                <select 
+                  value={this.state.paymentMode} 
+                  className="form-control" 
+                  id="paymentModeFormControl"
+                  onChange={this.onChangePaymentMode}
+                  >
+                  <option>CASH</option>
+                  <option>PAYTM</option>
+                  <option>UPI</option>
+                  <option>CARD</option>
+                </select>
               </div>
               <div>
                 <button
@@ -147,8 +163,8 @@ class AddInvoiceCard extends Component {
                 ))}
               </ListGroup>
             ) : (
-              ""
-            )}
+                ""
+              )}
           </div>
         </Collapse>
       </div>

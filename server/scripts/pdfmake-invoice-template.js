@@ -1,7 +1,7 @@
 // playground requires you to assign document definition to a variable called dd
 const moment = require("moment");
 
-module.exports = ({ invoiceId, patientId, date, name, fees }) => {
+module.exports = ({ invoiceId, patientId, date, name, fees, paymentMode }) => {
   // calculation financial year.
   var thatApril = moment(date)
     .month("April")
@@ -91,7 +91,7 @@ module.exports = ({ invoiceId, patientId, date, name, fees }) => {
           {
             text: [
               { text: `To Pay: Rs. ${fees} only\n`, style: "subsubheader" },
-              "Mode of Payment: CASH"
+              `Mode of Payment: ${paymentMode}`
             ]
           },
           [

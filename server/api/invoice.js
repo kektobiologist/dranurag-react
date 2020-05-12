@@ -22,10 +22,11 @@ router.use((req, res, next) => {
 });
 
 router.post("/add", (req, res) => {
-  const { patientId, amount } = req.body;
+  const { patientId, amount, paymentMode } = req.body;
   new Invoice({
     patient: patientId,
     amount,
+    paymentMode,
     date: new Date()
   })
     .save()
@@ -141,13 +142,14 @@ router.get("/pdf/:id", (req, res) => {
       if (!invoice) throw "no doc";
       return invoice;
     })
-    .then(({ _id, patient, date, amount }) => {
+    .then(({ _id, patient, date, amount, paymentMode = 'CASH' }) => {
       var pdfDefinition = invoiceTemplateMaker({
         invoiceId: _id,
         patientId: patient._id,
         date: moment(date),
         name: patient.name,
-        fees: amount.toString()
+        fees: amount.toString(),
+        paymentMode
       });
       const printer = new PdfPrinter(fontDescriptors);
       const pdfDoc = printer.createPdfKitDocument(pdfDefinition);

@@ -5,14 +5,12 @@
   "main": "index.js",
   "scripts": {
     "babel-node": "babel-node",
-    "startDev":
-      "NODE_ENV=development nodemon --exec npm run babel-node -- ./server/index.js",
+    "startDev": "NODE_ENV=development nodemon --exec npm run babel-node -- ./server/index.js",
     "build": "babel server -d dist --copy-files",
     "buildclient": "cd client && yarn install && npm run build",
     "start": "node dist/index.js",
     "postinstall": "npm run buildclient && npm run build",
-    "test":
-      "NODE_ENV=test mocha server/test --require babel-core/register --exit"
+    "test": "NODE_ENV=test mocha server/test --require babel-core/register --exit"
   },
   "author": "",
   "license": "ISC",
@@ -62,7 +60,13 @@
     "webpack": "^3.8.1"
   },
   "babel": {
-    "presets": ["es2015", "stage-3"]
+    "presets": [
+      "es2015",
+      "stage-3"
+    ]
   },
-  "cacheDirectories": ["node_modules", "client/node_modules"]
+  "cacheDirectories": [
+    "node_modules",
+    "client/node_modules"
+  ]
 }
