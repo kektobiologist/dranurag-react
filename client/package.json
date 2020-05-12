@@ -46,6 +46,7 @@
         "slick-carousel": "^1.8.1",
         "source-map-explorer": "^1.5.0",
         "string": "^3.3.3",
+        "timeago-react": "^2.0.1",
         "tls": "^0.0.1"
     },
     "scripts": {
@@ -67,5 +68,8 @@
         "@storybook/addon-actions": "^3.2.13",
         "@storybook/addon-links": "^3.2.13",
         "@storybook/react": "^3.2.13"
+    },
+    "resolutions": {
+        "**/**/node-gyp": "5.0.0"
     }
 }

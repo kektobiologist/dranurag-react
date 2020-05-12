@@ -21,13 +21,13 @@ router.use((req, res, next) => {
   }
 });
 
-router.post("/add", (req, res) => {
-  const { patientId, amount, paymentMode } = req.body;
+router.post("/add", (req, res) => { 
+  const { patientId, amount, paymentMode, date } = req.body;
   new Invoice({
     patient: patientId,
     amount,
     paymentMode,
-    date: new Date()
+    date: new Date(date)
   })
     .save()
     .then(invoice => res.json(invoice))

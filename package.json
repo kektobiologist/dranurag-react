@@ -68,5 +68,8 @@
   "cacheDirectories": [
     "node_modules",
     "client/node_modules"
-  ]
+  ],
+  "resolutions": {
+    "**/**/node-gyp": "5.0.0"
+  }
 }
