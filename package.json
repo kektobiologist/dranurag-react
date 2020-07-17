@@ -34,7 +34,7 @@
     "express-restify-mongoose": "^4.3.0",
     "express-session": "^1.15.6",
     "group-array": "^0.3.3",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.19",
     "moment": "^2.19.1",
     "moment-timezone": "^0.5.14",
     "mongoose": "^4.12.3",
