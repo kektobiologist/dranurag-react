@@ -3,6 +3,9 @@ var mongoose = require("mongoose");
 import { autoIncrement } from "mongoose-plugin-autoinc";
 var moment = require("moment");
 var algoliaHooksWrapper = require("./util/algoliaHooksWrapper");
+var emailValidator = require("email-validator");
+
+
 
 // birthdate is inferred from age when patient is registered
 var patientSchema = mongoose.Schema(
@@ -18,7 +21,8 @@ var patientSchema = mongoose.Schema(
     height: Number,
     weight: Number,
     allergies: String,
-    date: Date
+    date: Date,
+    email: { type: String, default: "" }
   },
   {
     toObject: {
@@ -85,6 +89,13 @@ patientSchema.pre("findOneAndUpdate", function() {
     );
   }
 });
+
+patientSchema.path('email').validate(function (email) {
+  // empty address is valid in our case
+  if (email === "")
+    return true;
+  return validator.validate(email);
+}, 'The e-mail field cannot be empty.')
 
 // algolia hooks
 algoliaHooksWrapper(patientSchema, "patients");

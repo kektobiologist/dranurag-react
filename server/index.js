@@ -1,4 +1,4 @@
-import "babel-polyfill"; // bullshit
+// import "babel-polyfill"; // bullshit
 
 const path = require("path");
 if (process.env.NODE_ENV == "development")
@@ -9,10 +9,9 @@ if (process.env.NODE_ENV == "development")
 const express = require("express");
 const pause = require("connect-pause");
 var mongoose = require("mongoose");
+console.log(process.env.MONGODB_URI)
 // configuration ===============================================================
-var connection = mongoose.connect(process.env.MONGODB_URI, {
-  useMongoClient: true
-}); // connect to our database
+var connection = mongoose.connect(process.env.MONGODB_URI); // connect to our database
 // use js promise
 mongoose.Promise = global.Promise;
 var bodyParser = require("body-parser");
