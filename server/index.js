@@ -1,4 +1,4 @@
-// import "babel-polyfill"; // bullshit
+import "babel-polyfill"; // bullshit
 
 const path = require("path");
 if (process.env.NODE_ENV == "development")
