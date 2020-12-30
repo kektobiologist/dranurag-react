@@ -1,4 +1,4 @@
-import "babel-polyfill"; // bullshit
+import 'idempotent-babel-polyfill'; // bullshit
 var path = require("path");
 var configVars = require("dotenv").config({
   path: path.join(__dirname, "../../.env.test")

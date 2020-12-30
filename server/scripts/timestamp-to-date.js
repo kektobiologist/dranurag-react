@@ -1,4 +1,4 @@
-import "babel-polyfill"; // bullshit
+import 'idempotent-babel-polyfill'; // bullshit
 var path = require("path");
 // need prod env to edit prod database. use carefully!
 var configVars = require("dotenv").config({

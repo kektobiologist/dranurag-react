@@ -2,6 +2,14 @@
 # yarn lockfile v1
 
 
+"@babel/polyfill@7.4.4":
+  version "7.4.4"
+  resolved "https://registry.yarnpkg.com/@babel/polyfill/-/polyfill-7.4.4.tgz#78801cf3dbe657844eeabf31c1cae3828051e893"
+  integrity sha512-WlthFLfhQQhh+A2Gn5NSFl0Huxz36x86Jn+E9OW7ibK8edKPq+KLy4apM1yDpQ8kJOVi1OVjpP4vSDLdrI04dg==
+  dependencies:
+    core-js "^2.6.5"
+    regenerator-runtime "^0.13.2"
+
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
@@ -240,12 +248,6 @@ async@^2.1.2:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/async/-/async-2.6.0.tgz#61a29abb6fcc026fea77e56d1c6ec53a795951f4"
   integrity sha512-xAfGg1/NTLBBKlHFmnd7PlmUW9KhVQIUuSrYem9xzFUZy13ScvtyGGejaae9iAVRiRq9+Cx7DPFaAAhCpyxyPw==
-  dependencies:
-    lodash "^4.14.0"
-
-async@~2.5.0:
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/async/-/async-2.5.0.tgz#843190fd6b7357a0b9e1c956edddd5ec8462b54d"
   dependencies:
     lodash "^4.14.0"
 
@@ -875,7 +877,7 @@ block-stream@*:
   dependencies:
     inherits "~2.0.0"
 
-bluebird@3.5.1, bluebird@~3.5.0:
+bluebird@3.5.1:
   version "3.5.1"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.1.tgz#d9551f9de98f1fcda1e683d17ee91a0602ee2eb9"
 
@@ -1406,6 +1408,11 @@ core-js@^2.4.0, core-js@^2.5.0:
   version "2.5.3"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.5.3.tgz#8acc38345824f16d8365b7c9b4259168e8ed603e"
 
+core-js@^2.6.5:
+  version "2.6.12"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.12.tgz#d9333dfa7b065e347cc5682219d6f690859cc2ec"
+  integrity sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ==
+
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
@@ -1697,9 +1704,10 @@ enhanced-resolve@^3.4.0:
     object-assign "^4.0.1"
     tapable "^0.2.7"
 
-ensure-array@0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/ensure-array/-/ensure-array-0.0.5.tgz#355becc382c8eb99d68a49b450ae9e6e81102715"
+ensure-array@~1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/ensure-array/-/ensure-array-1.0.0.tgz#317e9fc632c656bb849eb649133528e205b23abc"
+  integrity sha512-A+3Ntl5WS+GjDnHtC67dKIjw+IoGoeFdNvjn3ZfKEmZgWUz0nxBPE4W52QMCbGZsat0VwWskD5T6AEpe3T2d1g==
 
 env-paths@^1.0.0:
   version "1.0.0"
@@ -1934,24 +1942,22 @@ expand-range@^1.8.1:
   dependencies:
     fill-range "^2.1.0"
 
-express-restify-mongoose@^4.3.0:
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/express-restify-mongoose/-/express-restify-mongoose-4.3.0.tgz#08af8ff6fdc95f5451718aa22e64a26340c3d68c"
+express-restify-mongoose@^6.1.2:
+  version "6.1.2"
+  resolved "https://registry.yarnpkg.com/express-restify-mongoose/-/express-restify-mongoose-6.1.2.tgz#5e1fc18348afe82474493f9c40f71634bceb0c86"
+  integrity sha512-bteObY7nX0eY91lm4IN0ITOyewIMBuM0ehQjGnqSJsPJ6YfPlOv/NgvYmhvmMBExGzSfCEjZOgMLyypij4goKg==
   dependencies:
-    async "~2.5.0"
-    bluebird "~3.5.0"
-    ensure-array "0.0.5"
+    ensure-array "~1.0.0"
     is-coordinates "~2.0.0"
-    lodash.clone "~4.5.0"
     lodash.defaults "~4.2.0"
     lodash.get "~4.4.2"
     lodash.has "~4.5.2"
     lodash.isplainobject "~4.0.6"
-    lodash.map "~4.6.0"
-    mongoose-detective "~0.1.0"
-    moredots "~0.1.0"
-    serialize-error "~2.1.0"
-    weedout "~0.1.0"
+    mongoose-detective "~1.0.0"
+    moredots "~1.0.1"
+    run-series "~1.1.8"
+    serialize-error "^7.0.1"
+    weedout "~1.0.1"
 
 express-session@^1.15.6:
   version "1.15.6"
@@ -2581,6 +2587,13 @@ iconv-lite@0.4.19, iconv-lite@^0.4.19:
   version "0.4.19"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.19.tgz#f7468f60135f5e5dad3399c0a81be9a1603a082b"
 
+idempotent-babel-polyfill@^7.4.4:
+  version "7.4.4"
+  resolved "https://registry.yarnpkg.com/idempotent-babel-polyfill/-/idempotent-babel-polyfill-7.4.4.tgz#de34305a23cffbc7f31c0ee1bea55522e9b470a4"
+  integrity sha512-ULnqegUJke43XlsW5bI2zvoOCiFwn5AjRK/DJA5V6jj4yf+vKEZmiYll2x9+FQb9e6a+KQ/D+r8w7ydCYuiaRA==
+  dependencies:
+    "@babel/polyfill" "7.4.4"
+
 ieee754@^1.1.4:
   version "1.1.8"
   resolved "https://registry.yarnpkg.com/ieee754/-/ieee754-1.1.8.tgz#be33d40ac10ef1926701f6f08a2d86fbfd1ad3e4"
@@ -3027,10 +3040,6 @@ locate-path@^2.0.0:
     p-locate "^2.0.0"
     path-exists "^3.0.0"
 
-lodash.clone@~4.5.0:
-  version "4.5.0"
-  resolved "https://registry.yarnpkg.com/lodash.clone/-/lodash.clone-4.5.0.tgz#195870450f5a13192478df4bc3d23d2dea1907b6"
-
 lodash.defaults@~4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/lodash.defaults/-/lodash.defaults-4.2.0.tgz#d09178716ffea4dde9e5fb7b37f6f0802274580c"
@@ -3046,10 +3055,6 @@ lodash.has@~4.5.2:
 lodash.isplainobject@~4.0.0, lodash.isplainobject@~4.0.6:
   version "4.0.6"
   resolved "https://registry.yarnpkg.com/lodash.isplainobject/-/lodash.isplainobject-4.0.6.tgz#7c526a52d89b45c45cc690b88163be0497f550cb"
-
-lodash.map@~4.6.0:
-  version "4.6.0"
-  resolved "https://registry.yarnpkg.com/lodash.map/-/lodash.map-4.6.0.tgz#771ec7839e3473d9c4cde28b19394c3562f4f6d3"
 
 lodash@^4.13.1, lodash@^4.14.0, lodash@^4.17.4:
   version "4.17.5"
@@ -3349,9 +3354,10 @@ mongoose-auto-increment@^5.0.1:
   dependencies:
     extend "^3.0.0"
 
-mongoose-detective@~0.1.0:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/mongoose-detective/-/mongoose-detective-0.1.1.tgz#853b05e2fc100c1cfae6d52171f62626de681fce"
+mongoose-detective@~1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/mongoose-detective/-/mongoose-detective-1.0.0.tgz#076a34e1355a57fa8d24ea5bcabbd3b49a5f21b7"
+  integrity sha512-u9XnSBT3XvsAT3rO8Z2FkR7KcMxDdYDcuK1PynXPeo9w36cxl4N3YO1OX2DJNSQ8cHP0Y2a0ozqTlil7FwZOlg==
 
 mongoose-legacy-pluralize@1.0.2:
   version "1.0.2"
@@ -3417,9 +3423,10 @@ monk@^6.0.5:
     monk-middleware-wait-for-connection "^0.2.0"
     object-assign "^4.1.1"
 
-moredots@~0.1.0:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/moredots/-/moredots-0.1.1.tgz#132713eec40a0cd8c73669757761b1495cfa26df"
+moredots@~1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/moredots/-/moredots-1.0.1.tgz#3b8ae32a4d66d72751cb29033dd16eb2d155d98d"
+  integrity sha512-kwHfWclqmAxU7nBTjJh3Coh2tCZJCrdVecXREJGEseRFRTCTDXN+/5KJg3p6C6380q/xaxrWN1QYM9w9M54otA==
   dependencies:
     lodash.isplainobject "~4.0.0"
 
@@ -4168,6 +4175,11 @@ regenerator-runtime@^0.11.0:
   version "0.11.1"
   resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.11.1.tgz#be05ad7f9bf7d22e056f9726cee5017fbf19e2e9"
 
+regenerator-runtime@^0.13.2:
+  version "0.13.7"
+  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.13.7.tgz#cac2dacc8a1ea675feaabaeb8ae833898ae46f55"
+  integrity sha512-a54FxoJDIr27pgf7IgeQGxmqUNYrcV338lf/6gH456HZ/PhX+5BcwHXG9ajESmwe6WRO0tAzRUrRmNONWgkrew==
+
 regenerator-transform@^0.10.0:
   version "0.10.1"
   resolved "https://registry.yarnpkg.com/regenerator-transform/-/regenerator-transform-0.10.1.tgz#1e4996837231da8b7f3cf4114d71b5691a0680dd"
@@ -4398,6 +4410,11 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
     hash-base "^2.0.0"
     inherits "^2.0.1"
 
+run-series@~1.1.8:
+  version "1.1.9"
+  resolved "https://registry.yarnpkg.com/run-series/-/run-series-1.1.9.tgz#15ba9cb90e6a6c054e67c98e1dc063df0ecc113a"
+  integrity sha512-Arc4hUN896vjkqCYrUXquBFtRZdv1PfLbTYP71efP6butxyQ0kWpiNJyAgsxscmQg1cqvHY32/UCBzXedTpU2g==
+
 safe-buffer@5.1.1, safe-buffer@^5.0.1, safe-buffer@^5.1.0, safe-buffer@^5.1.1, safe-buffer@~5.1.0, safe-buffer@~5.1.1:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.1.1.tgz#893312af69b2123def71f57889001671eeb2c853"
@@ -4452,9 +4469,12 @@ send@0.16.1:
     range-parser "~1.2.0"
     statuses "~1.3.1"
 
-serialize-error@~2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/serialize-error/-/serialize-error-2.1.0.tgz#50b679d5635cdf84667bdc8e59af4e5b81d5f60a"
+serialize-error@^7.0.1:
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/serialize-error/-/serialize-error-7.0.1.tgz#f1360b0447f61ffb483ec4157c737fab7d778e18"
+  integrity sha512-8I8TjW5KMOKsZQTvoxjuSIa7foAwPWGOts+6o7sgjz41/qMD9VQHEDxi6PBvK2l0MXUmqZyNpUK+T2tQaaElvw==
+  dependencies:
+    type-fest "^0.13.1"
 
 serve-static@1.13.1:
   version "1.13.1"
@@ -4983,6 +5003,11 @@ type-detect@^4.0.0:
   version "4.0.8"
   resolved "https://registry.yarnpkg.com/type-detect/-/type-detect-4.0.8.tgz#7646fb5f18871cfbb7749e69bd39a6388eb7450c"
 
+type-fest@^0.13.1:
+  version "0.13.1"
+  resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-0.13.1.tgz#0172cb5bce80b0bd542ea348db50c7e21834d934"
+  integrity sha512-34R7HTnG0XIJcBSn5XhDd7nNFPRcXYRZrBB2O2jdKqYODldSzBAqzsWoZYYvduky73toYS/ESqxPvkDf/F0XMg==
+
 type-is@~1.6.15:
   version "1.6.15"
   resolved "https://registry.yarnpkg.com/type-is/-/type-is-1.6.15.tgz#cab10fb4909e441c82842eafe1ad646c81804410"
@@ -5234,9 +5259,10 @@ webpack@^3.8.1:
     webpack-sources "^1.0.1"
     yargs "^8.0.2"
 
-weedout@~0.1.0:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/weedout/-/weedout-0.1.3.tgz#cbf2a842c3e65abf7858480de21668d8cf87d300"
+weedout@~1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/weedout/-/weedout-1.0.1.tgz#9ef94de969fc3ee36f62e3fb1cb5680e752963d5"
+  integrity sha512-FvqG3/BxYjmNJqPDsHtaoaQAGwa6iJXu6Kxu09WC3nr9ClBz61dGxDSTwc5VPVzT+6CBH1j4MwtUMa9hZXOeIw==
 
 which-module@^2.0.0:
   version "2.0.0"
