@@ -34,7 +34,7 @@ var InvoiceCard = ({ invoice, onDelete }) => {
 
 class AddInvoiceCard extends Component {
   state = {
-    amount: 600, // Rs 600 is default,
+    amount: 800, // Rs 800 is default,
     paymentMode: 'CASH',
     collapse: false,
     loading: false,
