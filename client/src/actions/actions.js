@@ -1,3 +1,5 @@
+import { toast } from "react-toastify";
+
 export var changeLoginState = state => ({
   type: "CHANGE_LOGIN_STATE",
   value: state
@@ -11,12 +13,17 @@ var updatePatientData = patientData => ({
 export var updatePatientDataPatient = patient => (dispatch, getState) => {
   // assume that fn is called with patient which only has some fields populated that have changed values.
   var patientData = getState().patientData;
-  dispatch(
-    updatePatientData({
-      ...patientData,
-      patient: { ...patientData.patient, ...patient }
-    })
-  );
+  if (patient.errors) {
+    // something went wrong, show toast error
+    toast.error(patient.message);
+  } else {
+    dispatch(
+      updatePatientData({
+        ...patientData,
+        patient: { ...patientData.patient, ...patient }
+      })
+    );
+  }
 };
 
 var clearPatientData = () => ({

@@ -36,6 +36,7 @@ import {
 } from "./reducers/reducers";
 import { connect } from "react-redux";
 import { changeLoginState } from "./actions/actions";
+import ToastContainer from "./components/util/Toast";
 
 // import Patient from "./containers/Patient";
 const AsyncPatient = asyncComponent(() => import("./containers/Patient"));
@@ -137,6 +138,7 @@ class App extends Component {
               </div>
             </Router>
             <Footer />
+            <ToastContainer/>
           </div>
         </Provider>
       </div>

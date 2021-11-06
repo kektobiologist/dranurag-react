@@ -58,6 +58,16 @@ var HelpText = ({ patient, editable = false, updatePatient }) => {
           endpoint={endpoint}
           onUpdate={updatePatient}
         />
+        {" / "}
+        {<i className="fa fa-envelope px-1" />}
+        <Editable
+          value={patient.email || ""}
+          fieldName="email"
+          title="Edit Email"
+          display={value => <span> {value || "no email"}</span>}
+          endpoint={endpoint}
+          onUpdate={updatePatient}
+        />
       </div>
     );
   } else {

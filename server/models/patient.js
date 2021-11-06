@@ -94,8 +94,8 @@ patientSchema.path('email').validate(function (email) {
   // empty address is valid in our case
   if (email === "")
     return true;
-  return validator.validate(email);
-}, 'The e-mail field cannot be empty.')
+  return emailValidator.validate(email);
+}, 'Malformed email address.')
 
 // algolia hooks
 algoliaHooksWrapper(patientSchema, "patients");

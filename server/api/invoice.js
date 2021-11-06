@@ -10,6 +10,8 @@ const PdfPrinter = require("pdfmake/src/printer");
 var path = require("path");
 
 var invoiceTemplateMaker = require("../scripts/pdfmake-invoice-template");
+const { Base64Encode } = require('base64-stream');
+const { sendEmail } = require("./email");
 
 router.use((req, res, next) => {
   // invoice API not meant for suresh bhaiya, so return not authorized for him
@@ -133,26 +135,49 @@ const fontDescriptors = {
     bolditalics: path.join(__dirname, "../public/fonts/Roboto-MediumItalic.ttf")
   }
 };
+
+var createPdf = (id) => {
+  return Invoice.findById(id)
+  .populate("patient")
+  .then(invoice => {
+    if (!invoice) throw "no doc";
+    return invoice;
+  })
+  .then(({ _id, patient, date, amount, paymentMode = 'CASH' }) => {
+    var pdfDefinition = invoiceTemplateMaker({
+      invoiceId: _id,
+      patientId: patient._id,
+      date: moment(date),
+      name: patient.name,
+      fees: amount.toString(),
+      paymentMode
+    });
+    const printer = new PdfPrinter(fontDescriptors);
+    const pdfDoc = printer.createPdfKitDocument(pdfDefinition);
+    return pdfDoc;
+  })
+}
+
+var createPdfString = (pdfDoc) => {
+  return new Promise(resolve => {
+    var stream = pdfDoc.pipe(new Base64Encode());
+    var finalString = ''; // contains the base64 string
+    stream.on('data', function(chunk) {
+      finalString += chunk;
+    });
+    stream.on('end', function() {
+      // the stream is at its end, so push the resulting base64 string to the response
+      resolve(finalString);
+    });
+    pdfDoc.end();
+  })
+}
+
 // invoice pdf generation
 router.get("/pdf/:id", (req, res) => {
   const { id } = req.params;
-  Invoice.findById(id)
-    .populate("patient")
-    .then(invoice => {
-      if (!invoice) throw "no doc";
-      return invoice;
-    })
-    .then(({ _id, patient, date, amount, paymentMode = 'CASH' }) => {
-      var pdfDefinition = invoiceTemplateMaker({
-        invoiceId: _id,
-        patientId: patient._id,
-        date: moment(date),
-        name: patient.name,
-        fees: amount.toString(),
-        paymentMode
-      });
-      const printer = new PdfPrinter(fontDescriptors);
-      const pdfDoc = printer.createPdfKitDocument(pdfDefinition);
+    createPdf(id)
+    .then(pdfDoc => {
       res.type("pdf");
       pdfDoc.pipe(res).on("finish", function() {
         // console.log("pdf success");
@@ -167,6 +192,23 @@ router.get("/pdf/:id", (req, res) => {
       }
     });
 });
+
+
+router.post("/sendEmail", (req, res) => {
+  const { id, email } = req.body
+  createPdf(id)
+    .then(pdfDoc => createPdfString(pdfDoc))
+    .then(async pdfString => {
+      var invoice = await Invoice.findById(id);
+      var text = `PFA Invoice for visit dated ${moment(invoice.date).format('DD-MM-YYYY')}`
+      return sendEmail(pdfString, email, 'noreply@dranurag.in', text);
+    }).then(() => res.json("ok"))
+    .catch(err => {
+      console.log(err);
+      res.status(err.code)
+      res.json(err.message);
+    })
+})
 
 module.exports = {
   router,

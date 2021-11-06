@@ -5,32 +5,9 @@ import { refreshPatientInvoices } from "../../actions/actions";
 import moment from "moment";
 import Spinner from "../util/Spinner";
 import DeletionModal from "../util/DeletionModal";
-import { toCurrency } from "../util/util";
 import { SingleDatePicker, isInclusivelyBeforeDay } from "react-dates";
-
-var InvoiceCard = ({ invoice, onDelete }) => {
-  const { _id, date, amount, paymentMode = 'CASH' } = invoice;
-  return (
-    <div>
-      <a href={`/api/invoice/pdf/${_id}`} target="_blank">
-        <span className="text-muted">#{_id}. </span>
-        <span>Rs. {toCurrency(amount)}</span>
-      </a>
-      <span className='text-muted pl-3'>{paymentMode}</span>
-      <span className="text-muted pull-right">
-        {`${moment(date).format("D MMM 'YY")}`}
-        <button
-          type="button"
-          className="close ml-3"
-          aria-label="Close"
-          onClick={() => onDelete(_id)}
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </span>
-    </div>
-  );
-};
+import InvoiceCard from "./InvoiceCard";
+import { toast } from "react-toastify";
 
 class AddInvoiceCard extends Component {
   state = {
@@ -41,7 +18,8 @@ class AddInvoiceCard extends Component {
     showDeleteModal: false,
     deletionId: null,
     date: moment(),
-    focuses: undefined
+    focuses: undefined,
+    sendingEmail: false
   };
 
   toggleDeleteModal = () => {
@@ -66,6 +44,28 @@ class AddInvoiceCard extends Component {
       .then(refreshInvoices)
       .catch(() => this.setState({ loading: false }));
   };
+
+  onEmail = (invoiceId) => {
+    const { email } = this.props.patient;
+    this.setState({sendingEmail: true})
+    fetch(`/api/invoice/sendEmail`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ id: invoiceId, email }),
+      credentials: "include"
+    })
+      .then(res => {
+        if (res.status == 200) {
+          toast.success("Email Sent.")
+        } else {
+          toast.error(`Error sending mail: ${res.statusText}`)
+        }
+      })
+      .catch((err) => toast.error(`Error sending email: ${err}`))
+      .then(() => this.setState({ sendingEmail: false }))
+  }
 
   onSubmit = () => {
     const { patientId, refreshInvoices } = this.props;
@@ -173,6 +173,8 @@ class AddInvoiceCard extends Component {
                         this.setState({ deletionId: invoiceId });
                         this.toggleDeleteModal();
                       }}
+                      onEmail={this.onEmail}
+                      emailDisabled={!(this.props.patient && this.props.patient.email) || this.state.sendingEmail}
                     />
                   </ListGroupItem>
                 ))}
@@ -189,7 +191,8 @@ class AddInvoiceCard extends Component {
 
 AddInvoiceCard = connect(
   state => ({
-    invoices: state.patientData.invoices
+    invoices: state.patientData.invoices,
+    patient: state.patientData.patient
   }),
   dispatch => ({
     refreshInvoices: () => dispatch(refreshPatientInvoices())

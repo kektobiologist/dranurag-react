@@ -10,7 +10,7 @@ var schema = mongoose.Schema(
     date: { type: Date, required: true },
     paymentMode: { type: String, enum: ['CASH', 'PAYTM', 'UPI', 'CARD'], default: 'CASH' },
     amount: Number, // in rupees obviously
-    alreadyEmailed: { type: Boolean, default: false}
+    alreadyEmailed: { type: Boolean, default: false} // unused
   },
   {
     toObject: {
