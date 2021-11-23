@@ -5,7 +5,7 @@
     "dependencies": {
         "airbnb-js-shims": "^1.4.1",
         "algoliasearch": "^3.24.6",
-        "algoliasearch-helper": "^2.23.0",
+        "algoliasearch-helper": "^3.6.2",
         "bootstrap": "^4.0.0-beta",
         "cloudinary": "^1.9.1",
         "css-loader": "^0.28.8",
