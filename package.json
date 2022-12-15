@@ -38,7 +38,7 @@
     "idempotent-babel-polyfill": "^7.4.4",
     "lodash": "^4.17.4",
     "moment": "^2.19.1",
-    "moment-timezone": "^0.5.14",
+    "moment-timezone": "^0.5.35",
     "mongoose": "^5.10.18",
     "mongoose-auto-increment": "^5.0.1",
     "mongoose-plugin-autoinc": "^1.1.6",
