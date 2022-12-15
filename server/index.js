@@ -5,7 +5,11 @@ if (process.env.NODE_ENV == "development")
   var configVars = require("dotenv").config({
     path: path.join(__dirname, "../.env.dev")
   });
-
+else if (process.env.NODE_ENV == 'production') {
+  require('dotenv').config({
+    path: path.join(__dirname, "../.env.prod")
+  });
+}
 const express = require("express");
 const pause = require("connect-pause");
 var mongoose = require("mongoose");
