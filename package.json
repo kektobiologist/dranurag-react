@@ -7,7 +7,7 @@
     "babel-node": "babel-node",
     "startDev": "NODE_ENV=development nodemon --ignore ./client/ --exec npm run babel-node -- ./server/index.js",
     "build": "babel server -d dist --copy-files",
-    "buildclient": "cd client && cp ../.env.prod .env.production && yarn install && npm run build && rm .env.production",
+    "buildclient": "cd client && yarn install && npm run build",
     "start": "NODE_ENV=production node dist/index.js",
     "postinstall": "npm run buildclient && npm run build",
     "test": "NODE_ENV=test mocha server/test --require babel-core/register --exit"
