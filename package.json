@@ -15,6 +15,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@getbrevo/brevo": "^3.0.1",
     "@sendgrid/mail": "^7.6.0",
     "algoliasearch": "^3.24.6",
     "babel-cli": "^6.26.0",

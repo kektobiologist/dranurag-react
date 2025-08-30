@@ -1,8 +1,13 @@
 {
     "name": "dranurag-react-client",
+    "engines": {
+        "node": ">=18.0.0 <21.0.0",
+        "npm": ">=8.0.0"
+    },
     "version": "0.1.0",
     "private": true,
     "dependencies": {
+        "@getbrevo/brevo": "^3.0.1",
         "@popperjs/core": "^2.10.2",
         "@tippyjs/react": "^4.2.6",
         "airbnb-js-shims": "^1.4.1",
