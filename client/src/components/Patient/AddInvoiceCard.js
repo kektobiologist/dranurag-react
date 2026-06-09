@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 
 class AddInvoiceCard extends Component {
   state = {
-    amount: 800, // Rs 800 is default,
+    amount: 900, // Rs 900 is default,
     paymentMode: 'CASH',
     collapse: false,
     loading: false,
